@@ -1,0 +1,24 @@
+---
+description: Append every major Cursor chat to Module_3_assignment/AI_USAGE_LOG.md
+alwaysApply: true
+---
+
+# AI usage log
+
+After every major interaction in this project, append one entry to `Module_3_assignment/AI_USAGE_LOG.md`. Never overwrite old entries.
+
+Log implementation, debugging, planning, refactors, and spec updates. Skip trivial follow-ups such as yes/no or typo-only replies.
+
+## Entry format
+
+```markdown
+## YYYY-MM-DD — <task>
+
+- **Prompt:** the user's request, quoted or closely paraphrased
+- **AI response summary:** what the assistant did or proposed
+- **Accepted / changed / rejected:** what was kept, edited, or discarded
+- **Issues found:** mistakes, assumptions, or gaps in the AI output (or "None")
+```
+
+If `AI_USAGE_LOG.md` is missing, create it with a short header, then append the entry.
+Do not put secrets, API keys, or credentials in the log.

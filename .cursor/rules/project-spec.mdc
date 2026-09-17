@@ -1,0 +1,20 @@
+---
+description: Use PROJECT_SPEC.md as the external memory for Module 3
+alwaysApply: true
+---
+
+# Project spec
+
+Treat `Module_3_assignment/PROJECT_SPEC.md` as the single source of truth for this assignment.
+
+At the start of a session, read it before changing code. Follow its current task, constraints, and design decisions. Do not reopen completed tasks unless the user asks.
+
+After a session that changes code, tests, or decisions, update:
+
+- component status
+- design decisions
+- current task and next task
+- known issues or assumptions
+
+Keep `main.py` as the application logic and `test_main.py` as the unittest suite. Seed tables live in `seed_data.py`.
+Do not invent new frameworks or extra files unless the user asks.

@@ -1,0 +1,2 @@
+# Python 3.14 local environment. Runtime uses the standard library only
+# (unittest, datetime, copy). No third-party packages are required.
