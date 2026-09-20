@@ -152,7 +152,7 @@ Before fulfilling an order, verify every required ingredient is:
 - `deduct_inventory()` runs only after a successful full-order check.
 - Failed orders leave working inventory unchanged for that order.
 
-**Verification status:** **Complete.** Quantity and expiry-based rejection at fulfillment time; failed orders do not deduct inventory.
+**Verification status:** **Complete.** Task 6 audit confirmed `process_orders()` fulfillment branches with no `main.py` changes. `TestOrderFulfillment` (5 tests) covers delivered, failed (out-of-stock, expired, insufficient), correct deduction, and no deduction on failure.
 
 ---
 
@@ -258,7 +258,7 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Partial — single reason; multi-reason pending (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Not started (Req 7) |
-| Unit tests | `test_main.py` | 29 tests pass (4 in `TestInventoryAvailabilityCheck` for Req 3 / Task 5) |
+| Unit tests | `test_main.py` | 30 tests pass (5 in `TestOrderFulfillment` for Req 4 / Task 6) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -309,7 +309,7 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 5 complete — inventory availability check extended with expiry helpers, reason classification (missing / insufficient / expired), and `reference_date` wiring in `process_orders`.
+- **Current task:** Task 6 complete — fulfillment logic audited; no `main.py` changes required. Added `test_process_orders_does_not_deduct_inventory_when_stock_insufficient` for explicit insufficient-stock no-deduction coverage.
 - **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order. Close remaining requirement gaps:
   1. Multi-reason restock output with expiry details (Req 6).
   2. Dedicated business-friendly end-of-run summary (Req 7).
@@ -323,4 +323,5 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 - **Multi-reason gap:** `calculate_restock_needs()` uses an `elif` chain so only one reason is stored per ingredient; Requirement 6 requires all applicable reasons.
 - **Summary gap:** no single manager-facing summary function; output is spread across multiple print sections.
 - Seed `restock` and `status` tables are baseline data. Live restock starts empty and is recalculated; status rows are updated or appended during processing.
+- **Restock on failure:** unavailable ingredients appear in restock only when they exist in the inventory table and qualify under final-inventory rules; ingredients absent from the inventory table are not added to restock output.
 - `date.today()` changes restock output for real `main.py` runs as the calendar moves; tests pin `reference_date` to `2026-06-03`.

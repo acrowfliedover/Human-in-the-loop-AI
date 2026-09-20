@@ -405,6 +405,44 @@ class TestOrderFulfillment(unittest.TestCase):
         self.assertFalse(status_data[0]["delivered"])
         self.assertIn("expired", status_data[0]["remark"])
 
+    def test_process_orders_does_not_deduct_inventory_when_stock_insufficient(self):
+        """An order with insufficient stock should fail without deducting inventory."""
+        recipe_data = [
+            {
+                "recipe_id": 1,
+                "name": "Chicken Wrap",
+                "ingredients": [{"name": "Chicken Breast", "qty_grams": 200}],
+            }
+        ]
+        inventory_data = [
+            {"ingredient": "Chicken Breast", "qty_grams": 50, "expiry_date": "2026-12-31"}
+        ]
+        order_data = [
+            {
+                "order_id": 505,
+                "brand": "Test Kitchen",
+                "items": [{"item": "Chicken Wrap", "qty": 1}],
+            }
+        ]
+        status_data = []
+        restock_data = []
+        original_chicken_qty = inventory_data[0]["qty_grams"]
+
+        processed_orders = process_orders(
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
+        )
+
+        self.assertFalse(processed_orders[0]["fulfilled"])
+        self.assertIn("Chicken Breast", processed_orders[0]["reason"])
+        self.assertFalse(status_data[0]["delivered"])
+        self.assertIn("Chicken Breast", status_data[0]["remark"])
+        self.assertEqual(inventory_data[0]["qty_grams"], original_chicken_qty)
+
     def test_process_orders_deducts_inventory_after_successful_delivery(self):
         """A delivered order should reduce inventory by the required grams."""
         recipe_data = deepcopy(load_recipes())
