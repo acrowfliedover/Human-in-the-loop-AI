@@ -5,18 +5,41 @@ from datetime import date, datetime
 
 from seed_data import inventory, orders, recipes, restock, status
 
+# --- Section 1: Module constants ---
 PAR_LEVEL_G = 10000
 LOW_STOCK_THRESHOLD_G = 1000
 EXPIRING_SOON_DAYS = 5
+EXPIRY_DATE_FORMAT = "%Y-%m-%d"
+MISSING_INGREDIENTS_PREFIX = "Missing or insufficient ingredients: "
 
 
+# --- Section 2: Data access (load_*) ---
 def load_recipes():
     """Return the seeded recipe records for use in the application."""
-    # Assumption to verify: importing these module-level lists directly is acceptable
-    # for Task 1, and we do not yet need defensive copying or a database/file loader.
     return recipes
 
 
+def load_inventory():
+    """Return the seeded inventory records for the simulation."""
+    return inventory
+
+
+def load_orders():
+    """Return the seeded customer order records."""
+    return orders
+
+
+def load_restock():
+    """Return the seeded restock recommendations."""
+    return restock
+
+
+def load_status():
+    """Return the seeded delivery status records."""
+    return status
+
+
+# --- Section 3: Data display (print_*) ---
 def print_recipes(recipe_data):
     """Print every recipe and its ingredient requirements to the console."""
     print("\n=== Recipes ===")
@@ -29,13 +52,6 @@ def print_recipes(recipe_data):
         print()
 
 
-def load_inventory():
-    """Return the seeded inventory records for the simulation."""
-    # Assumption to verify: inventory quantities are intentionally stored in grams
-    # for every ingredient, including items like buns that might later use unit counts.
-    return inventory
-
-
 def print_inventory(inventory_data):
     """Print every inventory item with quantity and expiry information."""
     print("\n=== Inventory ===")
@@ -44,12 +60,6 @@ def print_inventory(inventory_data):
         print(f"Quantity: {item['qty_grams']} grams")
         print(f"Expiry Date: {item['expiry_date']}")
         print()
-
-
-def load_orders():
-    """Return the seeded customer order records."""
-    # Assumption to verify: order item names are expected to match recipe names exactly.
-    return orders
 
 
 def print_orders(order_data):
@@ -62,13 +72,6 @@ def print_orders(order_data):
         for item in order["items"]:
             print(f"  - {item['item']}: {item['qty']}")
         print()
-
-
-def load_restock():
-    """Return the seeded restock recommendations."""
-    # Incomplete / follow-up: the seed table is still available for baseline loading
-    # tests, but the live restock output is now recalculated from final inventory.
-    return restock
 
 
 def print_restock(restock_data):
@@ -84,13 +87,6 @@ def print_restock(restock_data):
         print()
 
 
-def load_status():
-    """Return the seeded delivery status records."""
-    # Uncertain: it is not yet clear whether status should remain independent seed
-    # data or later be derived from order fulfillment results in the simulation.
-    return status
-
-
 def print_status(status_data):
     """Print every order status with delivery result and remark."""
     print("\n=== Status ===")
@@ -101,26 +97,18 @@ def print_status(status_data):
         print()
 
 
+# --- Section 4: Recipe engine ---
 def find_recipe_by_name(recipe_data, item_name):
     """Return the recipe that matches an order item name, or None if missing."""
-    # Step 1: look through the recipe table for a recipe whose name matches
-    # the order item exactly so we can determine the required ingredients.
-    # Assumption to verify: recipe lookup currently relies on exact name matching
-    # between Orders.item and Recipes.name, with no normalization or aliases.
     for recipe in recipe_data:
         if recipe["name"] == item_name:
             return recipe
-    # Assumption to verify: case-insensitive matching, trimming, or brand-specific
-    # recipe variants are not needed yet for successful recipe lookup.
     return None
 
 
 def calculate_ingredient_requirements(recipe, quantity):
     """Return the total grams required for each ingredient in an order item."""
     requirements = []
-
-    # Step 2: multiply each recipe ingredient quantity by the ordered item count
-    # so we know the total grams needed to prepare that order item.
     for ingredient in recipe["ingredients"]:
         requirements.append(
             {
@@ -128,13 +116,40 @@ def calculate_ingredient_requirements(recipe, quantity):
                 "required_qty_grams": ingredient["qty_grams"] * quantity,
             }
         )
-
     return requirements
+
+
+def combine_requirements(requirement_groups):
+    """Merge repeated ingredient requirements into a single total per ingredient."""
+    combined_requirements = {}
+    for requirements in requirement_groups:
+        for requirement in requirements:
+            ingredient_name = requirement["name"]
+            combined_requirements.setdefault(ingredient_name, 0)
+            combined_requirements[ingredient_name] += requirement["required_qty_grams"]
+
+    return [
+        {"name": ingredient_name, "required_qty_grams": required_qty}
+        for ingredient_name, required_qty in combined_requirements.items()
+    ]
+
+
+# --- Section 5: Expiry helpers ---
+def _resolve_reference_date(reference_date):
+    """Return reference_date or today's date when the caller omits a date."""
+    if reference_date is None:
+        return date.today()
+    return reference_date
 
 
 def parse_expiry_date(expiry_str):
     """Parse an inventory expiry string in YYYY-MM-DD format into a date."""
-    return datetime.strptime(expiry_str, "%Y-%m-%d").date()
+    if not expiry_str:
+        return None
+    try:
+        return datetime.strptime(expiry_str, EXPIRY_DATE_FORMAT).date()
+    except (ValueError, TypeError):
+        return None
 
 
 def days_until_expiry(expiry_date, reference_date):
@@ -142,29 +157,33 @@ def days_until_expiry(expiry_date, reference_date):
     return (expiry_date - reference_date).days
 
 
+def _inventory_expiry_days(inventory_item, reference_date):
+    """Return (expiry_str, days_left) for one inventory row."""
+    resolved_date = _resolve_reference_date(reference_date)
+    expiry_date_str = inventory_item.get("expiry_date")
+    expiry_date = parse_expiry_date(expiry_date_str)
+    if expiry_date is None:
+        return expiry_date_str, None
+    days_left = days_until_expiry(expiry_date, resolved_date)
+    return expiry_date_str, days_left
+
+
 def is_ingredient_usable(inventory_item, reference_date):
     """Return whether an inventory item is not expired as of reference_date."""
-    if reference_date is None:
-        reference_date = date.today()
-
-    expiry_date = parse_expiry_date(inventory_item["expiry_date"])
-    if days_until_expiry(expiry_date, reference_date) < 0:
+    _, days_left = _inventory_expiry_days(inventory_item, reference_date)
+    if days_left is None or days_left < 0:
         return False, "expired"
-
     return True, None
 
 
+# --- Section 6: Inventory engine ---
 def check_inventory_availability(inventory_data, requirements, reference_date=None):
     """Check whether inventory can fulfill every required ingredient in usable quantity."""
-    if reference_date is None:
-        reference_date = date.today()
-
+    resolved_date = _resolve_reference_date(reference_date)
     inventory_lookup = {item["ingredient"]: item for item in inventory_data}
     availability_results = []
     all_available = True
 
-    # Step 3: compare each required ingredient against inventory for presence,
-    # expiry usability, and sufficient quantity before fulfillment.
     for requirement in requirements:
         inventory_item = inventory_lookup.get(requirement["name"])
         expiry_date_str = None
@@ -178,11 +197,11 @@ def check_inventory_availability(inventory_data, requirements, reference_date=No
             unavailability_reason = "missing"
         else:
             available_qty = inventory_item["qty_grams"]
-            expiry_date_str = inventory_item["expiry_date"]
-            expiry_date = parse_expiry_date(expiry_date_str)
-            days_remaining = days_until_expiry(expiry_date, reference_date)
+            expiry_date_str, days_remaining = _inventory_expiry_days(
+                inventory_item, resolved_date
+            )
             ingredient_usable, usability_reason = is_ingredient_usable(
-                inventory_item, reference_date
+                inventory_item, resolved_date
             )
 
             if not ingredient_usable:
@@ -218,32 +237,9 @@ def format_unavailable_ingredient(detail):
     return ingredient_name
 
 
-def combine_requirements(requirement_groups):
-    """Merge repeated ingredient requirements into a single total per ingredient."""
-    combined_requirements = {}
-
-    # Step 2: combine ingredient demand across all items in the same order so
-    # fulfillment is checked against the total grams needed for the entire order.
-    for requirements in requirement_groups:
-        for requirement in requirements:
-            ingredient_name = requirement["name"]
-            combined_requirements.setdefault(ingredient_name, 0)
-            combined_requirements[ingredient_name] += requirement["required_qty_grams"]
-
-    return [
-        {"name": ingredient_name, "required_qty_grams": required_qty}
-        for ingredient_name, required_qty in combined_requirements.items()
-    ]
-
-
 def deduct_inventory(inventory_data, requirements):
     """Subtract the used ingredient grams from inventory after a successful order."""
     inventory_lookup = {item["ingredient"]: item for item in inventory_data}
-
-    # Step 4: deduct only after the full order passes the availability check so
-    # we do not partially consume stock for orders that cannot be delivered.
-    # Assumption to verify: partial stock should not be deducted for failed orders;
-    # inventory changes only when the entire order is considered deliverable.
     for requirement in requirements:
         inventory_lookup[requirement["name"]]["qty_grams"] -= requirement["required_qty_grams"]
 
@@ -253,14 +249,12 @@ def apply_final_inventory_snapshot(inventory_data, final_inventory_data):
     final_inventory_lookup = {
         item["ingredient"]: item["qty_grams"] for item in final_inventory_data
     }
-
-    # Step 6: update the final inventory table only after all orders have been
-    # processed so the printed inventory reflects the true remaining stock.
     for item in inventory_data:
         if item["ingredient"] in final_inventory_lookup:
             item["qty_grams"] = final_inventory_lookup[item["ingredient"]]
 
 
+# --- Section 7: Status tracking ---
 def update_status_entry(status_data, order_id, delivered, remark):
     """Update or create a status-table entry for a processed order."""
     for entry in status_data:
@@ -268,20 +262,17 @@ def update_status_entry(status_data, order_id, delivered, remark):
             entry["delivered"] = delivered
             entry["remark"] = remark
             return
-
-    # Incomplete / follow-up: if later tasks formalize a stricter schema, we may
-    # want to prevent new status rows and require every order to exist up front.
     status_data.append({"order_id": order_id, "delivered": delivered, "remark": remark})
 
 
+# --- Section 8: Restock engine ---
 def build_restock_reasons(inventory_item, reference_date):
     """Return all applicable restock reasons for one inventory item."""
-    expiry_date = parse_expiry_date(inventory_item["expiry_date"])
-    days_left = days_until_expiry(expiry_date, reference_date)
+    _, days_left = _inventory_expiry_days(inventory_item, reference_date)
     current_qty_grams = inventory_item["qty_grams"]
     reasons = []
 
-    if 0 <= days_left <= EXPIRING_SOON_DAYS:
+    if days_left is not None and 0 <= days_left <= EXPIRING_SOON_DAYS:
         reasons.append("Expiring soon")
     if current_qty_grams == 0:
         reasons.append("Out of stock")
@@ -306,17 +297,12 @@ def calculate_restock_qty_needed(inventory_item, reasons):
 
 def calculate_restock_needs(inventory_data, reference_date=None):
     """Build restock recommendations from final inventory using stock and expiry rules."""
-    if reference_date is None:
-        # Assumption to verify: when no simulation date is passed in, the code uses
-        # Python's date.today() from the local runtime environment as "today."
-        reference_date = date.today()
-
+    resolved_date = _resolve_reference_date(reference_date)
     restock_recommendations = []
 
     for item in inventory_data:
-        expiry_date = parse_expiry_date(item["expiry_date"])
-        days_left = days_until_expiry(expiry_date, reference_date)
-        reasons = build_restock_reasons(item, reference_date)
+        expiry_date_str, days_left = _inventory_expiry_days(item, resolved_date)
+        reasons = build_restock_reasons(item, resolved_date)
 
         if not reasons:
             continue
@@ -327,7 +313,7 @@ def calculate_restock_needs(inventory_data, reference_date=None):
                 "current_qty_grams": item["qty_grams"],
                 "reasons": reasons,
                 "qty_needed_grams": calculate_restock_qty_needed(item, reasons),
-                "expiry_date": item["expiry_date"],
+                "expiry_date": expiry_date_str,
                 "days_until_expiry": days_left,
             }
         )
@@ -337,12 +323,92 @@ def calculate_restock_needs(inventory_data, reference_date=None):
 
 def refresh_restock_table(restock_data, inventory_data, reference_date=None):
     """Replace the live restock table with recommendations from final inventory."""
-    # Step 7: rebuild the restock table after all orders have been processed so it
-    # reflects the final inventory state instead of intermediate order failures.
-    # Incomplete / follow-up: this replaces the whole restock table each run, so it
-    # does not preserve historical/manual restock notes outside the current simulation.
     restock_data.clear()
     restock_data.extend(calculate_restock_needs(inventory_data, reference_date))
+
+
+# --- Section 9: Order orchestration ---
+def _collect_order_item_requirements(recipe_data, order):
+    """Collect recipe lookup results, demand groups, and missing recipe names for one order."""
+    items = []
+    requirement_groups = []
+    missing_recipe_items = []
+
+    for item in order["items"]:
+        recipe = find_recipe_by_name(recipe_data, item["item"])
+        if recipe is None:
+            items.append(
+                {
+                    "item": item["item"],
+                    "qty": item["qty"],
+                    "recipe_found": False,
+                    "requirements": [],
+                }
+            )
+            missing_recipe_items.append(item["item"])
+            continue
+
+        requirements = calculate_ingredient_requirements(recipe, item["qty"])
+        requirement_groups.append(requirements)
+        items.append(
+            {
+                "item": item["item"],
+                "qty": item["qty"],
+                "recipe_found": True,
+                "requirements": requirements,
+            }
+        )
+
+    return items, requirement_groups, missing_recipe_items
+
+
+def _format_missing_ingredients_remark(unavailable_names):
+    """Build the standard remark prefix for unavailable ingredients."""
+    return MISSING_INGREDIENTS_PREFIX + unavailable_names
+
+
+def _apply_order_fulfillment(
+    order,
+    order_result,
+    working_inventory,
+    status_data,
+    missing_recipe_items,
+    reference_date,
+):
+    """Check availability, update status, and deduct inventory for one order."""
+    order_requirements = order_result["order_requirements"]
+    inventory_check = check_inventory_availability(
+        working_inventory, order_requirements, reference_date
+    )
+    order_result["inventory_check"] = inventory_check
+
+    missing_ingredients = [
+        detail for detail in inventory_check["details"] if not detail["is_available"]
+    ]
+    unavailable_names = ", ".join(
+        format_unavailable_ingredient(detail) for detail in missing_ingredients
+    )
+
+    if missing_recipe_items:
+        reason_parts = [
+            "No matching recipe for item(s): " + ", ".join(missing_recipe_items)
+        ]
+        if missing_ingredients:
+            reason_parts.append(_format_missing_ingredients_remark(unavailable_names))
+        order_result["fulfilled"] = False
+        order_result["reason"] = " | ".join(reason_parts)
+        update_status_entry(status_data, order["order_id"], False, order_result["reason"])
+    elif inventory_check["all_available"]:
+        deduct_inventory(working_inventory, order_requirements)
+        order_result["fulfilled"] = True
+        order_result["reason"] = "Delivered"
+        update_status_entry(status_data, order["order_id"], True, "Delivered")
+    else:
+        order_result["fulfilled"] = False
+        order_result["reason"] = _format_missing_ingredients_remark(unavailable_names)
+        update_status_entry(status_data, order["order_id"], False, order_result["reason"])
+
+    return order_result
 
 
 def process_orders(
@@ -357,14 +423,6 @@ def process_orders(
     processed_orders = []
     working_inventory = deepcopy(inventory_data)
 
-    # Step 0: use a working inventory snapshot during processing so each order is
-    # checked against stock remaining after previous successful orders, while the
-    # final inventory table is only updated once the full order list is complete.
-    # Assumption to verify: working_inventory is a deep copy, not a shared reference,
-    # so interim deductions during processing do not immediately mutate inventory_data.
-    # Incomplete / follow-up: this remains an in-memory simulation only; later tasks
-    # may need transaction handling or persistence if inventory state is stored externally.
-
     for order in order_data:
         order_result = {
             "order_id": order["order_id"],
@@ -375,95 +433,19 @@ def process_orders(
             "fulfilled": False,
             "reason": "",
         }
-        requirement_groups = []
-        missing_recipe_items = []
-
-        for item in order["items"]:
-            # Step 1: find the recipe for the ordered menu item.
-            recipe = find_recipe_by_name(recipe_data, item["item"])
-
-            if recipe is None:
-                # If an order item has no matching recipe, we do not stop the program
-                # or attempt substitution. We record recipe_found=False, skip demand
-                # calculation and inventory checking for that item, and continue.
-                # Incomplete / follow-up: later tasks may convert this into a formal
-                # rejection reason, validation error, or fulfillment status update.
-                order_result["items"].append(
-                    {
-                        "item": item["item"],
-                        "qty": item["qty"],
-                        "recipe_found": False,
-                        "requirements": [],
-                    }
-                )
-                missing_recipe_items.append(item["item"])
-                continue
-
-            # Step 2: calculate the total ingredient grams needed for this order item.
-            requirements = calculate_ingredient_requirements(recipe, item["qty"])
-            requirement_groups.append(requirements)
-
-            order_result["items"].append(
-                {
-                    "item": item["item"],
-                    "qty": item["qty"],
-                    "recipe_found": True,
-                    "requirements": requirements,
-                }
-            )
-
-        order_requirements = combine_requirements(requirement_groups)
-        order_result["order_requirements"] = order_requirements
-
-        # Step 3: check the inventory table against the total ingredient demand for
-        # the whole order, not just individual items, before deciding fulfillment.
-        # Because this uses working_inventory, Order 2 is checked against whatever
-        # stock remains after Order 1 was successfully served.
-        # If two orders compete for the same ingredient, the earlier successful order
-        # consumes from working_inventory first, and the later order is evaluated
-        # against the reduced quantity that remains.
-        inventory_check = check_inventory_availability(
-            working_inventory, order_requirements, reference_date
+        items, requirement_groups, missing_recipe_items = _collect_order_item_requirements(
+            recipe_data, order
         )
-        order_result["inventory_check"] = inventory_check
-
-        missing_ingredients = [
-            detail for detail in inventory_check["details"] if not detail["is_available"]
-        ]
-        unavailable_names = ", ".join(
-            format_unavailable_ingredient(detail) for detail in missing_ingredients
+        order_result["items"] = items
+        order_result["order_requirements"] = combine_requirements(requirement_groups)
+        order_result = _apply_order_fulfillment(
+            order,
+            order_result,
+            working_inventory,
+            status_data,
+            missing_recipe_items,
+            reference_date,
         )
-
-        if missing_recipe_items:
-            reason_parts = [
-                "No matching recipe for item(s): " + ", ".join(missing_recipe_items)
-            ]
-            if missing_ingredients:
-                reason_parts.append(
-                    "Missing or insufficient ingredients: " + unavailable_names
-                )
-
-            order_result["fulfilled"] = False
-            order_result["reason"] = " | ".join(reason_parts)
-            update_status_entry(status_data, order["order_id"], False, order_result["reason"])
-        elif inventory_check["all_available"]:
-            # Step 4: when every required ingredient is available, mark the order as
-            # delivered and deduct the used grams from the working inventory only.
-            deduct_inventory(working_inventory, order_requirements)
-            order_result["fulfilled"] = True
-            order_result["reason"] = "Delivered"
-            update_status_entry(status_data, order["order_id"], True, "Delivered")
-        else:
-            # Step 5: when any ingredient is missing, insufficient, or expired, do not
-            # deduct inventory. Mark the order as not delivered, record the reason,
-            # and add the shortage reason to status. The final restock table is
-            # rebuilt later from ending inventory according to the Task 5 expiry/stock
-            # rules. Assumption to verify: this flow rejects the full order rather than
-            # allowing partial fulfillment of the items that do have enough stock.
-            order_result["fulfilled"] = False
-            order_result["reason"] = f"Missing or insufficient ingredients: {unavailable_names}"
-            update_status_entry(status_data, order["order_id"], False, order_result["reason"])
-
         processed_orders.append(order_result)
 
     apply_final_inventory_snapshot(inventory_data, working_inventory)
@@ -472,6 +454,7 @@ def process_orders(
     return processed_orders
 
 
+# --- Section 10: Processing display ---
 def print_order_processing_results(processed_orders):
     """Print recipe lookup, ingredient demand, inventory checks, and fulfillment."""
     print("\n=== Order Processing ===")
@@ -517,19 +500,18 @@ def print_order_processing_results(processed_orders):
         print()
 
 
+# --- Section 11: Business summary ---
 def build_inventory_alerts(inventory_data, reference_date=None):
     """Return stock and expiry alert rows for ingredients that need manager attention."""
-    if reference_date is None:
-        reference_date = date.today()
-
+    resolved_date = _resolve_reference_date(reference_date)
     alerts = []
+
     for item in inventory_data:
-        expiry_date = parse_expiry_date(item["expiry_date"])
-        days_left = days_until_expiry(expiry_date, reference_date)
+        expiry_date_str, days_left = _inventory_expiry_days(item, resolved_date)
         current_qty_grams = item["qty_grams"]
         issues = []
 
-        if days_left < 0:
+        if days_left is None or days_left < 0:
             issues.append("Expired")
         elif days_left <= EXPIRING_SOON_DAYS:
             issues.append("Expiring soon")
@@ -545,7 +527,7 @@ def build_inventory_alerts(inventory_data, reference_date=None):
             {
                 "ingredient": item["ingredient"],
                 "qty_grams": current_qty_grams,
-                "expiry_date": item["expiry_date"],
+                "expiry_date": expiry_date_str,
                 "days_until_expiry": days_left,
                 "issues": issues,
             }
@@ -688,17 +670,12 @@ def print_business_summary(summary):
         print("  - No expiry concerns.")
 
 
+# --- Section 12: Entry point ---
 def main():
     """Load seed tables, process fulfillment, and print the updated results."""
-    # Assumption to verify: we process working copies of mutable tables so the seed
-    # definitions stay unchanged across runs and tests.
-    # Incomplete / follow-up: this script still prints results directly to the console
-    # and does not yet persist updated inventory, restock, or status tables anywhere.
     recipe_data = load_recipes()
     inventory_data = deepcopy(load_inventory())
     order_data = load_orders()
-    # Step 8: start with an empty live restock table because recommendations are
-    # now generated from final inventory after all orders have been processed.
     restock_data = []
     status_data = deepcopy(load_status())
     processed_orders = process_orders(

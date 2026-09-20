@@ -71,3 +71,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Added `build_inventory_alerts()`, `build_business_summary()`, and `print_business_summary()` to `main.py`. Wired summary into `main()` after existing print sections. Added `TestBusinessSummary` with 9 tests covering counts, failure reasons, inventory snapshot, restock pass-through, expiry alerts, multi-issue rows, empty orders, and seed integration. Updated `PROJECT_SPEC.md` Req 7 status. Full suite: 47 tests pass.
 - **Accepted / changed / rejected:** Accepted console + dict output per plan. Accepted separate `build_inventory_alerts()` to flag expired stock not covered by restock rules. Rejected file/Markdown export and changes to fulfillment/restock logic.
 - **Issues found:** Seed simulation at `2026-06-03` can produce zero restock rows when final quantities stay above thresholds; integration test asserts structure and expiry concerns rather than requiring non-empty restock.
+
+## 2026-09-20 — Task 10: Refactor and review
+
+- **Prompt:** Task 10: Refactor and Review — review code for duplicate logic, hard-coded values, unclear names, missing comments, weak error handling, and functions that do too much; document at least two improvements made during refactoring.
+- **AI response summary:** Refactored `main.py` with shared expiry/date helpers (`EXPIRY_DATE_FORMAT`, `_resolve_reference_date`, `_inventory_expiry_days`), hardened `parse_expiry_date` to return `None` on invalid input, split `process_orders` into `_collect_order_item_requirements` and `_apply_order_fulfillment`, added architecture section comments, and added `test_invalid_expiry_date_does_not_crash_availability_check`. Updated `PROJECT_SPEC.md` with Task 10 refactoring notes. Full suite: 48 tests pass.
+- **Accepted / changed / rejected:** Accepted both documented improvements (shared helpers and split `process_orders`). Accepted one new test for invalid expiry handling. Rejected merging restock and alert classification (different labels and expired handling by design).
+- **Issues found:** None; all existing behavior preserved for valid seed data.

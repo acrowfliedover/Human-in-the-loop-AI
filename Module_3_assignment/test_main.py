@@ -296,6 +296,23 @@ class TestInventoryAvailabilityCheck(unittest.TestCase):
         self.assertEqual(flour_detail["unavailability_reason"], "expired")
         self.assertLess(flour_detail["days_until_expiry"], 0)
 
+    def test_invalid_expiry_date_does_not_crash_availability_check(self):
+        """An invalid expiry string should mark the ingredient unavailable without raising."""
+        inventory_data = [
+            {"ingredient": "Flour", "qty_grams": 5000, "expiry_date": "not-a-date"}
+        ]
+        requirements = [{"name": "Flour", "required_qty_grams": 300}]
+
+        result = check_inventory_availability(
+            inventory_data, requirements, reference_date=date(2026, 6, 3)
+        )
+
+        self.assertFalse(result["all_available"])
+        flour_detail = result["details"][0]
+        self.assertFalse(flour_detail["is_available"])
+        self.assertEqual(flour_detail["unavailability_reason"], "expired")
+        self.assertIsNone(flour_detail["days_until_expiry"])
+
 
 class TestOrderFulfillment(unittest.TestCase):
     """Verify fulfillment updates status, restock, and inventory correctly."""

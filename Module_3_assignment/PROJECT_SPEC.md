@@ -262,7 +262,8 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Complete (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Complete (Req 7) |
-| Unit tests | `test_main.py` | 47 tests pass (9 in `TestBusinessSummary` for Req 7 / Task 9) |
+| Unit tests | `test_main.py` | 48 tests pass (9 in `TestBusinessSummary` for Req 7 / Task 9) |
+| Refactor and review | `main.py` | Complete (Task 10) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -313,8 +314,16 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 9 complete — business summary implemented via `build_inventory_alerts()`, `build_business_summary()`, and `print_business_summary()`. All 9 `TestBusinessSummary` tests pass; full suite 47 tests pass.
+- **Current task:** Task 10 complete — refactor and review. Shared expiry/date helpers, split `process_orders` into private helpers, section comments, hardened `parse_expiry_date`, and one new invalid-expiry test. Full suite 48 tests pass.
 - **Next task:** Base assignment requirements complete. Optional enhancements — partial fulfillment, predictive stockout alerts, dynamic item disabling.
+
+---
+
+## Refactoring improvements (Task 10)
+
+1. **Shared expiry/date helpers** — Added `EXPIRY_DATE_FORMAT`, `_resolve_reference_date()`, and `_inventory_expiry_days()` so restock, alerts, usability, and availability checks no longer repeat `date.today()` defaults and expiry parsing. `parse_expiry_date()` now returns `None` on invalid input instead of raising, so bad dates mark stock as expired rather than crashing the simulation.
+
+2. **Split `process_orders`** — Extracted `_collect_order_item_requirements()` and `_apply_order_fulfillment()` so the orchestrator only manages the working-inventory loop, snapshot, and restock refresh. Duplicated item-row dicts and the `"Missing or insufficient ingredients"` remark string were collapsed into these helpers.
 
 ---
 
