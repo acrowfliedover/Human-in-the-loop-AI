@@ -172,7 +172,7 @@ Before fulfilling an order, verify every required ingredient is:
 - `apply_final_inventory_snapshot()` writes cumulative results back once after all orders.
 - Tests confirm shared-ingredient consumption and later-order failure when stock is exhausted.
 
-**Verification status:** **Complete.** `TestCumulativeInventoryDeduction` (3 tests) passes.
+**Verification status:** **Complete.** Task 7 audit confirmed `process_orders()` uses a persistent `working_inventory` deep copy, deducts only on successful delivery, and writes cumulative results via `apply_final_inventory_snapshot()`. `TestCumulativeInventoryDeduction` (3 tests) passes; no `main.py` changes required.
 
 ---
 
@@ -258,7 +258,7 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Partial — single reason; multi-reason pending (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Not started (Req 7) |
-| Unit tests | `test_main.py` | 30 tests pass (5 in `TestOrderFulfillment` for Req 4 / Task 6) |
+| Unit tests | `test_main.py` | 30 tests pass (5 in `TestOrderFulfillment` for Req 4 / Task 6; 3 in `TestCumulativeInventoryDeduction` for Req 5 / Task 7) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -309,7 +309,7 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 6 complete — fulfillment logic audited; no `main.py` changes required. Added `test_process_orders_does_not_deduct_inventory_when_stock_insufficient` for explicit insufficient-stock no-deduction coverage.
+- **Current task:** Task 7 complete — cumulative order processing audited; no `main.py` changes required. Confirmed `working_inventory` persists deductions across the order loop and all three `TestCumulativeInventoryDeduction` scenarios pass.
 - **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order. Close remaining requirement gaps:
   1. Multi-reason restock output with expiry details (Req 6).
   2. Dedicated business-friendly end-of-run summary (Req 7).

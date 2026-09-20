@@ -50,3 +50,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Ran baseline suite (29 tests, all pass). Audited `process_orders`, `deduct_inventory`, and `update_status_entry` against Task 6 checklist; no `main.py` changes required. Added `test_process_orders_does_not_deduct_inventory_when_stock_insufficient` to `TestOrderFulfillment`. Full suite now 30 tests, all pass. Updated `PROJECT_SPEC.md` Task 6 status and test count.
 - **Accepted / changed / rejected:** Accepted existing fulfillment branches unchanged. Accepted one new test only. Rejected per-order restock append (user confirmed final-inventory rebuild design).
 - **Issues found:** None; audit passed without production code changes.
+
+## 2026-09-20 — Task 7: Audit cumulative order processing
+
+- **Prompt:** Task 7: Implement Cumulative Order Processing — process all orders in sequence so each order uses inventory remaining after previous delivered orders; unit tests for two orders sharing an ingredient, later-order failure after stock exhaustion, and final inventory matching expected values.
+- **AI response summary:** Audited `process_orders()`, `deduct_inventory()`, and `apply_final_inventory_snapshot()` against the Task 7 checklist; cumulative flow already implemented via `working_inventory` deep copy with deduct-only-on-success. Ran `TestCumulativeInventoryDeduction` (3/3 pass) and full suite (30/30 pass). No `main.py` or `test_main.py` changes required. Updated `PROJECT_SPEC.md` Task 7 / Req 5 verification status and current/next task.
+- **Accepted / changed / rejected:** Accepted existing cumulative implementation unchanged. Rejected rewriting `process_orders()` loop or duplicating existing tests. No production or test code changes.
+- **Issues found:** None; audit passed without code changes.
