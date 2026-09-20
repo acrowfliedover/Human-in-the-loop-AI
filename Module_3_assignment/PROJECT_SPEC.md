@@ -288,6 +288,14 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 
 ---
 
+## Architecture
+
+Implementation plan (components, `main.py` section layout, build order, and test plan): see `ARCHITECTURE_PLAN.md`.
+
+All application logic stays in `main.py`. All tests stay in `test_main.py`. No additional Python modules.
+
+---
+
 ## Constraints
 
 - Keep the code simple. Prefer Python standard library only.
@@ -300,8 +308,8 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 
 ## Current task and next task
 
-- **Current task:** Spec updated to match official functional requirements (Req 1–7). Core order processing (Req 1, 2, 4, 5) is complete and tested.
-- **Next task:** Close remaining requirement gaps:
+- **Current task:** Architecture plan written in `ARCHITECTURE_PLAN.md` (single-file `main.py`, tests in `test_main.py`). Core order processing (Req 1, 2, 4, 5) is complete and tested.
+- **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order (Phases 1–8). Close remaining requirement gaps:
   1. Expiry-aware inventory availability during fulfillment (Req 3 / Req 4).
   2. Multi-reason restock output with expiry details (Req 6).
   3. Dedicated business-friendly end-of-run summary (Req 7).

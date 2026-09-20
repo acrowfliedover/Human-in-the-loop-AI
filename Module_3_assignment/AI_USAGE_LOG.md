@@ -15,3 +15,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Rewrote `PROJECT_SPEC.md` with explicit scope, user personas, out-of-scope table, and detailed Requirement 1–7 sections (must-do, acceptance criteria, verification status). Updated component status and next tasks to reflect gaps: expiry in fulfillment check (Req 3), multi-reason restock (Req 6), and dedicated manager summary (Req 7). Confirmed 20 existing tests still pass.
 - **Accepted / changed / rejected:** Accepted the new spec structure and requirement wording. No code changes to `main.py` or `test_main.py`.
 - **Issues found:** None in the spec rewrite; documented three implementation gaps vs full functional requirements that remain in code.
+
+## 2026-09-20 — Architecture plan (single main.py)
+
+- **Prompt:** Put the architecture plan in a separate file. Keep all logic in `main.py` and write new tests in `test_main.py` (no extra Python modules).
+- **AI response summary:** Created `ARCHITECTURE_PLAN.md` with single-file layout (logical sections inside `main.py`), twelve logical components, data-shape extensions, phased build order (Phases 0–9), pipeline diagram, test class plan (`TestInventoryExpiryCheck`, `TestBusinessSummary`), and completion checklist. Linked from `PROJECT_SPEC.md`.
+- **Accepted / changed / rejected:** Accepted single-file constraint; rejected the earlier multi-module split proposal. No code changes yet.
+- **Issues found:** None.
