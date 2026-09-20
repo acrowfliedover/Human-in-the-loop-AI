@@ -118,10 +118,11 @@ Before fulfilling an order, verify every required ingredient is:
 - Unavailable ingredients are listed with required and available quantities.
 - Expired or unusable stock is treated as unavailable during the check (not only at restock time).
 
-**Verification status:** **Partially complete.**
+**Verification status:** **Complete.**
 
-- Quantity and presence checks: **implemented and tested** (`TestOrderFulfillment`).
-- Expiry during fulfillment check: **not yet implemented** — current code checks quantity only; expiry is applied in restock rules (Requirement 6), not in `check_inventory_availability()`. This gap must be closed for full Requirement 3 compliance.
+- `check_inventory_availability()` classifies missing, insufficient, and expired ingredients with `unavailability_reason` and expiry metadata in each detail row.
+- `process_orders()` passes `reference_date` into the availability check; expired stock blocks delivery.
+- `TestInventoryAvailabilityCheck` (4 tests) and `test_process_orders_rejects_expired_ingredient` in `TestOrderFulfillment` verify all scenarios.
 
 ---
 
@@ -151,7 +152,7 @@ Before fulfilling an order, verify every required ingredient is:
 - `deduct_inventory()` runs only after a successful full-order check.
 - Failed orders leave working inventory unchanged for that order.
 
-**Verification status:** **Complete** for quantity-based fulfillment. Expiry-based rejection at fulfillment time depends on closing the Requirement 3 gap.
+**Verification status:** **Complete.** Quantity and expiry-based rejection at fulfillment time; failed orders do not deduct inventory.
 
 ---
 
@@ -252,12 +253,12 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Seed tables (Recipes, Inventory, Orders, Restock, Status) | `seed_data.py` (from `seed_data-1.py`) | Complete |
 | Data loaders and console printers | `main.py` | Complete (Req 1) |
 | Order → recipe lookup and ingredient demand | `main.py` | Complete (Req 2) |
-| Inventory availability check | `main.py` | Partial — quantity only; expiry check pending (Req 3) |
-| Fulfillment, status updates, inventory deduction | `main.py` | Complete for quantity rules (Req 4) |
+| Inventory availability check | `main.py` | Complete (Req 3) |
+| Fulfillment, status updates, inventory deduction | `main.py` | Complete (Req 4) |
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Partial — single reason; multi-reason pending (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Not started (Req 7) |
-| Unit tests | `test_main.py` | 24 tests pass (9 in `TestLoadFunctions` for Req 1 / Task 3; 5 in `TestOrderRecipeLookup` for Req 2 / Task 4) |
+| Unit tests | `test_main.py` | 29 tests pass (4 in `TestInventoryAvailabilityCheck` for Req 3 / Task 5) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -308,11 +309,10 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 4 audit complete — recipe lookup and ingredient calculation verified; no `main.py` changes; two tests added (`qty` 1 ingredients, missing-recipe order rejection).
-- **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order (Phases 1–8). Close remaining requirement gaps:
-  1. Expiry-aware inventory availability during fulfillment (Req 3 / Req 4).
-  2. Multi-reason restock output with expiry details (Req 6).
-  3. Dedicated business-friendly end-of-run summary (Req 7).
+- **Current task:** Task 5 complete — inventory availability check extended with expiry helpers, reason classification (missing / insufficient / expired), and `reference_date` wiring in `process_orders`.
+- **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order. Close remaining requirement gaps:
+  1. Multi-reason restock output with expiry details (Req 6).
+  2. Dedicated business-friendly end-of-run summary (Req 7).
 - **After base requirements:** optional enhancements — partial fulfillment, predictive stockout alerts, dynamic item disabling.
 
 ---
@@ -320,7 +320,6 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 ## Known issues or assumptions
 
 - `main.py` imports `seed_data`. The course file arrived as `seed_data-1.py`; a copy named `seed_data.py` is used at runtime.
-- **Expiry gap:** `check_inventory_availability()` does not yet block expired ingredients; expiry is only evaluated in restock calculation.
 - **Multi-reason gap:** `calculate_restock_needs()` uses an `elif` chain so only one reason is stored per ingredient; Requirement 6 requires all applicable reasons.
 - **Summary gap:** no single manager-facing summary function; output is spread across multiple print sections.
 - Seed `restock` and `status` tables are baseline data. Live restock starts empty and is recalculated; status rows are updated or appended during processing.

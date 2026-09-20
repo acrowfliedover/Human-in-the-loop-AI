@@ -36,3 +36,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Audited `find_recipe_by_name`, `calculate_ingredient_requirements`, and the missing-recipe path in `process_orders`; no `main.py` changes needed. Ran full suite (22 baseline tests pass). Added `test_valid_item_returns_scaled_ingredients_at_quantity_one` and `test_process_orders_rejects_order_with_missing_recipe` to `TestOrderRecipeLookup`. Full suite now 24 tests, all pass. Updated `PROJECT_SPEC.md` Task 4 status.
 - **Accepted / changed / rejected:** Accepted split API (`find_recipe_by_name` + `calculate_ingredient_requirements`); rejected unified wrapper. Accepted two new tests only; no production code changes.
 - **Issues found:** None; audit passed without fixes to `main.py`.
+
+## 2026-09-20 — Task 5: Complete inventory availability check
+
+- **Prompt:** Task 5: Complete the Inventory Availability Check — compare required ingredients against stock, identify missing/insufficient/expired ingredients, run tests and add coverage for all four scenarios.
+- **AI response summary:** Added `parse_expiry_date`, `days_until_expiry`, `is_ingredient_usable`, and `format_unavailable_ingredient` to `main.py`. Extended `check_inventory_availability()` with `reference_date`, `unavailability_reason`, and expiry metadata. Wired `reference_date` through `process_orders()` and appended `(expired)` to failure remarks. Added `TestInventoryAvailabilityCheck` (4 tests) and `test_process_orders_rejects_expired_ingredient`. Updated existing fulfillment/cumulative tests to pass `reference_date` and fix expired seed ingredients in fixtures. Full suite: 29 tests pass.
+- **Accepted / changed / rejected:** Accepted plan-aligned implementation. Accepted minimal test fixture updates where seed expiry dates blocked quantity-only scenarios. Rejected rewriting restock or summary logic (out of scope).
+- **Issues found:** Seed inventory contains ingredients expired at the test reference date (`2026-06-03`); fulfillment tests that use seed data now set usable expiry dates on required ingredients in deepcopy fixtures.

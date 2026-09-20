@@ -7,6 +7,7 @@ import unittest
 from main import (
     calculate_ingredient_requirements,
     calculate_restock_needs,
+    check_inventory_availability,
     find_recipe_by_name,
     load_inventory,
     load_orders,
@@ -214,6 +215,86 @@ class TestOrderRecipeLookup(unittest.TestCase):
         self.assertIn("Paneer Wrap", status_data[0]["remark"])
 
 
+class TestInventoryAvailabilityCheck(unittest.TestCase):
+    """Verify inventory availability checks classify ingredient shortages correctly."""
+
+    def test_all_ingredients_available(self):
+        """Every required ingredient should pass when stock is sufficient and not expired."""
+        inventory_data = [
+            {"ingredient": "Chicken Breast", "qty_grams": 500, "expiry_date": "2026-12-31"},
+            {"ingredient": "Bun", "qty_grams": 300, "expiry_date": "2026-12-31"},
+        ]
+        requirements = [
+            {"name": "Chicken Breast", "required_qty_grams": 200},
+            {"name": "Bun", "required_qty_grams": 100},
+        ]
+
+        result = check_inventory_availability(
+            inventory_data, requirements, reference_date=date(2026, 6, 3)
+        )
+
+        self.assertTrue(result["all_available"])
+        for detail in result["details"]:
+            self.assertTrue(detail["is_available"])
+            self.assertIsNone(detail["unavailability_reason"])
+
+    def test_one_ingredient_missing(self):
+        """A required ingredient absent from inventory should be marked as missing."""
+        inventory_data = [
+            {"ingredient": "Chicken Breast", "qty_grams": 500, "expiry_date": "2026-12-31"}
+        ]
+        requirements = [
+            {"name": "Chicken Breast", "required_qty_grams": 200},
+            {"name": "Sauce", "required_qty_grams": 50},
+        ]
+
+        result = check_inventory_availability(
+            inventory_data, requirements, reference_date=date(2026, 6, 3)
+        )
+
+        self.assertFalse(result["all_available"])
+        sauce_detail = next(
+            detail for detail in result["details"] if detail["ingredient"] == "Sauce"
+        )
+        self.assertFalse(sauce_detail["is_available"])
+        self.assertEqual(sauce_detail["unavailability_reason"], "missing")
+        self.assertEqual(sauce_detail["available_qty_grams"], 0)
+
+    def test_one_ingredient_insufficient_quantity(self):
+        """A present ingredient with too little stock should be marked insufficient."""
+        inventory_data = [
+            {"ingredient": "Chicken Breast", "qty_grams": 50, "expiry_date": "2026-12-31"}
+        ]
+        requirements = [{"name": "Chicken Breast", "required_qty_grams": 200}]
+
+        result = check_inventory_availability(
+            inventory_data, requirements, reference_date=date(2026, 6, 3)
+        )
+
+        self.assertFalse(result["all_available"])
+        chicken_detail = result["details"][0]
+        self.assertFalse(chicken_detail["is_available"])
+        self.assertEqual(chicken_detail["unavailability_reason"], "insufficient")
+        self.assertEqual(chicken_detail["available_qty_grams"], 50)
+
+    def test_one_expired_ingredient(self):
+        """Expired stock should be unavailable even when quantity is sufficient."""
+        inventory_data = [
+            {"ingredient": "Flour", "qty_grams": 5000, "expiry_date": "2026-05-12"}
+        ]
+        requirements = [{"name": "Flour", "required_qty_grams": 300}]
+
+        result = check_inventory_availability(
+            inventory_data, requirements, reference_date=date(2026, 6, 3)
+        )
+
+        self.assertFalse(result["all_available"])
+        flour_detail = result["details"][0]
+        self.assertFalse(flour_detail["is_available"])
+        self.assertEqual(flour_detail["unavailability_reason"], "expired")
+        self.assertLess(flour_detail["days_until_expiry"], 0)
+
+
 class TestOrderFulfillment(unittest.TestCase):
     """Verify fulfillment updates status, restock, and inventory correctly."""
 
@@ -232,7 +313,12 @@ class TestOrderFulfillment(unittest.TestCase):
         ]
 
         processed_orders = process_orders(
-            recipe_data, inventory_data, order_data, status_data, restock_data
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
         )
 
         self.assertTrue(processed_orders[0]["fulfilled"])
@@ -281,10 +367,51 @@ class TestOrderFulfillment(unittest.TestCase):
         self.assertEqual(bun_restock["qty_needed_grams"], 10000)
         self.assertEqual(bun_restock["reason"], "Out of stock")
 
+    def test_process_orders_rejects_expired_ingredient(self):
+        """An order requiring expired stock should fail without deducting inventory."""
+        recipe_data = [
+            {
+                "recipe_id": 99,
+                "name": "Flour Bread",
+                "ingredients": [{"name": "Flour", "qty_grams": 300}],
+            }
+        ]
+        inventory_data = [
+            {"ingredient": "Flour", "qty_grams": 5000, "expiry_date": "2026-05-12"}
+        ]
+        order_data = [
+            {
+                "order_id": 404,
+                "brand": "Test Kitchen",
+                "items": [{"item": "Flour Bread", "qty": 1}],
+            }
+        ]
+        status_data = []
+        restock_data = []
+        original_flour_qty = inventory_data[0]["qty_grams"]
+
+        processed_orders = process_orders(
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
+        )
+
+        self.assertFalse(processed_orders[0]["fulfilled"])
+        self.assertIn("Flour (expired)", processed_orders[0]["reason"])
+        self.assertEqual(inventory_data[0]["qty_grams"], original_flour_qty)
+        self.assertFalse(status_data[0]["delivered"])
+        self.assertIn("expired", status_data[0]["remark"])
+
     def test_process_orders_deducts_inventory_after_successful_delivery(self):
         """A delivered order should reduce inventory by the required grams."""
         recipe_data = deepcopy(load_recipes())
         inventory_data = deepcopy(load_inventory())
+        for item in inventory_data:
+            if item["ingredient"] == "Flour":
+                item["expiry_date"] = "2026-12-31"
         status_data = []
         restock_data = []
         order_data = [
@@ -305,7 +432,14 @@ class TestOrderFulfillment(unittest.TestCase):
             item["qty_grams"] for item in inventory_data if item["ingredient"] == "Mozzarella Cheese"
         )
 
-        process_orders(recipe_data, inventory_data, order_data, status_data, restock_data)
+        process_orders(
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
+        )
 
         updated_flour_qty = next(
             item["qty_grams"] for item in inventory_data if item["ingredient"] == "Flour"
@@ -329,6 +463,9 @@ class TestCumulativeInventoryDeduction(unittest.TestCase):
         """Two delivered orders should deduct the combined shared ingredient total."""
         recipe_data = deepcopy(load_recipes())
         inventory_data = deepcopy(load_inventory())
+        for item in inventory_data:
+            if item["ingredient"] in ("Flour", "Chocolate", "Sugar"):
+                item["expiry_date"] = "2026-12-31"
         status_data = []
         restock_data = []
         order_data = [
@@ -341,7 +478,12 @@ class TestCumulativeInventoryDeduction(unittest.TestCase):
         )
 
         processed_orders = process_orders(
-            recipe_data, inventory_data, order_data, status_data, restock_data
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
         )
 
         updated_flour_qty = next(
@@ -398,6 +540,9 @@ class TestCumulativeInventoryDeduction(unittest.TestCase):
         """Final inventory should reflect all successful cumulative deductions."""
         recipe_data = deepcopy(load_recipes())
         inventory_data = deepcopy(load_inventory())
+        for item in inventory_data:
+            if item["ingredient"] in ("Flour", "Chocolate", "Sugar"):
+                item["expiry_date"] = "2026-12-31"
         status_data = []
         restock_data = []
         order_data = [
@@ -405,7 +550,14 @@ class TestCumulativeInventoryDeduction(unittest.TestCase):
             {"order_id": 602, "brand": "Test Kitchen", "items": [{"item": "Chocolate Cake", "qty": 1}]},
         ]
 
-        process_orders(recipe_data, inventory_data, order_data, status_data, restock_data)
+        process_orders(
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
+        )
 
         flour_qty = next(item["qty_grams"] for item in inventory_data if item["ingredient"] == "Flour")
         sauce_qty = next(
