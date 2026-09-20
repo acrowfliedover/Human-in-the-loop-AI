@@ -93,7 +93,7 @@ For each order:
 - `combine_requirements()` merges duplicate ingredients within one order.
 - Missing recipes are recorded; processing continues for the rest of the order list.
 
-**Verification status:** **Complete.** `TestOrderRecipeLookup` (3 tests) passes.
+**Verification status:** **Complete.** Task 4 audit confirmed `find_recipe_by_name`, `calculate_ingredient_requirements`, and `combine_requirements` meet Req 2 with no code changes. `TestOrderRecipeLookup` (5 tests) passes.
 
 ---
 
@@ -257,7 +257,7 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Partial — single reason; multi-reason pending (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Not started (Req 7) |
-| Unit tests | `test_main.py` | 22 tests pass (9 in `TestLoadFunctions` for Req 1 / Task 3 audit) |
+| Unit tests | `test_main.py` | 24 tests pass (9 in `TestLoadFunctions` for Req 1 / Task 3; 5 in `TestOrderRecipeLookup` for Req 2 / Task 4) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -308,7 +308,7 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 3 audit complete — loaders, seed schema, and `TestLoadFunctions` verified; two tests added for seed wiring and required keys on all records.
+- **Current task:** Task 4 audit complete — recipe lookup and ingredient calculation verified; no `main.py` changes; two tests added (`qty` 1 ingredients, missing-recipe order rejection).
 - **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order (Phases 1–8). Close remaining requirement gaps:
   1. Expiry-aware inventory availability during fulfillment (Req 3 / Req 4).
   2. Multi-reason restock output with expiry details (Req 6).

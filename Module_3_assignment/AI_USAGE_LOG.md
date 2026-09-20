@@ -29,3 +29,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Audited `load_*()` and `print_*()` in `main.py` and all records in `seed_data.py`; no loader, printer, or seed defects found. Ran baseline suite (20 tests, all pass). Added `test_loaders_return_seed_module_lists` and `test_all_records_have_required_key_fields` to `TestLoadFunctions`. Full suite now 22 tests, all pass. Updated `PROJECT_SPEC.md` (Task 3 complete, test class name aligned).
 - **Accepted / changed / rejected:** Accepted existing loader/printer behavior unchanged. Accepted two new tests only. Rejected `main()` changes to load/display seed Restock at runtime (loaders verified via unit tests instead).
 - **Issues found:** None; audit passed without code fixes to `main.py` or `seed_data.py`.
+
+## 2026-09-20 — Task 4: Audit recipe lookup and ingredient calculation
+
+- **Prompt:** Task 4: Audit Recipe Lookup and Ingredient Calculation — inspect existing functions, modify only if necessary, run tests and add/update tests for valid item, invalid item, and quantity greater than 1.
+- **AI response summary:** Audited `find_recipe_by_name`, `calculate_ingredient_requirements`, and the missing-recipe path in `process_orders`; no `main.py` changes needed. Ran full suite (22 baseline tests pass). Added `test_valid_item_returns_scaled_ingredients_at_quantity_one` and `test_process_orders_rejects_order_with_missing_recipe` to `TestOrderRecipeLookup`. Full suite now 24 tests, all pass. Updated `PROJECT_SPEC.md` Task 4 status.
+- **Accepted / changed / rejected:** Accepted split API (`find_recipe_by_name` + `calculate_ingredient_requirements`); rejected unified wrapper. Accepted two new tests only; no production code changes.
+- **Issues found:** None; audit passed without fixes to `main.py`.

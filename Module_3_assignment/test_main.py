@@ -167,6 +167,52 @@ class TestOrderRecipeLookup(unittest.TestCase):
 
         self.assertEqual(requirements, expected_requirements)
 
+    def test_valid_item_returns_scaled_ingredients_at_quantity_one(self):
+        """A valid item should return base ingredient quantities when quantity is one."""
+        recipe = find_recipe_by_name(load_recipes(), "Chicken Burger")
+        requirements = calculate_ingredient_requirements(recipe, 1)
+
+        expected_requirements = [
+            {"name": "Chicken Breast", "required_qty_grams": 200},
+            {"name": "Bun", "required_qty_grams": 100},
+            {"name": "Lettuce", "required_qty_grams": 50},
+        ]
+
+        self.assertEqual(requirements, expected_requirements)
+
+    def test_process_orders_rejects_order_with_missing_recipe(self):
+        """An order with an unknown item should fail gracefully without changing inventory."""
+        recipe_data = deepcopy(load_recipes())
+        inventory_data = deepcopy(load_inventory())
+        original_inventory = deepcopy(inventory_data)
+        status_data = []
+        restock_data = []
+        order_data = [
+            {
+                "order_id": 303,
+                "brand": "Test Kitchen",
+                "items": [{"item": "Paneer Wrap", "qty": 1}],
+            }
+        ]
+
+        processed_orders = process_orders(
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
+        )
+
+        self.assertFalse(processed_orders[0]["fulfilled"])
+        self.assertIn("No matching recipe for item(s): Paneer Wrap", processed_orders[0]["reason"])
+        self.assertFalse(processed_orders[0]["items"][0]["recipe_found"])
+        self.assertEqual(processed_orders[0]["items"][0]["requirements"], [])
+        self.assertEqual(inventory_data, original_inventory)
+        self.assertEqual(status_data[0]["order_id"], 303)
+        self.assertFalse(status_data[0]["delivered"])
+        self.assertIn("Paneer Wrap", status_data[0]["remark"])
+
 
 class TestOrderFulfillment(unittest.TestCase):
     """Verify fulfillment updates status, restock, and inventory correctly."""
