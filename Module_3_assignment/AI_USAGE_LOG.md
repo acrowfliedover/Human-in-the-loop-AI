@@ -57,3 +57,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Audited `process_orders()`, `deduct_inventory()`, and `apply_final_inventory_snapshot()` against the Task 7 checklist; cumulative flow already implemented via `working_inventory` deep copy with deduct-only-on-success. Ran `TestCumulativeInventoryDeduction` (3/3 pass) and full suite (30/30 pass). No `main.py` or `test_main.py` changes required. Updated `PROJECT_SPEC.md` Task 7 / Req 5 verification status and current/next task.
 - **Accepted / changed / rejected:** Accepted existing cumulative implementation unchanged. Rejected rewriting `process_orders()` loop or duplicating existing tests. No production or test code changes.
 - **Issues found:** None; audit passed without code changes.
+
+## 2026-09-20 — Task 8: Restock and expiry rules
+
+- **Prompt:** Task 8: Implement Restock and Expiry Rules — multi-reason restock recommendations for out-of-stock, low-stock, and expiring-soon ingredients; unit tests for zero stock, threshold boundaries, expiring soon, and multiple reasons.
+- **AI response summary:** Added `PAR_LEVEL_G`, `LOW_STOCK_THRESHOLD_G`, `EXPIRING_SOON_DAYS` constants. Implemented `build_restock_reasons()` and `calculate_restock_qty_needed()`. Refactored `calculate_restock_needs()` to output enriched rows with `reasons` list, `current_qty_grams`, `expiry_date`, and `days_until_expiry`. Updated `print_restock()` for new shape. Extended `TestRestockRules` from 4 to 12 tests (boundary and multi-reason cases). Updated fulfillment/cumulative tests for `reasons` field. Full suite: 38 tests pass.
+- **Accepted / changed / rejected:** Accepted `reasons` list shape per architecture plan. Accepted max-quantity logic across applicable rules. Rejected changes to fulfillment, cumulative deduction, or inventory availability logic.
+- **Issues found:** None.

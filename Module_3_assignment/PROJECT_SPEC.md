@@ -212,10 +212,11 @@ After all orders are processed, identify ingredients that meet **any** of:
 - Restock is rebuilt from **final** inventory, not intermediate per-order shortages.
 - Unit tests cover expiring soon, out of stock, running low, and adequate stock.
 
-**Verification status:** **Partially complete.**
+**Verification status:** **Complete.**
 
-- Single-reason restock with priority (expiring soon > out of stock > running low): **implemented and tested** (`TestRestockRules`, 4 tests).
-- Multi-reason preservation and expiry fields in restock output: **not yet implemented** — current `elif` chain keeps one winning reason and omits explicit expiry columns in restock rows. Must be updated for full Requirement 6 compliance.
+- `build_restock_reasons()` evaluates expiring soon, out of stock, and running low with independent checks (no `elif` priority).
+- `calculate_restock_needs()` outputs enriched rows: `current_qty_grams`, `reasons` (list), `qty_needed_grams`, `expiry_date`, `days_until_expiry`.
+- Multi-reason preservation and max-quantity logic verified in `TestRestockRules` (12 tests).
 
 ---
 
@@ -256,9 +257,9 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Inventory availability check | `main.py` | Complete (Req 3) |
 | Fulfillment, status updates, inventory deduction | `main.py` | Complete (Req 4) |
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
-| Restock rules from final inventory | `main.py` | Partial — single reason; multi-reason pending (Req 6) |
+| Restock rules from final inventory | `main.py` | Complete (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Not started (Req 7) |
-| Unit tests | `test_main.py` | 30 tests pass (5 in `TestOrderFulfillment` for Req 4 / Task 6; 3 in `TestCumulativeInventoryDeduction` for Req 5 / Task 7) |
+| Unit tests | `test_main.py` | 38 tests pass (12 in `TestRestockRules` for Req 6 / Task 8) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -309,10 +310,8 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 7 complete — cumulative order processing audited; no `main.py` changes required. Confirmed `working_inventory` persists deductions across the order loop and all three `TestCumulativeInventoryDeduction` scenarios pass.
-- **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order. Close remaining requirement gaps:
-  1. Multi-reason restock output with expiry details (Req 6).
-  2. Dedicated business-friendly end-of-run summary (Req 7).
+- **Current task:** Task 8 complete — multi-reason restock with expiry fields implemented via `build_restock_reasons()`, `calculate_restock_qty_needed()`, and enriched `calculate_restock_needs()` output. All 12 `TestRestockRules` tests pass.
+- **Next task:** Dedicated business-friendly end-of-run summary (Req 7) per `ARCHITECTURE_PLAN.md` Phase 8.
 - **After base requirements:** optional enhancements — partial fulfillment, predictive stockout alerts, dynamic item disabling.
 
 ---
@@ -320,8 +319,8 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 ## Known issues or assumptions
 
 - `main.py` imports `seed_data`. The course file arrived as `seed_data-1.py`; a copy named `seed_data.py` is used at runtime.
-- **Multi-reason gap:** `calculate_restock_needs()` uses an `elif` chain so only one reason is stored per ingredient; Requirement 6 requires all applicable reasons.
 - **Summary gap:** no single manager-facing summary function; output is spread across multiple print sections.
+- Calculated restock rows use `reasons` (list); seed `restock` table in `seed_data.py` still uses singular `reason` for loader tests.
 - Seed `restock` and `status` tables are baseline data. Live restock starts empty and is recalculated; status rows are updated or appended during processing.
 - **Restock on failure:** unavailable ingredients appear in restock only when they exist in the inventory table and qualify under final-inventory rules; ingredients absent from the inventory table are not added to restock output.
 - `date.today()` changes restock output for real `main.py` runs as the calendar moves; tests pin `reference_date` to `2026-06-03`.

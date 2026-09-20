@@ -5,6 +5,10 @@ from datetime import date, datetime
 
 from seed_data import inventory, orders, recipes, restock, status
 
+PAR_LEVEL_G = 10000
+LOW_STOCK_THRESHOLD_G = 1000
+EXPIRING_SOON_DAYS = 5
+
 
 def load_recipes():
     """Return the seeded recipe records for use in the application."""
@@ -72,8 +76,11 @@ def print_restock(restock_data):
     print("\n=== Restock ===")
     for item in restock_data:
         print(f"Item: {item['item']}")
+        print(f"Current Quantity: {item['current_qty_grams']} grams")
         print(f"Quantity Needed: {item['qty_needed_grams']} grams")
-        print(f"Reason: {item['reason']}")
+        print(f"Reasons: {', '.join(item['reasons'])}")
+        print(f"Expiry Date: {item['expiry_date']}")
+        print(f"Days Until Expiry: {item['days_until_expiry']}")
         print()
 
 
@@ -267,49 +274,63 @@ def update_status_entry(status_data, order_id, delivered, remark):
     status_data.append({"order_id": order_id, "delivered": delivered, "remark": remark})
 
 
+def build_restock_reasons(inventory_item, reference_date):
+    """Return all applicable restock reasons for one inventory item."""
+    expiry_date = parse_expiry_date(inventory_item["expiry_date"])
+    days_left = days_until_expiry(expiry_date, reference_date)
+    current_qty_grams = inventory_item["qty_grams"]
+    reasons = []
+
+    if 0 <= days_left <= EXPIRING_SOON_DAYS:
+        reasons.append("Expiring soon")
+    if current_qty_grams == 0:
+        reasons.append("Out of stock")
+    if 0 < current_qty_grams <= LOW_STOCK_THRESHOLD_G:
+        reasons.append("Running low on stock")
+
+    return reasons
+
+
+def calculate_restock_qty_needed(inventory_item, reasons):
+    """Return the grams needed to reach par, using the max across applicable rules."""
+    qty_options = []
+    current_qty_grams = inventory_item["qty_grams"]
+
+    if "Expiring soon" in reasons or "Out of stock" in reasons:
+        qty_options.append(PAR_LEVEL_G)
+    if "Running low on stock" in reasons:
+        qty_options.append(PAR_LEVEL_G - current_qty_grams)
+
+    return max(qty_options) if qty_options else 0
+
+
 def calculate_restock_needs(inventory_data, reference_date=None):
-    """Build restock recommendations from final inventory using the Task 5 rules."""
+    """Build restock recommendations from final inventory using stock and expiry rules."""
     if reference_date is None:
         # Assumption to verify: when no simulation date is passed in, the code uses
         # Python's date.today() from the local runtime environment as "today."
-        # Please verify this matches the intended simulation date basis.
         reference_date = date.today()
 
     restock_recommendations = []
 
     for item in inventory_data:
-        expiry_date = datetime.strptime(item["expiry_date"], "%Y-%m-%d").date()
-        days_until_expiry = (expiry_date - reference_date).days
-        restock_reason = None
-        qty_needed_grams = 0
+        expiry_date = parse_expiry_date(item["expiry_date"])
+        days_left = days_until_expiry(expiry_date, reference_date)
+        reasons = build_restock_reasons(item, reference_date)
 
-        # Rule 1: ingredients expiring within the next 5 days are restocked to a
-        # full 10,000 grams, and this rule takes priority over the stock rules below.
-        # Assumption to verify: an ingredient cannot be labeled with both "Expiring soon"
-        # and "Running low on stock" at the same time in the output; expiry takes
-        # priority because these checks are evaluated in order with elif branches.
-        if 0 <= days_until_expiry <= 5:
-            restock_reason = "Expiring soon"
-            qty_needed_grams = 10000
-        # Rule 2: if the final stock reaches exactly 0 grams, mark it out of stock
-        # and request a full 10,000-gram refill.
-        elif item["qty_grams"] == 0:
-            restock_reason = "Out of stock"
-            qty_needed_grams = 10000
-        # Rule 3: if stock is low but not empty, request only the grams needed to
-        # bring the ingredient back up to the 10,000-gram target.
-        elif item["qty_grams"] <= 1000:
-            restock_reason = "Running low on stock"
-            qty_needed_grams = 10000 - item["qty_grams"]
+        if not reasons:
+            continue
 
-        if restock_reason is not None:
-            restock_recommendations.append(
-                {
-                    "item": item["ingredient"],
-                    "qty_needed_grams": qty_needed_grams,
-                    "reason": restock_reason,
-                }
-            )
+        restock_recommendations.append(
+            {
+                "item": item["ingredient"],
+                "current_qty_grams": item["qty_grams"],
+                "reasons": reasons,
+                "qty_needed_grams": calculate_restock_qty_needed(item, reasons),
+                "expiry_date": item["expiry_date"],
+                "days_until_expiry": days_left,
+            }
+        )
 
     return restock_recommendations
 
