@@ -517,6 +517,177 @@ def print_order_processing_results(processed_orders):
         print()
 
 
+def build_inventory_alerts(inventory_data, reference_date=None):
+    """Return stock and expiry alert rows for ingredients that need manager attention."""
+    if reference_date is None:
+        reference_date = date.today()
+
+    alerts = []
+    for item in inventory_data:
+        expiry_date = parse_expiry_date(item["expiry_date"])
+        days_left = days_until_expiry(expiry_date, reference_date)
+        current_qty_grams = item["qty_grams"]
+        issues = []
+
+        if days_left < 0:
+            issues.append("Expired")
+        elif days_left <= EXPIRING_SOON_DAYS:
+            issues.append("Expiring soon")
+        if current_qty_grams == 0:
+            issues.append("Out of stock")
+        elif current_qty_grams <= LOW_STOCK_THRESHOLD_G:
+            issues.append("Running low")
+
+        if not issues:
+            continue
+
+        alerts.append(
+            {
+                "ingredient": item["ingredient"],
+                "qty_grams": current_qty_grams,
+                "expiry_date": item["expiry_date"],
+                "days_until_expiry": days_left,
+                "issues": issues,
+            }
+        )
+
+    return alerts
+
+
+def _lookup_status_remark(status_data, order_id):
+    """Return the status remark for an order, or an empty string if not found."""
+    for entry in status_data:
+        if entry["order_id"] == order_id:
+            return entry["remark"]
+    return ""
+
+
+def _build_not_delivered_orders(processed_orders, status_data):
+    """Build failed-order rows using processed-order reasons with status fallback."""
+    not_delivered_orders = []
+    for order in processed_orders:
+        if order["fulfilled"]:
+            continue
+
+        reason = order["reason"] or _lookup_status_remark(status_data, order["order_id"])
+        not_delivered_orders.append(
+            {
+                "order_id": order["order_id"],
+                "brand": order["brand"],
+                "reason": reason,
+            }
+        )
+
+    return not_delivered_orders
+
+
+def build_business_summary(
+    processed_orders,
+    inventory_data,
+    restock_data,
+    status_data,
+    reference_date=None,
+):
+    """Build a manager-facing summary dictionary from post-simulation outputs."""
+    delivered_orders = [
+        {"order_id": order["order_id"], "brand": order["brand"]}
+        for order in processed_orders
+        if order["fulfilled"]
+    ]
+    not_delivered_orders = _build_not_delivered_orders(processed_orders, status_data)
+    inventory_alerts = build_inventory_alerts(inventory_data, reference_date)
+    expiry_concerns = [
+        alert
+        for alert in inventory_alerts
+        if "Expired" in alert["issues"] or "Expiring soon" in alert["issues"]
+    ]
+    final_inventory = [
+        {
+            "ingredient": item["ingredient"],
+            "qty_grams": item["qty_grams"],
+            "expiry_date": item["expiry_date"],
+        }
+        for item in inventory_data
+    ]
+
+    return {
+        "orders_delivered": len(delivered_orders),
+        "orders_not_delivered": len(not_delivered_orders),
+        "delivered_orders": delivered_orders,
+        "not_delivered_orders": not_delivered_orders,
+        "failed_orders": not_delivered_orders,
+        "final_inventory": final_inventory,
+        "restock_recommendations": list(restock_data),
+        "inventory_alerts": inventory_alerts,
+        "expiry_concerns": expiry_concerns,
+    }
+
+
+def print_business_summary(summary):
+    """Print a plain-language end-of-run summary for kitchen managers."""
+    print("\n=== Business Summary ===")
+    print(
+        f"Orders delivered: {summary['orders_delivered']} | "
+        f"Orders not delivered: {summary['orders_not_delivered']}"
+    )
+
+    print("\nDelivered orders:")
+    if summary["delivered_orders"]:
+        for order in summary["delivered_orders"]:
+            print(f"  - Order {order['order_id']} ({order['brand']})")
+    else:
+        print("  - None")
+
+    print("\nNot delivered orders:")
+    if summary["not_delivered_orders"]:
+        for order in summary["not_delivered_orders"]:
+            print(
+                f"  - Order {order['order_id']} ({order['brand']}): {order['reason']}"
+            )
+    else:
+        print("  - None")
+
+    print("\nFailure explanations:")
+    if summary["failed_orders"]:
+        for order in summary["failed_orders"]:
+            print(
+                f"  - Order {order['order_id']} ({order['brand']}): {order['reason']}"
+            )
+    else:
+        print("  - No failed orders.")
+
+    print("\nFinal inventory:")
+    for item in summary["final_inventory"]:
+        print(
+            f"  - {item['ingredient']}: {item['qty_grams']} grams "
+            f"(expires {item['expiry_date']})"
+        )
+
+    print("\nRestock recommendations:")
+    if summary["restock_recommendations"]:
+        for item in summary["restock_recommendations"]:
+            print(
+                f"  - {item['item']}: current {item['current_qty_grams']} grams, "
+                f"order {item['qty_needed_grams']} grams "
+                f"({', '.join(item['reasons'])}) "
+                f"[expires {item['expiry_date']}, "
+                f"{item['days_until_expiry']} day(s) left]"
+            )
+    else:
+        print("  - No restock needed.")
+
+    print("\nExpiry concerns:")
+    if summary["expiry_concerns"]:
+        for alert in summary["expiry_concerns"]:
+            print(
+                f"  - {alert['ingredient']}: {', '.join(alert['issues'])} "
+                f"({alert['qty_grams']} grams, expires {alert['expiry_date']}, "
+                f"{alert['days_until_expiry']} day(s) left)"
+            )
+    else:
+        print("  - No expiry concerns.")
+
+
 def main():
     """Load seed tables, process fulfillment, and print the updated results."""
     # Assumption to verify: we process working copies of mutable tables so the seed
@@ -544,6 +715,13 @@ def main():
     print_inventory(inventory_data)
     print_restock(restock_data)
     print_status(status_data)
+    summary = build_business_summary(
+        processed_orders,
+        inventory_data,
+        restock_data,
+        status_data,
+    )
+    print_business_summary(summary)
 
 
 if __name__ == "__main__":

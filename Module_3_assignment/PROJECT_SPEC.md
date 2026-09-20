@@ -240,10 +240,13 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 - A dedicated summary section (function or formatted block) appears after processing.
 - Manager can answer: “How many orders succeeded?”, “What’s left on the shelf?”, “What do I need to buy?”, and “Why did order X fail?” without reading Python objects.
 
-**Verification status:** **Partially complete.**
+**Verification status:** **Complete.**
 
-- `main()` prints recipes, orders, per-order processing, final inventory, restock, and status — sufficient for a technical user.
-- A single consolidated **business summary** block with delivered/not-delivered counts and plain-language failure explanations: **not yet implemented** as a dedicated output. Must be added for full Requirement 7 compliance.
+- `build_business_summary()` returns a structured dictionary with delivered/not-delivered counts, order lists, failure reasons, final inventory, restock recommendations, inventory alerts, and expiry concerns.
+- `print_business_summary()` prints a plain-language `=== Business Summary ===` section after processing.
+- `build_inventory_alerts()` flags expired, expiring-soon, out-of-stock, and running-low ingredients from final inventory (including expired stock not covered by restock rules).
+- `main()` calls both functions after existing technical print sections.
+- `TestBusinessSummary` (9 tests) verifies counts, failure reasons, inventory snapshot, restock pass-through, expiry alerts, multi-issue rows, empty orders, and seed integration.
 
 ---
 
@@ -258,8 +261,8 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Fulfillment, status updates, inventory deduction | `main.py` | Complete (Req 4) |
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Complete (Req 6) |
-| Business-friendly end-of-run summary | `main.py` | Not started (Req 7) |
-| Unit tests | `test_main.py` | 38 tests pass (12 in `TestRestockRules` for Req 6 / Task 8) |
+| Business-friendly end-of-run summary | `main.py` | Complete (Req 7) |
+| Unit tests | `test_main.py` | 47 tests pass (9 in `TestBusinessSummary` for Req 7 / Task 9) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -310,16 +313,15 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 8 complete — multi-reason restock with expiry fields implemented via `build_restock_reasons()`, `calculate_restock_qty_needed()`, and enriched `calculate_restock_needs()` output. All 12 `TestRestockRules` tests pass.
-- **Next task:** Dedicated business-friendly end-of-run summary (Req 7) per `ARCHITECTURE_PLAN.md` Phase 8.
-- **After base requirements:** optional enhancements — partial fulfillment, predictive stockout alerts, dynamic item disabling.
+- **Current task:** Task 9 complete — business summary implemented via `build_inventory_alerts()`, `build_business_summary()`, and `print_business_summary()`. All 9 `TestBusinessSummary` tests pass; full suite 47 tests pass.
+- **Next task:** Base assignment requirements complete. Optional enhancements — partial fulfillment, predictive stockout alerts, dynamic item disabling.
 
 ---
 
 ## Known issues or assumptions
 
 - `main.py` imports `seed_data`. The course file arrived as `seed_data-1.py`; a copy named `seed_data.py` is used at runtime.
-- **Summary gap:** no single manager-facing summary function; output is spread across multiple print sections.
+- **Summary:** manager-facing output is provided by `build_business_summary()` / `print_business_summary()`; technical detail remains in separate print sections.
 - Calculated restock rows use `reasons` (list); seed `restock` table in `seed_data.py` still uses singular `reason` for loader tests.
 - Seed `restock` and `status` tables are baseline data. Live restock starts empty and is recalculated; status rows are updated or appended during processing.
 - **Restock on failure:** unavailable ingredients appear in restock only when they exist in the inventory table and qualify under final-inventory rules; ingredients absent from the inventory table are not added to restock output.

@@ -5,6 +5,8 @@ from datetime import date
 import unittest
 
 from main import (
+    build_business_summary,
+    build_inventory_alerts,
     calculate_ingredient_requirements,
     calculate_restock_needs,
     check_inventory_availability,
@@ -770,6 +772,213 @@ class TestRestockRules(unittest.TestCase):
             ["Expiring soon", "Out of stock"],
         )
         self.assertEqual(restock_data[0]["qty_needed_grams"], 10000)
+
+
+class TestBusinessSummary(unittest.TestCase):
+    """Verify the Task 9 manager-facing business summary."""
+
+    def test_summary_counts_delivered_and_not_delivered(self):
+        """Mixed fulfilled and failed orders should produce matching counts."""
+        processed_orders = [
+            {"order_id": 1, "brand": "Taco Bell", "fulfilled": True, "reason": "Delivered"},
+            {"order_id": 2, "brand": "Subway", "fulfilled": False, "reason": "Missing Bun"},
+            {"order_id": 3, "brand": "Subway", "fulfilled": True, "reason": "Delivered"},
+        ]
+        inventory_data = [
+            {"ingredient": "Bun", "qty_grams": 500, "expiry_date": "2026-12-31"}
+        ]
+        restock_data = []
+        status_data = [
+            {"order_id": 1, "delivered": True, "remark": "Delivered"},
+            {"order_id": 2, "delivered": False, "remark": "Missing Bun"},
+            {"order_id": 3, "delivered": True, "remark": "Delivered"},
+        ]
+
+        summary = build_business_summary(
+            processed_orders,
+            inventory_data,
+            restock_data,
+            status_data,
+            reference_date=date(2026, 6, 3),
+        )
+
+        self.assertEqual(summary["orders_delivered"], 2)
+        self.assertEqual(summary["orders_not_delivered"], 1)
+        self.assertEqual(len(summary["delivered_orders"]), 2)
+        self.assertEqual(len(summary["not_delivered_orders"]), 1)
+        self.assertEqual(len(summary["failed_orders"]), 1)
+
+    def test_summary_lists_failed_orders_with_reasons(self):
+        """Failed orders should include order id, brand, and plain-language reasons."""
+        processed_orders = [
+            {
+                "order_id": 10,
+                "brand": "Test Kitchen",
+                "fulfilled": False,
+                "reason": "Missing or insufficient ingredients: Bun",
+            },
+            {
+                "order_id": 11,
+                "brand": "Test Kitchen",
+                "fulfilled": False,
+                "reason": "Missing or insufficient ingredients: Flour (expired)",
+            },
+            {
+                "order_id": 12,
+                "brand": "Test Kitchen",
+                "fulfilled": False,
+                "reason": "No matching recipe for item(s): Mystery Wrap",
+            },
+        ]
+
+        summary = build_business_summary(
+            processed_orders,
+            [],
+            [],
+            [],
+            reference_date=date(2026, 6, 3),
+        )
+
+        self.assertEqual(len(summary["failed_orders"]), 3)
+        self.assertEqual(summary["failed_orders"][0]["order_id"], 10)
+        self.assertIn("Bun", summary["failed_orders"][0]["reason"])
+        self.assertIn("expired", summary["failed_orders"][1]["reason"])
+        self.assertIn("No matching recipe", summary["failed_orders"][2]["reason"])
+
+    def test_summary_includes_final_inventory(self):
+        """The summary should snapshot final inventory quantities and expiry dates."""
+        inventory_data = [
+            {"ingredient": "Flour", "qty_grams": 4200, "expiry_date": "2026-05-12"},
+            {"ingredient": "Bun", "qty_grams": 8000, "expiry_date": "2026-10-09"},
+        ]
+
+        summary = build_business_summary([], inventory_data, [], [])
+
+        self.assertEqual(len(summary["final_inventory"]), 2)
+        self.assertEqual(summary["final_inventory"][0]["ingredient"], "Flour")
+        self.assertEqual(summary["final_inventory"][0]["qty_grams"], 4200)
+        self.assertEqual(summary["final_inventory"][0]["expiry_date"], "2026-05-12")
+
+    def test_summary_includes_restock_recommendations(self):
+        """Restock rows should pass through unchanged with reasons and expiry fields."""
+        restock_data = [
+            {
+                "item": "Romaine Lettuce",
+                "current_qty_grams": 500,
+                "reasons": ["Expiring soon", "Running low on stock"],
+                "qty_needed_grams": 10000,
+                "expiry_date": "2026-06-06",
+                "days_until_expiry": 3,
+            }
+        ]
+
+        summary = build_business_summary([], [], restock_data, [])
+
+        self.assertEqual(len(summary["restock_recommendations"]), 1)
+        self.assertEqual(
+            summary["restock_recommendations"][0]["reasons"],
+            ["Expiring soon", "Running low on stock"],
+        )
+        self.assertEqual(summary["restock_recommendations"][0]["qty_needed_grams"], 10000)
+        self.assertEqual(summary["restock_recommendations"][0]["days_until_expiry"], 3)
+
+    def test_summary_inventory_alerts_expired_and_expiring(self):
+        """Expired and expiring-soon stock should appear in inventory alerts."""
+        inventory_data = [
+            {"ingredient": "Flour", "qty_grams": 5000, "expiry_date": "2026-05-12"},
+            {"ingredient": "Cream", "qty_grams": 7000, "expiry_date": "2026-06-06"},
+            {"ingredient": "Tomato Sauce", "qty_grams": 7000, "expiry_date": "2026-12-31"},
+        ]
+
+        summary = build_business_summary(
+            [],
+            inventory_data,
+            [],
+            [],
+            reference_date=date(2026, 6, 3),
+        )
+
+        flour_alert = next(
+            alert for alert in summary["inventory_alerts"] if alert["ingredient"] == "Flour"
+        )
+        cream_alert = next(
+            alert for alert in summary["inventory_alerts"] if alert["ingredient"] == "Cream"
+        )
+
+        self.assertIn("Expired", flour_alert["issues"])
+        self.assertIn("Expiring soon", cream_alert["issues"])
+        self.assertEqual(len(summary["expiry_concerns"]), 2)
+        self.assertEqual(
+            {alert["ingredient"] for alert in summary["expiry_concerns"]},
+            {"Flour", "Cream"},
+        )
+
+    def test_summary_multi_reason_restock_preserved(self):
+        """Multi-reason restock rows should remain unchanged in the summary."""
+        restock_data = calculate_restock_needs(
+            [{"ingredient": "Romaine Lettuce", "qty_grams": 500, "expiry_date": "2026-06-06"}],
+            reference_date=date(2026, 6, 3),
+        )
+
+        summary = build_business_summary([], [], restock_data, [])
+
+        self.assertEqual(
+            summary["restock_recommendations"][0]["reasons"],
+            ["Expiring soon", "Running low on stock"],
+        )
+
+    def test_summary_empty_processed_orders(self):
+        """An empty order list should produce zero counts without errors."""
+        summary = build_business_summary([], [], [], [])
+
+        self.assertEqual(summary["orders_delivered"], 0)
+        self.assertEqual(summary["orders_not_delivered"], 0)
+        self.assertEqual(summary["delivered_orders"], [])
+        self.assertEqual(summary["failed_orders"], [])
+
+    def test_summary_multiple_inventory_alert_issues(self):
+        """One ingredient can report multiple stock and expiry issues."""
+        alerts = build_inventory_alerts(
+            [{"ingredient": "Flour", "qty_grams": 0, "expiry_date": "2026-05-12"}],
+            reference_date=date(2026, 6, 3),
+        )
+
+        self.assertEqual(len(alerts), 1)
+        self.assertEqual(alerts[0]["issues"], ["Expired", "Out of stock"])
+
+    def test_summary_integration_with_seed_orders(self):
+        """A full seed simulation should align summary counts with status data."""
+        recipe_data = load_recipes()
+        inventory_data = deepcopy(load_inventory())
+        order_data = load_orders()
+        status_data = deepcopy(load_status())
+        restock_data = []
+
+        processed_orders = process_orders(
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
+        )
+        summary = build_business_summary(
+            processed_orders,
+            inventory_data,
+            restock_data,
+            status_data,
+            reference_date=date(2026, 6, 3),
+        )
+
+        delivered_from_status = sum(1 for entry in status_data if entry["delivered"])
+        not_delivered_from_status = sum(1 for entry in status_data if not entry["delivered"])
+
+        self.assertEqual(summary["orders_delivered"], delivered_from_status)
+        self.assertEqual(summary["orders_not_delivered"], not_delivered_from_status)
+        self.assertEqual(len(summary["final_inventory"]), len(inventory_data))
+        self.assertIsInstance(summary["restock_recommendations"], list)
+        self.assertGreater(len(summary["expiry_concerns"]), 0)
+        self.assertEqual(len(summary["failed_orders"]), not_delivered_from_status)
 
 
 if __name__ == "__main__":

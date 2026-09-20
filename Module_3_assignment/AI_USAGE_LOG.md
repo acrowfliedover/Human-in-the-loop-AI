@@ -64,3 +64,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Added `PAR_LEVEL_G`, `LOW_STOCK_THRESHOLD_G`, `EXPIRING_SOON_DAYS` constants. Implemented `build_restock_reasons()` and `calculate_restock_qty_needed()`. Refactored `calculate_restock_needs()` to output enriched rows with `reasons` list, `current_qty_grams`, `expiry_date`, and `days_until_expiry`. Updated `print_restock()` for new shape. Extended `TestRestockRules` from 4 to 12 tests (boundary and multi-reason cases). Updated fulfillment/cumulative tests for `reasons` field. Full suite: 38 tests pass.
 - **Accepted / changed / rejected:** Accepted `reasons` list shape per architecture plan. Accepted max-quantity logic across applicable rules. Rejected changes to fulfillment, cumulative deduction, or inventory availability logic.
 - **Issues found:** None.
+
+## 2026-09-20 — Task 9: Generate final business summary
+
+- **Prompt:** Task 9: Generate Final Business Summary — implement plan for manager-facing end-of-run summary with delivered/not-delivered orders, failure reasons, final inventory, restock recommendations, and expiry concerns (console + dictionary output).
+- **AI response summary:** Added `build_inventory_alerts()`, `build_business_summary()`, and `print_business_summary()` to `main.py`. Wired summary into `main()` after existing print sections. Added `TestBusinessSummary` with 9 tests covering counts, failure reasons, inventory snapshot, restock pass-through, expiry alerts, multi-issue rows, empty orders, and seed integration. Updated `PROJECT_SPEC.md` Req 7 status. Full suite: 47 tests pass.
+- **Accepted / changed / rejected:** Accepted console + dict output per plan. Accepted separate `build_inventory_alerts()` to flag expired stock not covered by restock rules. Rejected file/Markdown export and changes to fulfillment/restock logic.
+- **Issues found:** Seed simulation at `2026-06-03` can produce zero restock rows when final quantities stay above thresholds; integration test asserts structure and expiry concerns rather than requiring non-empty restock.
