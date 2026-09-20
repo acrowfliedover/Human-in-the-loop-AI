@@ -15,6 +15,7 @@ from main import (
     load_status,
     process_orders,
 )
+from seed_data import inventory, orders, recipes, restock, status
 
 
 class TestLoadFunctions(unittest.TestCase):
@@ -91,6 +92,49 @@ class TestLoadFunctions(unittest.TestCase):
         self.assertIsInstance(item["remark"], str)
         # Incomplete / follow-up: if the project later formalizes a status enum or
         # richer state machine, these tests should be expanded beyond simple types.
+
+    def test_loaders_return_seed_module_lists(self):
+        """Each loader should return the corresponding seed_data module list."""
+        self.assertIs(load_recipes(), recipes)
+        self.assertIs(load_inventory(), inventory)
+        self.assertIs(load_orders(), orders)
+        self.assertIs(load_restock(), restock)
+        self.assertIs(load_status(), status)
+
+    def test_all_records_have_required_key_fields(self):
+        """Every record in each seed table should expose all required key fields."""
+        for recipe in load_recipes():
+            self.assertIn("recipe_id", recipe)
+            self.assertIn("name", recipe)
+            self.assertIn("ingredients", recipe)
+            self.assertGreater(len(recipe["ingredients"]), 0)
+            for ingredient in recipe["ingredients"]:
+                self.assertIn("name", ingredient)
+                self.assertIn("qty_grams", ingredient)
+
+        for item in load_inventory():
+            self.assertIn("ingredient", item)
+            self.assertIn("qty_grams", item)
+            self.assertIn("expiry_date", item)
+
+        for order in load_orders():
+            self.assertIn("order_id", order)
+            self.assertIn("brand", order)
+            self.assertIn("items", order)
+            self.assertGreater(len(order["items"]), 0)
+            for order_item in order["items"]:
+                self.assertIn("item", order_item)
+                self.assertIn("qty", order_item)
+
+        for item in load_restock():
+            self.assertIn("item", item)
+            self.assertIn("qty_needed_grams", item)
+            self.assertIn("reason", item)
+
+        for entry in load_status():
+            self.assertIn("order_id", entry)
+            self.assertIn("delivered", entry)
+            self.assertIn("remark", entry)
 
 
 class TestOrderRecipeLookup(unittest.TestCase):

@@ -1,2 +1,93 @@
 # Python 3.14 local environment. Runtime uses the standard library only
 # (unittest, datetime, copy). No third-party packages are required.
+Functional Requirements
+The final version of your program must satisfy all of the following functionality. Some requirements are already partially or fully implemented in the starter code; verify them before rewriting anything.
+
+Requirement 1: Load and Display Data
+Inspect the existing functions that import and display the major data structures from seed_data.py. Modify them only if necessary to satisfy this requirement.
+
+Your program should be able to show:
+
+Recipes
+Inventory
+Orders
+Restock records
+Delivery status records
+Use the existing code and tests to confirm that the program can access all required data. If this already works correctly, document that verification and move on.
+
+Requirement 2: Process Orders Against Recipes
+Verify that, for each order, your final program can:
+
+Identify the menu item or items ordered.
+Look up the corresponding recipe.
+Calculate the total ingredient quantity required.
+Handle item quantities correctly.
+Handle missing or unknown recipes gracefully.
+For example, if an order contains quantity 2 of a menu item, the required ingredient quantities should be doubled.
+
+Requirement 3: Check Inventory Availability
+Inspect the existing inventory check and modify it as needed so the required ingredients are both available in sufficient quantity and usable.
+
+The check should account for:
+
+Ingredient name
+Quantity required
+Quantity available
+Expiry status, if expiry dates are included in the inventory data
+The final inventory check should return clear information about whether the order can be fulfilled and, if not, what is missing, insufficient, expired, or otherwise unavailable.
+
+Requirement 4: Fulfill Orders and Deduct Inventory
+If all required ingredients are available, your program should:
+
+Mark the order as Delivered
+Deduct the used ingredient quantities from inventory
+If required ingredients are missing or unavailable, your program should:
+
+Mark the order as Not Delivered
+Record the reason
+Add missing or unavailable ingredients to the restock list
+The base assignment uses all-or-nothing fulfillment: a failed order should not deduct partial inventory. Partial fulfillment is an optional enhancement only.
+
+Requirement 5: Make Inventory Deduction Cumulative
+Inventory deduction must be cumulative.
+
+This means:
+
+Order 1 consumes inventory.
+Order 2 checks against the inventory remaining after Order 1.
+Order 3 checks against the inventory remaining after Orders 1 and 2.
+The final inventory table should reflect all delivered orders.
+Do not reset inventory between orders unless you are running a separate test case.
+
+Requirement 6: Apply Restock and Expiry Rules
+After processing orders, apply restock logic.
+
+Your program should identify ingredients that meet any of the following conditions:
+
+Ingredient is out of stock.
+Ingredient is running low.
+Ingredient is expired or expiring soon.
+Unless your instructor provides different values, use these rules:
+
+Running low threshold: quantity ≤ 1,000g
+Par level: 10,000g
+Expiring soon window: within 5 days of the simulation date. Use an explicit reference date in unit tests so results are reproducible.
+Your restock output should include:
+
+Ingredient name
+Current quantity
+Reason for restock
+Quantity needed to reach par level
+Any relevant expiry information
+If an ingredient qualifies for more than one reason, your code should preserve all relevant reasons instead of silently overwriting them.
+
+Requirement 7: Produce a Business-Friendly Summary
+At the end of the simulation, produce a clear summary that includes:
+
+Number of orders delivered
+Number of orders not delivered
+Final inventory levels
+Restock recommendations
+Any ingredients that are low, out of stock, expired, or expiring soon
+Any orders that could not be fulfilled and why
+This output should be understandable to a non-technical kitchen manager.

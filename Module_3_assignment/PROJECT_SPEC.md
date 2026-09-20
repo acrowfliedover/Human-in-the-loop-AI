@@ -68,9 +68,9 @@ Each requirement below is mandatory for the **final** program. Verify against ex
 
 - `load_recipes()`, `load_inventory()`, `load_orders()`, `load_restock()`, and `load_status()` each return the corresponding seed table.
 - Printer functions output human-readable console tables for each structure.
-- Tests in `TestDataLoading` confirm record counts and key field types.
+- Tests in `TestLoadFunctions` confirm record counts, key field types, required keys on every record, and correct seed wiring.
 
-**Verification status:** **Complete.** Task 1 loaders and printers work; `test_main.py` (`TestDataLoading`, 7 tests) passes.
+**Verification status:** **Complete.** Task 3 audit confirmed all five loaders and printers access the correct seed tables with no code changes needed. `test_main.py` (`TestLoadFunctions`, 9 tests; 22 total) passes.
 
 ---
 
@@ -257,7 +257,7 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Partial — single reason; multi-reason pending (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Not started (Req 7) |
-| Unit tests | `test_main.py` | 20 tests pass for implemented behavior |
+| Unit tests | `test_main.py` | 22 tests pass (9 in `TestLoadFunctions` for Req 1 / Task 3 audit) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -308,7 +308,7 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Architecture plan written in `ARCHITECTURE_PLAN.md` (single-file `main.py`, tests in `test_main.py`). Core order processing (Req 1, 2, 4, 5) is complete and tested.
+- **Current task:** Task 3 audit complete — loaders, seed schema, and `TestLoadFunctions` verified; two tests added for seed wiring and required keys on all records.
 - **Next task:** Implement per `ARCHITECTURE_PLAN.md` build order (Phases 1–8). Close remaining requirement gaps:
   1. Expiry-aware inventory availability during fulfillment (Req 3 / Req 4).
   2. Multi-reason restock output with expiry details (Req 6).

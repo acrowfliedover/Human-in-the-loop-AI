@@ -22,3 +22,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Created `ARCHITECTURE_PLAN.md` with single-file layout (logical sections inside `main.py`), twelve logical components, data-shape extensions, phased build order (Phases 0–9), pipeline diagram, test class plan (`TestInventoryExpiryCheck`, `TestBusinessSummary`), and completion checklist. Linked from `PROJECT_SPEC.md`.
 - **Accepted / changed / rejected:** Accepted single-file constraint; rejected the earlier multi-module split proposal. No code changes yet.
 - **Issues found:** None.
+
+## 2026-09-20 — Task 3: Audit data loading and seed data
+
+- **Prompt:** Task 3: Audit Data Loading and Seed Data — inspect existing loading and display functions, verify access to all five data structures (Recipes, Inventory, Orders, Restock, Status), modify only if needed, run tests and add/update tests for presence, types, records, and key fields.
+- **AI response summary:** Audited `load_*()` and `print_*()` in `main.py` and all records in `seed_data.py`; no loader, printer, or seed defects found. Ran baseline suite (20 tests, all pass). Added `test_loaders_return_seed_module_lists` and `test_all_records_have_required_key_fields` to `TestLoadFunctions`. Full suite now 22 tests, all pass. Updated `PROJECT_SPEC.md` (Task 3 complete, test class name aligned).
+- **Accepted / changed / rejected:** Accepted existing loader/printer behavior unchanged. Accepted two new tests only. Rejected `main()` changes to load/display seed Restock at runtime (loaders verified via unit tests instead).
+- **Issues found:** None; audit passed without code fixes to `main.py` or `seed_data.py`.
