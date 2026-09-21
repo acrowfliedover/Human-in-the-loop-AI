@@ -18,6 +18,7 @@ from main import (
     load_recipes,
     load_restock,
     load_status,
+    main,
     print_restock,
     process_orders,
 )
@@ -178,6 +179,38 @@ class TestLoadFunctions(unittest.TestCase):
         self.assertIn("Out of stock", output)
         self.assertIn("Current Quantity: 0 grams", output)
         self.assertIn("Days Until Expiry: 211", output)
+
+    def test_main_displays_seed_tables_before_processing(self):
+        """main() should print all five seed tables before order processing."""
+        captured_output = StringIO()
+        original_stdout = sys.stdout
+        sys.stdout = captured_output
+        try:
+            main()
+        finally:
+            sys.stdout = original_stdout
+
+        output = captured_output.getvalue()
+        processing_index = output.find("=== Order Processing ===")
+        self.assertGreater(processing_index, 0)
+
+        startup = output[:processing_index]
+        self.assertIn("=== Recipes ===", startup)
+        self.assertIn("=== Inventory ===", startup)
+        self.assertIn("=== Orders ===", startup)
+        self.assertIn("=== Restock ===", startup)
+        self.assertIn("=== Status ===", startup)
+        self.assertIn("Margherita Pizza", startup)
+        self.assertIn("Ingredient: Flour", startup)
+        self.assertIn("Current Quantity: N/A", startup)
+        self.assertIn("Running low stock", startup)
+        self.assertEqual(startup.count("=== Inventory ==="), 1)
+        self.assertEqual(startup.count("=== Restock ==="), 1)
+
+        self.assertIn("=== Inventory ===", output[processing_index:])
+        self.assertIn("=== Restock ===", output[processing_index:])
+        self.assertIn("=== Status ===", output[processing_index:])
+        self.assertIn("=== Business Summary ===", output[processing_index:])
 
 
 class TestOrderRecipeLookup(unittest.TestCase):

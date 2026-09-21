@@ -69,9 +69,10 @@ Each requirement below is mandatory for the **final** program. Verify against ex
 - `load_recipes()`, `load_inventory()`, `load_orders()`, `load_restock()`, and `load_status()` each return the corresponding seed table.
 - Printer functions output human-readable console tables for each structure.
 - `print_restock()` accepts both seed rows (`reason` singular) and calculated rows (`reasons` list with expiry fields) without crashing.
-- Tests in `TestLoadFunctions` confirm record counts, key field types, required keys on every record, correct seed wiring, and restock printing for both row shapes.
+- `main()` displays all five seed tables before order processing, using unmutated loader results for inventory, restock, and status.
+- Tests in `TestLoadFunctions` confirm record counts, key field types, required keys on every record, correct seed wiring, restock printing for both row shapes, and startup display in `main()`.
 
-**Verification status:** **Complete.** Task 1 fix: `print_restock()` detects row format per item (`reasons` vs `reason`) and prints seed or calculated fields accordingly. `TestLoadFunctions` includes `test_print_restock_seed_data_does_not_crash` and `test_print_restock_calculated_rows`; full suite 50 tests pass.
+**Verification status:** **Complete.** Task 1: `print_restock()` detects row format per item (`reasons` vs `reason`) and prints seed or calculated fields accordingly. Task 2: `main()` prints all five seed tables (recipes, inventory, orders, seed restock, status) before `process_orders()`, then keeps post-processing inventory, calculated restock, updated status, and the business summary. `TestLoadFunctions` includes `test_print_restock_seed_data_does_not_crash`, `test_print_restock_calculated_rows`, and `test_main_displays_seed_tables_before_processing`.
 
 ---
 
@@ -256,14 +257,14 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Component | File | Status |
 |---|---|---|
 | Seed tables (Recipes, Inventory, Orders, Restock, Status) | `seed_data.py` (from `seed_data-1.py`) | Complete |
-| Data loaders and console printers | `main.py` | Complete (Req 1; `print_restock` dual-format fix) |
+| Data loaders and console printers | `main.py` | Complete (Req 1; `print_restock` dual-format; `main()` seed display) |
 | Order → recipe lookup and ingredient demand | `main.py` | Complete (Req 2) |
 | Inventory availability check | `main.py` | Complete (Req 3) |
 | Fulfillment, status updates, inventory deduction | `main.py` | Complete (Req 4) |
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Complete (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Complete (Req 7) |
-| Unit tests | `test_main.py` | 50 tests pass (11 in `TestLoadFunctions` for Req 1 / Task 1) |
+| Unit tests | `test_main.py` | 51 tests pass (12 in `TestLoadFunctions` for Req 1 / Tasks 1–2) |
 | Refactor and review | `main.py` | Complete (Task 10) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
@@ -280,6 +281,7 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 - Orders are processed against a **working deep copy**; the main inventory table is updated once after the full order list completes.
 - Live restock is **rebuilt from final inventory** after all orders, not from intermediate shortages.
 - Default simulation “today” is `date.today()` unless the caller passes `reference_date`. Tests use `2026-06-03`.
+- `main()` prints seed tables from loaders before processing (unmutated inventory, restock, and status). Post-processing prints use working copies: deducted inventory, rebuilt restock, and updated status.
 
 ---
 
@@ -315,7 +317,7 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 1 complete — `print_restock()` handles seed and calculated restock row shapes; 2 new tests in `TestLoadFunctions`.
+- **Current task:** Task 2 complete — `main()` displays all five seed tables before order processing; smoke test in `TestLoadFunctions`.
 - **Next task:** Remaining audit gaps (expired inventory restock, missing-inventory restock on failure) or optional enhancements.
 
 ---
@@ -333,6 +335,6 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 - `main.py` imports `seed_data`. The course file arrived as `seed_data-1.py`; a copy named `seed_data.py` is used at runtime.
 - **Summary:** manager-facing output is provided by `build_business_summary()` / `print_business_summary()`; technical detail remains in separate print sections.
 - Calculated restock rows use `reasons` (list); seed `restock` table in `seed_data.py` still uses singular `reason` for loader tests. `print_restock()` supports both shapes.
-- Seed `restock` and `status` tables are baseline data. Live restock starts empty and is recalculated; status rows are updated or appended during processing.
+- Seed `restock` and `status` tables are baseline data shown at startup. Live restock starts empty and is recalculated after processing; status rows are updated or appended during processing.
 - **Restock on failure:** unavailable ingredients appear in restock only when they exist in the inventory table and qualify under final-inventory rules; ingredients absent from the inventory table are not added to restock output.
 - `date.today()` changes restock output for real `main.py` runs as the calendar moves; tests pin `reference_date` to `2026-06-03`.

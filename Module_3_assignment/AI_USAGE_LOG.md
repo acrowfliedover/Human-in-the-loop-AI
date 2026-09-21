@@ -92,3 +92,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Updated `print_restock()` to detect row format via `"reasons" in item` vs seed `"reason"` field; seed rows print N/A for missing fields, calculated rows unchanged. Added `test_print_restock_seed_data_does_not_crash` and `test_print_restock_calculated_rows` in `TestLoadFunctions`. Updated `PROJECT_SPEC.md` Req 1 acceptance criteria and verification status. Full suite: 50 tests pass.
 - **Accepted / changed / rejected:** Accepted minimal per-row format detection approach. Accepted N/A placeholders for seed-only fields.
 - **Issues found:** None.
+
+## 2026-09-20 — Task 2: Display seed inventory and restock in main()
+
+- **Prompt:** Update main() to display all five seed tables before order processing (recipes, inventory, orders, seed restock, status). Keep post-processing output as-is. Add a short test or smoke assertion if practical. Update PROJECT_SPEC.md.
+- **AI response summary:** Added a startup print section in `main()` before `process_orders()` using `load_inventory()`, `load_restock()`, and `load_status()` so seed rows are not mutated. Moved recipes/orders prints to that section; kept post-processing inventory, calculated restock, updated status, and business summary. Added `test_main_displays_seed_tables_before_processing`. Updated `PROJECT_SPEC.md` Req 1, component status, and current task.
+- **Accepted / changed / rejected:** Accepted startup display of all five tables including seed status. Recipes and orders now print once at startup rather than after processing (same unmutated content).
+- **Issues found:** None.

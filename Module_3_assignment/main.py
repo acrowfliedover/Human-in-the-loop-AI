@@ -679,12 +679,20 @@ def print_business_summary(summary):
 
 # --- Section 12: Entry point ---
 def main():
-    """Load seed tables, process fulfillment, and print the updated results."""
+    """Load seed tables, display them, process fulfillment, and print updated results."""
     recipe_data = load_recipes()
     inventory_data = deepcopy(load_inventory())
     order_data = load_orders()
     restock_data = []
     status_data = deepcopy(load_status())
+
+    # Seed tables before processing; loaders return unmutated module lists.
+    print_recipes(recipe_data)
+    print_inventory(load_inventory())
+    print_orders(order_data)
+    print_restock(load_restock())
+    print_status(load_status())
+
     processed_orders = process_orders(
         recipe_data,
         inventory_data,
@@ -693,8 +701,6 @@ def main():
         restock_data,
     )
 
-    print_recipes(recipe_data)
-    print_orders(order_data)
     print_order_processing_results(processed_orders)
     print_inventory(inventory_data)
     print_restock(restock_data)
