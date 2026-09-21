@@ -336,6 +336,44 @@ def refresh_restock_table(restock_data, inventory_data, reference_date=None):
     restock_data.extend(calculate_restock_needs(inventory_data, reference_date))
 
 
+def _collect_missing_from_inventory_names(processed_orders):
+    """Return unique ingredient names absent from the inventory table."""
+    missing_names = []
+    seen_names = set()
+    for order_result in processed_orders:
+        inventory_check = order_result.get("inventory_check")
+        if not inventory_check:
+            continue
+        for detail in inventory_check["details"]:
+            if detail.get("unavailability_reason") != "missing":
+                continue
+            ingredient_name = detail["ingredient"]
+            if ingredient_name in seen_names:
+                continue
+            seen_names.add(ingredient_name)
+            missing_names.append(ingredient_name)
+    return missing_names
+
+
+def _merge_missing_ingredients_into_restock(restock_data, missing_ingredient_names):
+    """Append missing-from-inventory restock rows without duplicating existing items."""
+    existing_items = {row["item"] for row in restock_data}
+    for ingredient_name in missing_ingredient_names:
+        if ingredient_name in existing_items:
+            continue
+        restock_data.append(
+            {
+                "item": ingredient_name,
+                "current_qty_grams": 0,
+                "reasons": ["Missing from inventory"],
+                "qty_needed_grams": PAR_LEVEL_G,
+                "expiry_date": None,
+                "days_until_expiry": None,
+            }
+        )
+        existing_items.add(ingredient_name)
+
+
 # --- Section 9: Order orchestration ---
 def _collect_order_item_requirements(recipe_data, order):
     """Collect recipe lookup results, demand groups, and missing recipe names for one order."""
@@ -459,6 +497,10 @@ def process_orders(
 
     apply_final_inventory_snapshot(inventory_data, working_inventory)
     refresh_restock_table(restock_data, inventory_data, reference_date)
+    # Validation: Req 6 rebuild is inventory-only; merge missing-from-table names after so Req 4 is met.
+    _merge_missing_ingredients_into_restock(
+        restock_data, _collect_missing_from_inventory_names(processed_orders)
+    )
 
     return processed_orders
 

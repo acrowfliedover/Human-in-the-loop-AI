@@ -153,8 +153,9 @@ Before fulfilling an order, verify every required ingredient is:
 - `process_orders()` sets `delivered` True/False and writes `remark` via `update_status_entry()`.
 - `deduct_inventory()` runs only after a successful full-order check.
 - Failed orders leave working inventory unchanged for that order.
+- Ingredients with `unavailability_reason == "missing"` (absent from the inventory table) are merged into restock after the final-inventory rebuild, with current quantity 0, reason `Missing from inventory`, and quantity needed to par.
 
-**Verification status:** **Complete.** Task 6 audit confirmed `process_orders()` fulfillment branches with no `main.py` changes. `TestOrderFulfillment` (5 tests) covers delivered, failed (out-of-stock, expired, insufficient), correct deduction, and no deduction on failure.
+**Verification status:** **Complete.** Task 6 audit confirmed fulfillment branches. Task 4 gap: missing-from-inventory names are collected from availability details and merged after `refresh_restock_table()`. `TestOrderFulfillment` (6 tests) covers delivered, failed (out-of-stock, missing-from-table, expired, insufficient), correct deduction, and no deduction on failure.
 
 ---
 
@@ -260,11 +261,11 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Data loaders and console printers | `main.py` | Complete (Req 1; `print_restock` dual-format; `main()` seed display) |
 | Order → recipe lookup and ingredient demand | `main.py` | Complete (Req 2) |
 | Inventory availability check | `main.py` | Complete (Req 3) |
-| Fulfillment, status updates, inventory deduction | `main.py` | Complete (Req 4) |
+| Fulfillment, status updates, inventory deduction | `main.py` | Complete (Req 4; missing-from-inventory restock merge) |
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Complete (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Complete (Req 7) |
-| Unit tests | `test_main.py` | 53 tests pass (12 in `TestLoadFunctions` for Req 1 / Tasks 1–2) |
+| Unit tests | `test_main.py` | 54 tests pass (12 in `TestLoadFunctions` for Req 1 / Tasks 1–2) |
 | Refactor and review | `main.py` | Complete (Task 10) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
@@ -279,7 +280,7 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 - An order is **all-or-nothing**: no partial item fulfillment in the base assignment.
 - Inventory is deducted **only** when the full order can be fulfilled.
 - Orders are processed against a **working deep copy**; the main inventory table is updated once after the full order list completes.
-- Live restock is **rebuilt from final inventory** after all orders, not from intermediate shortages.
+- Live restock is **rebuilt from final inventory** after all orders, not from intermediate shortages. Ingredients absent from the inventory table (`unavailability_reason == "missing"`) are then **merged** into that restock list (deduped by item name).
 - Default simulation “today” is `date.today()` unless the caller passes `reference_date`. Tests use `2026-06-03`.
 - `main()` prints seed tables from loaders before processing (unmutated inventory, restock, and status). Post-processing prints use working copies: deducted inventory, rebuilt restock, and updated status.
 
@@ -318,8 +319,8 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 3 complete — already-expired inventory is flagged in restock recommendations with reason `Expired` and restocked to par.
-- **Next task:** Remaining audit gap (missing-inventory restock on failure) or optional enhancements.
+- **Current task:** Task 4 complete — ingredients missing from the inventory table are added to restock with reason `Missing from inventory` and quantity needed to par.
+- **Next task:** Optional enhancements.
 
 ---
 
@@ -337,5 +338,5 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 - **Summary:** manager-facing output is provided by `build_business_summary()` / `print_business_summary()`; technical detail remains in separate print sections.
 - Calculated restock rows use `reasons` (list); seed `restock` table in `seed_data.py` still uses singular `reason` for loader tests. `print_restock()` supports both shapes.
 - Seed `restock` and `status` tables are baseline data shown at startup. Live restock starts empty and is recalculated after processing; status rows are updated or appended during processing.
-- **Restock on failure:** unavailable ingredients appear in restock only when they exist in the inventory table and qualify under final-inventory rules; ingredients absent from the inventory table are not added to restock output.
+- **Restock on failure:** ingredients that exist in inventory still restock only via final-inventory rules (out of stock, running low, expiry). Ingredients with `unavailability_reason == "missing"` are merged after that rebuild: current quantity 0, reason `Missing from inventory`, quantity needed to par (`10,000 g`). Duplicate item names are skipped. Out-of-stock rows that exist in inventory (quantity 0 g) keep reason `Out of stock`, not `Missing from inventory`.
 - `date.today()` changes restock output for real `main.py` runs as the calendar moves; tests pin `reference_date` to `2026-06-03`.

@@ -106,3 +106,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Updated `build_restock_reasons()` to append `Expired` when `days_left is None or days_left < 0`. Updated `calculate_restock_qty_needed()` to treat `Expired` like `Expiring soon` / `Out of stock` (full par). Added `test_expired_stock_above_threshold_restocked_to_par` and `test_expired_and_running_low_preserves_both_reasons` in `TestRestockRules`. Updated `PROJECT_SPEC.md` business rules and Req 6 verification. Full suite: 53 tests pass.
 - **Accepted / changed / rejected:** Accepted expired vs expiring-soon as mutually exclusive (`elif`); stock rules remain independent. Accepted multi-reason preservation for expired + running low.
 - **Issues found:** None.
+
+## 2026-09-20 — Task 4: Add missing-from-inventory ingredients to restock
+
+- **Prompt:** When an order fails because a required ingredient is missing from the inventory table, add that ingredient to the restock list with current quantity 0, reason Missing from inventory, and qty needed to par (10,000 g). Keep all-or-nothing fulfillment and final-inventory restock rebuild. Add unit test(s). Update PROJECT_SPEC.md known issues.
+- **AI response summary:** After `refresh_restock_table()` in `process_orders()`, merge unique missing-from-table ingredient names (`unavailability_reason == "missing"`) into restock. Added `_collect_missing_from_inventory_names()` and `_merge_missing_ingredients_into_restock()`. Added `test_process_orders_adds_missing_from_inventory_ingredient_to_restock` (Ghost Pepper). Updated Req 4, design decisions, current/next task, and known issues. Full suite: 54 tests pass.
+- **Accepted / changed / rejected:** Accepted post-rebuild merge so Req 6 inventory restock stays unchanged. Did not add missing ingredients into inventory or deduct on failure. Existing Bun 0 g test remains `Out of stock`.
+- **Issues found:** None.

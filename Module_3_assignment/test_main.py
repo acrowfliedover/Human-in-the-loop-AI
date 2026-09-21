@@ -459,6 +459,43 @@ class TestOrderFulfillment(unittest.TestCase):
         self.assertEqual(bun_restock["qty_needed_grams"], 10000)
         self.assertEqual(bun_restock["reasons"], ["Out of stock"])
 
+    def test_process_orders_adds_missing_from_inventory_ingredient_to_restock(self):
+        """An ingredient absent from the inventory table should restock as missing."""
+        recipe_data = [
+            {
+                "recipe_id": 1,
+                "name": "Ghost Burger",
+                "ingredients": [{"name": "Ghost Pepper", "qty_grams": 50}],
+            }
+        ]
+        inventory_data = []
+        order_data = [
+            {
+                "order_id": 606,
+                "brand": "Test Kitchen",
+                "items": [{"item": "Ghost Burger", "qty": 1}],
+            }
+        ]
+        status_data = []
+        restock_data = []
+
+        processed_orders = process_orders(
+            recipe_data,
+            inventory_data,
+            order_data,
+            status_data,
+            restock_data,
+            reference_date=date(2026, 6, 3),
+        )
+
+        self.assertFalse(processed_orders[0]["fulfilled"])
+        ghost_pepper_restock = next(
+            item for item in restock_data if item["item"] == "Ghost Pepper"
+        )
+        self.assertEqual(ghost_pepper_restock["current_qty_grams"], 0)
+        self.assertEqual(ghost_pepper_restock["reasons"], ["Missing from inventory"])
+        self.assertEqual(ghost_pepper_restock["qty_needed_grams"], 10000)
+
     def test_process_orders_rejects_expired_ingredient(self):
         """An order requiring expired stock should fail without deducting inventory."""
         recipe_data = [
