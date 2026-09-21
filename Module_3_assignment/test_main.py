@@ -2,6 +2,8 @@
 
 from copy import deepcopy
 from datetime import date
+from io import StringIO
+import sys
 import unittest
 
 from main import (
@@ -16,6 +18,7 @@ from main import (
     load_recipes,
     load_restock,
     load_status,
+    print_restock,
     process_orders,
 )
 from seed_data import inventory, orders, recipes, restock, status
@@ -138,6 +141,43 @@ class TestLoadFunctions(unittest.TestCase):
             self.assertIn("order_id", entry)
             self.assertIn("delivered", entry)
             self.assertIn("remark", entry)
+
+    def test_print_restock_seed_data_does_not_crash(self):
+        """print_restock should handle seed restock rows without raising."""
+        captured_output = StringIO()
+        original_stdout = sys.stdout
+        sys.stdout = captured_output
+        try:
+            print_restock(load_restock())
+        finally:
+            sys.stdout = original_stdout
+
+        output = captured_output.getvalue()
+        self.assertIn("=== Restock ===", output)
+        self.assertIn("Flour", output)
+        self.assertIn("Running low stock", output)
+        self.assertIn("Current Quantity: N/A", output)
+
+    def test_print_restock_calculated_rows(self):
+        """print_restock should display calculated restock rows with full detail."""
+        inventory_data = [
+            {"ingredient": "Bun", "qty_grams": 0, "expiry_date": "2026-12-31"}
+        ]
+        restock_data = calculate_restock_needs(inventory_data, reference_date=date(2026, 6, 3))
+
+        captured_output = StringIO()
+        original_stdout = sys.stdout
+        sys.stdout = captured_output
+        try:
+            print_restock(restock_data)
+        finally:
+            sys.stdout = original_stdout
+
+        output = captured_output.getvalue()
+        self.assertIn("Bun", output)
+        self.assertIn("Out of stock", output)
+        self.assertIn("Current Quantity: 0 grams", output)
+        self.assertIn("Days Until Expiry: 211", output)
 
 
 class TestOrderRecipeLookup(unittest.TestCase):

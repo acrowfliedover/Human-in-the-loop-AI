@@ -78,3 +78,17 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Refactored `main.py` with shared expiry/date helpers (`EXPIRY_DATE_FORMAT`, `_resolve_reference_date`, `_inventory_expiry_days`), hardened `parse_expiry_date` to return `None` on invalid input, split `process_orders` into `_collect_order_item_requirements` and `_apply_order_fulfillment`, added architecture section comments, and added `test_invalid_expiry_date_does_not_crash_availability_check`. Updated `PROJECT_SPEC.md` with Task 10 refactoring notes. Full suite: 48 tests pass.
 - **Accepted / changed / rejected:** Accepted both documented improvements (shared helpers and split `process_orders`). Accepted one new test for invalid expiry handling. Rejected merging restock and alert classification (different labels and expired handling by design).
 - **Issues found:** None; all existing behavior preserved for valid seed data.
+
+## 2026-09-20 — Verify all assignment requirements
+
+- **Prompt:** Verify all of the requirements are completely satisfied. Show any unsatisfied requirements (required files, core data structures, functional requirements 1–7).
+- **AI response summary:** Audited required files, `PROJECT_SPEC.md`, `AI_USAGE_LOG.md`, `main.py`, `seed_data.py`, and `test_main.py`; ran all 48 unit tests (pass). Found three partial gaps: `print_restock()` crashes on seed restock schema; already-expired inventory is not added to restock recommendations (Req 6); ingredients absent from the inventory table are not added to restock on order failure (Req 4).
+- **Accepted / changed / rejected:** Accepted verification report only; no code changes.
+- **Issues found:** Seed restock uses `reason` (singular) while `print_restock()` expects calculated rows with `reasons`, `current_qty_grams`, and expiry fields; `build_restock_reasons()` only flags 0–5 days until expiry, not already-expired stock with quantity above thresholds.
+
+## 2026-09-20 — Task 1: Fix print_restock() for seed data
+
+- **Prompt:** Fix print_restock() in main.py so it can display both seed restock rows (reason singular, no expiry fields) and calculated restock rows (reasons list, current_qty_grams, expiry fields). Add unit test(s) proving print_restock(load_restock()) does not crash. Update PROJECT_SPEC.md Req 1 status.
+- **AI response summary:** Updated `print_restock()` to detect row format via `"reasons" in item` vs seed `"reason"` field; seed rows print N/A for missing fields, calculated rows unchanged. Added `test_print_restock_seed_data_does_not_crash` and `test_print_restock_calculated_rows` in `TestLoadFunctions`. Updated `PROJECT_SPEC.md` Req 1 acceptance criteria and verification status. Full suite: 50 tests pass.
+- **Accepted / changed / rejected:** Accepted minimal per-row format detection approach. Accepted N/A placeholders for seed-only fields.
+- **Issues found:** None.

@@ -79,11 +79,18 @@ def print_restock(restock_data):
     print("\n=== Restock ===")
     for item in restock_data:
         print(f"Item: {item['item']}")
-        print(f"Current Quantity: {item['current_qty_grams']} grams")
-        print(f"Quantity Needed: {item['qty_needed_grams']} grams")
-        print(f"Reasons: {', '.join(item['reasons'])}")
-        print(f"Expiry Date: {item['expiry_date']}")
-        print(f"Days Until Expiry: {item['days_until_expiry']}")
+        if "reasons" in item:
+            print(f"Current Quantity: {item['current_qty_grams']} grams")
+            print(f"Quantity Needed: {item['qty_needed_grams']} grams")
+            print(f"Reasons: {', '.join(item['reasons'])}")
+            print(f"Expiry Date: {item['expiry_date']}")
+            print(f"Days Until Expiry: {item['days_until_expiry']}")
+        else:
+            print("Current Quantity: N/A")
+            print(f"Quantity Needed: {item['qty_needed_grams']} grams")
+            print(f"Reason: {item['reason']}")
+            print("Expiry Date: N/A")
+            print("Days Until Expiry: N/A")
         print()
 
 
