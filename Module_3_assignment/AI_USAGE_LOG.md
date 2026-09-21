@@ -99,3 +99,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Added a startup print section in `main()` before `process_orders()` using `load_inventory()`, `load_restock()`, and `load_status()` so seed rows are not mutated. Moved recipes/orders prints to that section; kept post-processing inventory, calculated restock, updated status, and business summary. Added `test_main_displays_seed_tables_before_processing`. Updated `PROJECT_SPEC.md` Req 1, component status, and current task.
 - **Accepted / changed / rejected:** Accepted startup display of all five tables including seed status. Recipes and orders now print once at startup rather than after processing (same unmutated content).
 - **Issues found:** None.
+
+## 2026-09-20 — Task 3: Flag already-expired inventory for restock
+
+- **Prompt:** Fix restock rules so already-expired ingredients are included in restock recommendations with reason Expired, restocked to par (10,000 g). Update build_restock_reasons() and calculate_restock_qty_needed() in main.py. Add unit test(s) for expired stock with quantity above 1,000 g. Update PROJECT_SPEC.md business rules.
+- **AI response summary:** Updated `build_restock_reasons()` to append `Expired` when `days_left is None or days_left < 0`. Updated `calculate_restock_qty_needed()` to treat `Expired` like `Expiring soon` / `Out of stock` (full par). Added `test_expired_stock_above_threshold_restocked_to_par` and `test_expired_and_running_low_preserves_both_reasons` in `TestRestockRules`. Updated `PROJECT_SPEC.md` business rules and Req 6 verification. Full suite: 53 tests pass.
+- **Accepted / changed / rejected:** Accepted expired vs expiring-soon as mutually exclusive (`elif`); stock rules remain independent. Accepted multi-reason preservation for expired + running low.
+- **Issues found:** None.

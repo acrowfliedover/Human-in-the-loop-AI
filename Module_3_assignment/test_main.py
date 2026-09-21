@@ -863,6 +863,36 @@ class TestRestockRules(unittest.TestCase):
         )
         self.assertEqual(restock_data[0]["qty_needed_grams"], 10000)
 
+    def test_expired_stock_above_threshold_restocked_to_par(self):
+        """Already-expired stock above 1,000 g should be flagged and restocked to par."""
+        inventory_data = [
+            {"ingredient": "Yogurt", "qty_grams": 5000, "expiry_date": "2026-06-01"}
+        ]
+
+        restock_data = calculate_restock_needs(inventory_data, reference_date=date(2026, 6, 3))
+
+        self.assertEqual(len(restock_data), 1)
+        self.assertEqual(restock_data[0]["item"], "Yogurt")
+        self.assertEqual(restock_data[0]["current_qty_grams"], 5000)
+        self.assertEqual(restock_data[0]["reasons"], ["Expired"])
+        self.assertEqual(restock_data[0]["qty_needed_grams"], 10000)
+        self.assertEqual(restock_data[0]["days_until_expiry"], -2)
+
+    def test_expired_and_running_low_preserves_both_reasons(self):
+        """Expired low stock should preserve both expired and running-low reasons."""
+        inventory_data = [
+            {"ingredient": "Spinach", "qty_grams": 500, "expiry_date": "2026-05-30"}
+        ]
+
+        restock_data = calculate_restock_needs(inventory_data, reference_date=date(2026, 6, 3))
+
+        self.assertEqual(len(restock_data), 1)
+        self.assertEqual(
+            restock_data[0]["reasons"],
+            ["Expired", "Running low on stock"],
+        )
+        self.assertEqual(restock_data[0]["qty_needed_grams"], 10000)
+
 
 class TestBusinessSummary(unittest.TestCase):
     """Verify the Task 9 manager-facing business summary."""

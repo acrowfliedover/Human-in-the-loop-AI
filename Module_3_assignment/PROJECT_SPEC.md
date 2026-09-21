@@ -216,9 +216,9 @@ After all orders are processed, identify ingredients that meet **any** of:
 
 **Verification status:** **Complete.**
 
-- `build_restock_reasons()` evaluates expiring soon, out of stock, and running low with independent checks (no `elif` priority).
+- `build_restock_reasons()` evaluates expired, expiring soon, out of stock, and running low with independent checks (no `elif` priority between stock rules; expired vs expiring soon are mutually exclusive).
 - `calculate_restock_needs()` outputs enriched rows: `current_qty_grams`, `reasons` (list), `qty_needed_grams`, `expiry_date`, `days_until_expiry`.
-- Multi-reason preservation and max-quantity logic verified in `TestRestockRules` (12 tests).
+- Multi-reason preservation and max-quantity logic verified in `TestRestockRules` (14 tests), including already-expired stock above the running-low threshold.
 
 ---
 
@@ -264,7 +264,7 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Complete (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Complete (Req 7) |
-| Unit tests | `test_main.py` | 51 tests pass (12 in `TestLoadFunctions` for Req 1 / Tasks 1–2) |
+| Unit tests | `test_main.py` | 53 tests pass (12 in `TestLoadFunctions` for Req 1 / Tasks 1–2) |
 | Refactor and review | `main.py` | Complete (Task 10) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
@@ -287,11 +287,12 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 
 ## Business rules (restock)
 
-1. **Expiring soon:** if `0 <= days_until_expiry <= 5`, restock to par (`10,000 g`) with reason `Expiring soon`.
-2. **Out of stock:** if final quantity is `0`, restock `10,000 g` with reason `Out of stock`.
-3. **Running low:** if final quantity is `<= 1,000 g` (and not zero), request `10,000 - current` grams with reason `Running low on stock`.
-4. Adequate stock with no near-expiry flag is **omitted** from restock.
-5. Missing recipes do **not** crash the run; the order is not delivered and missing item names are recorded in the status remark.
+1. **Expired:** if `days_until_expiry` is negative or the expiry date is invalid/missing, restock to par (`10,000 g`) with reason `Expired`.
+2. **Expiring soon:** if `0 <= days_until_expiry <= 5`, restock to par (`10,000 g`) with reason `Expiring soon`.
+3. **Out of stock:** if final quantity is `0`, restock `10,000 g` with reason `Out of stock`.
+4. **Running low:** if final quantity is `<= 1,000 g` (and not zero), request `10,000 - current` grams with reason `Running low on stock`.
+5. Adequate stock with no expiry issue is **omitted** from restock.
+6. Missing recipes do **not** crash the run; the order is not delivered and missing item names are recorded in the status remark.
 
 **Target behavior (Requirement 6):** when multiple rules apply, output must list **all** applicable reasons, not only the highest-priority one.
 
@@ -317,8 +318,8 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 2 complete — `main()` displays all five seed tables before order processing; smoke test in `TestLoadFunctions`.
-- **Next task:** Remaining audit gaps (expired inventory restock, missing-inventory restock on failure) or optional enhancements.
+- **Current task:** Task 3 complete — already-expired inventory is flagged in restock recommendations with reason `Expired` and restocked to par.
+- **Next task:** Remaining audit gap (missing-inventory restock on failure) or optional enhancements.
 
 ---
 

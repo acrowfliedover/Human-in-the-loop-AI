@@ -279,7 +279,9 @@ def build_restock_reasons(inventory_item, reference_date):
     current_qty_grams = inventory_item["qty_grams"]
     reasons = []
 
-    if days_left is not None and 0 <= days_left <= EXPIRING_SOON_DAYS:
+    if days_left is None or days_left < 0:
+        reasons.append("Expired")
+    elif 0 <= days_left <= EXPIRING_SOON_DAYS:
         reasons.append("Expiring soon")
     if current_qty_grams == 0:
         reasons.append("Out of stock")
@@ -294,7 +296,7 @@ def calculate_restock_qty_needed(inventory_item, reasons):
     qty_options = []
     current_qty_grams = inventory_item["qty_grams"]
 
-    if "Expiring soon" in reasons or "Out of stock" in reasons:
+    if "Expired" in reasons or "Expiring soon" in reasons or "Out of stock" in reasons:
         qty_options.append(PAR_LEVEL_G)
     if "Running low on stock" in reasons:
         qty_options.append(PAR_LEVEL_G - current_qty_grams)
