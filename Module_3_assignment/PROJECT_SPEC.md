@@ -265,8 +265,8 @@ The summary must be understandable to a **non-technical kitchen manager** (plain
 | Cumulative deduction across sequential orders | `main.py` | Complete (Req 5) |
 | Restock rules from final inventory | `main.py` | Complete (Req 6) |
 | Business-friendly end-of-run summary | `main.py` | Complete (Req 7) |
-| Unit tests | `test_main.py` | 54 tests pass (12 in `TestLoadFunctions` for Req 1 / Tasks 1–2) |
-| Refactor and review | `main.py` | Complete (Task 10) |
+| Unit tests | `test_main.py` | 55 tests pass (12 in `TestLoadFunctions` for Req 1 / Tasks 1–2) |
+| Refactor and review | `main.py` | Complete (Task 10 + code quality audit) |
 | Python environment | `.venv` | Optional; system Python also runs tests |
 | AI usage log | `AI_USAGE_LOG.md` | Active |
 
@@ -319,7 +319,7 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 ## Current task and next task
 
-- **Current task:** Task 4 complete — ingredients missing from the inventory table are added to restock with reason `Missing from inventory` and quantity needed to par.
+- **Current task:** Code quality audit complete — shared stock/expiry evaluator, string constants, deduplicated business summary, edge-case guards.
 - **Next task:** Optional enhancements.
 
 ---
@@ -330,6 +330,8 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 
 2. **Split `process_orders`** — Extracted `_collect_order_item_requirements()` and `_apply_order_fulfillment()` so the orchestrator only manages the working-inventory loop, snapshot, and restock refresh. Duplicated item-row dicts and the `"Missing or insufficient ingredients"` remark string were collapsed into these helpers.
 
+3. **Code quality audit** — Added `_evaluate_stock_expiry_issues()` shared by `build_restock_reasons()` and `build_inventory_alerts()` (unified `"Running low on stock"` label). Promoted reason, unavailability, and remark strings to module constants. Removed duplicate `failed_orders` key and `"Failure explanations"` print section from the business summary. `deduct_inventory()` skips missing ingredients and negative results; empty orders are rejected with `REMARK_EMPTY_ORDER`. Tests use `TEST_REFERENCE_DATE` and import `PAR_LEVEL_G` / reason constants.
+
 ---
 
 ## Known issues or assumptions
@@ -339,4 +341,6 @@ All application logic stays in `main.py`. All tests stay in `test_main.py`. No a
 - Calculated restock rows use `reasons` (list); seed `restock` table in `seed_data.py` still uses singular `reason` for loader tests. `print_restock()` supports both shapes.
 - Seed `restock` and `status` tables are baseline data shown at startup. Live restock starts empty and is recalculated after processing; status rows are updated or appended during processing.
 - **Restock on failure:** ingredients that exist in inventory still restock only via final-inventory rules (out of stock, running low, expiry). Ingredients with `unavailability_reason == "missing"` are merged after that rebuild: current quantity 0, reason `Missing from inventory`, quantity needed to par (`10,000 g`). Duplicate item names are skipped. Out-of-stock rows that exist in inventory (quantity 0 g) keep reason `Out of stock`, not `Missing from inventory`.
-- `date.today()` changes restock output for real `main.py` runs as the calendar moves; tests pin `reference_date` to `2026-06-03`.
+- `date.today()` changes restock output for real `main.py` runs as the calendar moves; tests pin `reference_date` to `2026-06-03` via `TEST_REFERENCE_DATE` in `test_main.py`.
+- **Empty orders:** orders with `items: []` are marked not delivered with remark `No items in order`; they are not treated as successfully fulfilled.
+- **Business summary:** `build_business_summary()` exposes `not_delivered_orders` only (no separate `failed_orders` alias).

@@ -12,6 +12,25 @@ EXPIRING_SOON_DAYS = 5
 EXPIRY_DATE_FORMAT = "%Y-%m-%d"
 MISSING_INGREDIENTS_PREFIX = "Missing or insufficient ingredients: "
 
+REASON_EXPIRED = "Expired"
+REASON_EXPIRING_SOON = "Expiring soon"
+REASON_OUT_OF_STOCK = "Out of stock"
+REASON_RUNNING_LOW = "Running low on stock"
+REASON_MISSING_FROM_INVENTORY = "Missing from inventory"
+FULL_PAR_RESTOCK_REASONS = {
+    REASON_EXPIRED,
+    REASON_EXPIRING_SOON,
+    REASON_OUT_OF_STOCK,
+}
+
+UNAVAIL_MISSING = "missing"
+UNAVAIL_EXPIRED = "expired"
+UNAVAIL_INSUFFICIENT = "insufficient"
+
+REMARK_DELIVERED = "Delivered"
+REMARK_EMPTY_ORDER = "No items in order"
+REMARK_NO_MATCHING_RECIPE_PREFIX = "No matching recipe for item(s): "
+
 
 # --- Section 2: Data access (load_*) ---
 def load_recipes():
@@ -175,12 +194,29 @@ def _inventory_expiry_days(inventory_item, reference_date):
     return expiry_date_str, days_left
 
 
-def is_ingredient_usable(inventory_item, reference_date):
-    """Return whether an inventory item is not expired as of reference_date."""
-    _, days_left = _inventory_expiry_days(inventory_item, reference_date)
+def is_ingredient_usable(inventory_item, reference_date, days_left=None):
+    """Return (is_usable, unavailability_code) for one inventory row."""
+    if days_left is None:
+        _, days_left = _inventory_expiry_days(inventory_item, reference_date)
     if days_left is None or days_left < 0:
-        return False, "expired"
+        return False, UNAVAIL_EXPIRED
     return True, None
+
+
+def _evaluate_stock_expiry_issues(days_left, current_qty_grams):
+    """Return all applicable stock and expiry issue labels for one inventory row."""
+    issues = []
+
+    if days_left is None or days_left < 0:
+        issues.append(REASON_EXPIRED)
+    elif 0 <= days_left <= EXPIRING_SOON_DAYS:
+        issues.append(REASON_EXPIRING_SOON)
+    if current_qty_grams == 0:
+        issues.append(REASON_OUT_OF_STOCK)
+    elif 0 < current_qty_grams <= LOW_STOCK_THRESHOLD_G:
+        issues.append(REASON_RUNNING_LOW)
+
+    return issues
 
 
 # --- Section 6: Inventory engine ---
@@ -201,14 +237,14 @@ def check_inventory_availability(inventory_data, requirements, reference_date=No
         if inventory_item is None:
             available_qty = 0
             is_available = False
-            unavailability_reason = "missing"
+            unavailability_reason = UNAVAIL_MISSING
         else:
             available_qty = inventory_item["qty_grams"]
             expiry_date_str, days_remaining = _inventory_expiry_days(
                 inventory_item, resolved_date
             )
             ingredient_usable, usability_reason = is_ingredient_usable(
-                inventory_item, resolved_date
+                inventory_item, resolved_date, days_left=days_remaining
             )
 
             if not ingredient_usable:
@@ -216,7 +252,7 @@ def check_inventory_availability(inventory_data, requirements, reference_date=No
                 unavailability_reason = usability_reason
             elif available_qty < requirement["required_qty_grams"]:
                 is_available = False
-                unavailability_reason = "insufficient"
+                unavailability_reason = UNAVAIL_INSUFFICIENT
 
         availability_results.append(
             {
@@ -239,7 +275,7 @@ def check_inventory_availability(inventory_data, requirements, reference_date=No
 def format_unavailable_ingredient(detail):
     """Format an unavailable ingredient name for order failure remarks."""
     ingredient_name = detail["ingredient"]
-    if detail.get("unavailability_reason") == "expired":
+    if detail.get("unavailability_reason") == UNAVAIL_EXPIRED:
         return f"{ingredient_name} (expired)"
     return ingredient_name
 
@@ -248,7 +284,14 @@ def deduct_inventory(inventory_data, requirements):
     """Subtract the used ingredient grams from inventory after a successful order."""
     inventory_lookup = {item["ingredient"]: item for item in inventory_data}
     for requirement in requirements:
-        inventory_lookup[requirement["name"]]["qty_grams"] -= requirement["required_qty_grams"]
+        ingredient_name = requirement["name"]
+        inventory_item = inventory_lookup.get(ingredient_name)
+        if inventory_item is None:
+            continue
+        new_qty_grams = inventory_item["qty_grams"] - requirement["required_qty_grams"]
+        if new_qty_grams < 0:
+            continue
+        inventory_item["qty_grams"] = new_qty_grams
 
 
 def apply_final_inventory_snapshot(inventory_data, final_inventory_data):
@@ -273,22 +316,11 @@ def update_status_entry(status_data, order_id, delivered, remark):
 
 
 # --- Section 8: Restock engine ---
-def build_restock_reasons(inventory_item, reference_date):
+def build_restock_reasons(inventory_item, reference_date, days_left=None):
     """Return all applicable restock reasons for one inventory item."""
-    _, days_left = _inventory_expiry_days(inventory_item, reference_date)
-    current_qty_grams = inventory_item["qty_grams"]
-    reasons = []
-
-    if days_left is None or days_left < 0:
-        reasons.append("Expired")
-    elif 0 <= days_left <= EXPIRING_SOON_DAYS:
-        reasons.append("Expiring soon")
-    if current_qty_grams == 0:
-        reasons.append("Out of stock")
-    if 0 < current_qty_grams <= LOW_STOCK_THRESHOLD_G:
-        reasons.append("Running low on stock")
-
-    return reasons
+    if days_left is None:
+        _, days_left = _inventory_expiry_days(inventory_item, reference_date)
+    return _evaluate_stock_expiry_issues(days_left, inventory_item["qty_grams"])
 
 
 def calculate_restock_qty_needed(inventory_item, reasons):
@@ -296,9 +328,11 @@ def calculate_restock_qty_needed(inventory_item, reasons):
     qty_options = []
     current_qty_grams = inventory_item["qty_grams"]
 
-    if "Expired" in reasons or "Expiring soon" in reasons or "Out of stock" in reasons:
+    # Full-par rules request PAR_LEVEL_G; running low requests only the top-up amount.
+    # max() ensures the larger quantity wins when multiple rules apply.
+    if any(reason in FULL_PAR_RESTOCK_REASONS for reason in reasons):
         qty_options.append(PAR_LEVEL_G)
-    if "Running low on stock" in reasons:
+    if REASON_RUNNING_LOW in reasons:
         qty_options.append(PAR_LEVEL_G - current_qty_grams)
 
     return max(qty_options) if qty_options else 0
@@ -311,7 +345,7 @@ def calculate_restock_needs(inventory_data, reference_date=None):
 
     for item in inventory_data:
         expiry_date_str, days_left = _inventory_expiry_days(item, resolved_date)
-        reasons = build_restock_reasons(item, resolved_date)
+        reasons = build_restock_reasons(item, resolved_date, days_left=days_left)
 
         if not reasons:
             continue
@@ -345,7 +379,7 @@ def _collect_missing_from_inventory_names(processed_orders):
         if not inventory_check:
             continue
         for detail in inventory_check["details"]:
-            if detail.get("unavailability_reason") != "missing":
+            if detail.get("unavailability_reason") != UNAVAIL_MISSING:
                 continue
             ingredient_name = detail["ingredient"]
             if ingredient_name in seen_names:
@@ -365,7 +399,7 @@ def _merge_missing_ingredients_into_restock(restock_data, missing_ingredient_nam
             {
                 "item": ingredient_name,
                 "current_qty_grams": 0,
-                "reasons": ["Missing from inventory"],
+                "reasons": [REASON_MISSING_FROM_INVENTORY],
                 "qty_needed_grams": PAR_LEVEL_G,
                 "expiry_date": None,
                 "days_until_expiry": None,
@@ -423,6 +457,13 @@ def _apply_order_fulfillment(
     reference_date,
 ):
     """Check availability, update status, and deduct inventory for one order."""
+    if not order.get("items"):
+        order_result["inventory_check"] = {"all_available": False, "details": []}
+        order_result["fulfilled"] = False
+        order_result["reason"] = REMARK_EMPTY_ORDER
+        update_status_entry(status_data, order["order_id"], False, REMARK_EMPTY_ORDER)
+        return order_result
+
     order_requirements = order_result["order_requirements"]
     inventory_check = check_inventory_availability(
         working_inventory, order_requirements, reference_date
@@ -436,9 +477,11 @@ def _apply_order_fulfillment(
         format_unavailable_ingredient(detail) for detail in missing_ingredients
     )
 
+    # Missing recipes take priority over inventory success so empty requirements
+    # cannot mark an order delivered when items had no matching recipe.
     if missing_recipe_items:
         reason_parts = [
-            "No matching recipe for item(s): " + ", ".join(missing_recipe_items)
+            REMARK_NO_MATCHING_RECIPE_PREFIX + ", ".join(missing_recipe_items)
         ]
         if missing_ingredients:
             reason_parts.append(_format_missing_ingredients_remark(unavailable_names))
@@ -448,8 +491,8 @@ def _apply_order_fulfillment(
     elif inventory_check["all_available"]:
         deduct_inventory(working_inventory, order_requirements)
         order_result["fulfilled"] = True
-        order_result["reason"] = "Delivered"
-        update_status_entry(status_data, order["order_id"], True, "Delivered")
+        order_result["reason"] = REMARK_DELIVERED
+        update_status_entry(status_data, order["order_id"], True, REMARK_DELIVERED)
     else:
         order_result["fulfilled"] = False
         order_result["reason"] = _format_missing_ingredients_remark(unavailable_names)
@@ -559,17 +602,7 @@ def build_inventory_alerts(inventory_data, reference_date=None):
 
     for item in inventory_data:
         expiry_date_str, days_left = _inventory_expiry_days(item, resolved_date)
-        current_qty_grams = item["qty_grams"]
-        issues = []
-
-        if days_left is None or days_left < 0:
-            issues.append("Expired")
-        elif days_left <= EXPIRING_SOON_DAYS:
-            issues.append("Expiring soon")
-        if current_qty_grams == 0:
-            issues.append("Out of stock")
-        elif current_qty_grams <= LOW_STOCK_THRESHOLD_G:
-            issues.append("Running low")
+        issues = _evaluate_stock_expiry_issues(days_left, item["qty_grams"])
 
         if not issues:
             continue
@@ -577,7 +610,7 @@ def build_inventory_alerts(inventory_data, reference_date=None):
         alerts.append(
             {
                 "ingredient": item["ingredient"],
-                "qty_grams": current_qty_grams,
+                "qty_grams": item["qty_grams"],
                 "expiry_date": expiry_date_str,
                 "days_until_expiry": days_left,
                 "issues": issues,
@@ -632,7 +665,7 @@ def build_business_summary(
     expiry_concerns = [
         alert
         for alert in inventory_alerts
-        if "Expired" in alert["issues"] or "Expiring soon" in alert["issues"]
+        if REASON_EXPIRED in alert["issues"] or REASON_EXPIRING_SOON in alert["issues"]
     ]
     final_inventory = [
         {
@@ -648,7 +681,6 @@ def build_business_summary(
         "orders_not_delivered": len(not_delivered_orders),
         "delivered_orders": delivered_orders,
         "not_delivered_orders": not_delivered_orders,
-        "failed_orders": not_delivered_orders,
         "final_inventory": final_inventory,
         "restock_recommendations": list(restock_data),
         "inventory_alerts": inventory_alerts,
@@ -679,15 +711,6 @@ def print_business_summary(summary):
             )
     else:
         print("  - None")
-
-    print("\nFailure explanations:")
-    if summary["failed_orders"]:
-        for order in summary["failed_orders"]:
-            print(
-                f"  - Order {order['order_id']} ({order['brand']}): {order['reason']}"
-            )
-    else:
-        print("  - No failed orders.")
 
     print("\nFinal inventory:")
     for item in summary["final_inventory"]:

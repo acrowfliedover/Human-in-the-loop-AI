@@ -113,3 +113,10 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** After `refresh_restock_table()` in `process_orders()`, merge unique missing-from-table ingredient names (`unavailability_reason == "missing"`) into restock. Added `_collect_missing_from_inventory_names()` and `_merge_missing_ingredients_into_restock()`. Added `test_process_orders_adds_missing_from_inventory_ingredient_to_restock` (Ghost Pepper). Updated Req 4, design decisions, current/next task, and known issues. Full suite: 54 tests pass.
 - **Accepted / changed / rejected:** Accepted post-rebuild merge so Req 6 inventory restock stays unchanged. Did not add missing ingredients into inventory or deduct on failure. Existing Bun 0 g test remains `Out of stock`.
 - **Issues found:** None.
+
+## 2026-09-20 — Code quality audit implementation
+
+- **Prompt:** Implement the code quality audit plan: extract shared stock/expiry evaluator, promote string constants, deduplicate business summary output, and harden edge cases (deduct_inventory guards, empty orders).
+- **AI response summary:** Added `_evaluate_stock_expiry_issues()` and reason/unavailability/remark constants in `main.py`. Unified alert and restock labels to `"Running low on stock"`. Removed `failed_orders` key and duplicate print section from business summary. Guarded `deduct_inventory()` against missing keys and negative quantities; empty orders reject with `REMARK_EMPTY_ORDER`. Cached expiry days in availability check. Updated `test_main.py` with `TEST_REFERENCE_DATE`, constant imports, and `test_process_orders_rejects_empty_order`. Updated `PROJECT_SPEC.md`. Full suite: 55 tests pass.
+- **Accepted / changed / rejected:** Accepted all four audit todos. Did not remove `seed_data-1.py` (not in todo list).
+- **Issues found:** None.
