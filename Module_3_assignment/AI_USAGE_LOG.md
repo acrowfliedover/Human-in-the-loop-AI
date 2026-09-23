@@ -120,3 +120,17 @@ How AI was used on the Module 3 cloud kitchen assignment. Newest entries are at 
 - **AI response summary:** Added `_evaluate_stock_expiry_issues()` and reason/unavailability/remark constants in `main.py`. Unified alert and restock labels to `"Running low on stock"`. Removed `failed_orders` key and duplicate print section from business summary. Guarded `deduct_inventory()` against missing keys and negative quantities; empty orders reject with `REMARK_EMPTY_ORDER`. Cached expiry days in availability check. Updated `test_main.py` with `TEST_REFERENCE_DATE`, constant imports, and `test_process_orders_rejects_empty_order`. Updated `PROJECT_SPEC.md`. Full suite: 55 tests pass.
 - **Accepted / changed / rejected:** Accepted all four audit todos. Did not remove `seed_data-1.py` (not in todo list).
 - **Issues found:** None.
+
+## 2026-09-20 — Final submission checklist verification
+
+- **Prompt:** Final Checklist Before Submission — confirm main.py and test_main.py run, seed_data.py is used, cumulative inventory, expiry handling, failed-order reasons, PROJECT_SPEC.md and AI_USAGE_LOG.md complete, reflection answers, and ability to explain starter vs changed code.
+- **AI response summary:** Ran `python main.py` (exit 0) and `python -m unittest test_main` (55/55 pass). Verified `from seed_data import ...` in `main.py`, cumulative `working_inventory` + `apply_final_inventory_snapshot()`, expiry in availability and restock via `_evaluate_stock_expiry_issues()` / `is_ingredient_usable()`, failure remarks in status and business summary. Confirmed PROJECT_SPEC.md Req 1–7 marked complete and AI_USAGE_LOG.md has session history. No reflection file found in the repo.
+- **Accepted / changed / rejected:** Accepted verification report only; no code changes.
+- **Issues found:** No `REFLECTION.md` or similar in `Module_3_assignment`; user may need to submit reflection separately on the course platform.
+
+## 2026-09-20 — Reflection document review (Module 3 Assignment.docx)
+
+- **Prompt:** "how about now" — follow-up after adding `Module 3 Assignment.docx` for submission reflection.
+- **AI response summary:** Extracted and reviewed the docx reflection covering setup through refactoring, AI usage summary, and lessons learned (spec as external memory, tests as truth, reject out-of-scope AI suggestions). Re-ran test suite (55/55 pass). Updated final checklist: reflection item now pass.
+- **Accepted / changed / rejected:** Accepted existing reflection content; no code or doc edits requested.
+- **Issues found:** None; reflection addresses AI-assisted process, what worked, what required oversight, and personal takeaway.
