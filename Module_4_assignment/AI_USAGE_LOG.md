@@ -37,7 +37,12 @@ How AI was used on the Module 4 prompt optimization assignment. Newest entries a
 - **Accepted / changed / rejected:** Applied to main notebook only; `config.json` left to user (gitignored).
 - **Issues found:** User must populate `api_key` in `config.json` before running.
 
-## 2026-09-26 — LLM request count estimate
+## 2026-09-26 — TESTING_MODE (1 LLM call)
+
+- **Prompt:** Set up so only 1 API call for testing; skip repetitive work for now.
+- **AI response summary:** Added `testing_mode` in `config.json`; notebook loads TESTING_MODE with MAX_LLM_CALLS=1, stubs after smoke test, workflow_records(limit 1), skip naive demo and GEPA, DSPy forward stubs.
+- **Accepted / changed / rejected:** Applied; set `testing_mode: false` in config for full assignment run.
+- **Issues found:** None
 
 - **Prompt:** How many requests do we need to run this project?
 - **AI response summary:** Counted per-phase `llm_response` and DSPy/GEPA calls from notebook structure (gold=12, test=8, GEPA `auto="light"` ≈428 metric calls); explained free-tier rate limits.
