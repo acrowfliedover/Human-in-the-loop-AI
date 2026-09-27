@@ -36,3 +36,10 @@ How AI was used on the Module 4 prompt optimization assignment. Newest entries a
 - **AI response summary:** Updated `Prompt_Optimization_and_Evaluation.ipynb` to read `api_key`/`base_url`/`model` (with legacy key fallback), set `MODEL` and `REFLECTION_MODEL`, use `MODEL` in `llm_response`, f-string prompt YAML, and DSPy `openai/{MODEL}` LMs.
 - **Accepted / changed / rejected:** Applied to main notebook only; `config.json` left to user (gitignored).
 - **Issues found:** User must populate `api_key` in `config.json` before running.
+
+## 2026-09-26 — LLM request count estimate
+
+- **Prompt:** How many requests do we need to run this project?
+- **AI response summary:** Counted per-phase `llm_response` and DSPy/GEPA calls from notebook structure (gold=12, test=8, GEPA `auto="light"` ≈428 metric calls); explained free-tier rate limits.
+- **Accepted / changed / rejected:** Explanation only.
+- **Issues found:** GEPA reflection LM adds extra calls beyond the metric budget (approximate).
