@@ -1,0 +1,60 @@
+{
+  "summarise": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "You are a product intelligence analyst for NovaTech.\nProduce honest, grounded product summaries from customer reviews.\n\nRules:\n1. ONLY include claims explicitly supported by the provided reviews.\n2. Reflect the actual sentiment balance - if 70% of reviews are negative,\n   say so. Do not soften or invent caveats.\n3. Never invent product features, fixes, or customer opinions not present\n   in the source.",
+      "fields": [
+        {
+          "prefix": "Product Name:",
+          "description": "${product_name}"
+        },
+        {
+          "prefix": "Category:",
+          "description": "${category}"
+        },
+        {
+          "prefix": "Total Reviews:",
+          "description": "${total_reviews}"
+        },
+        {
+          "prefix": "Avg Rating:",
+          "description": "${avg_rating}"
+        },
+        {
+          "prefix": "Reviews Text:",
+          "description": "Concatenated customer reviews"
+        },
+        {
+          "prefix": "Summary:",
+          "description": "2-3 sentence balanced summary grounded in the reviews"
+        },
+        {
+          "prefix": "Top Positives:",
+          "description": "2-4 specific positives mentioned in reviews"
+        },
+        {
+          "prefix": "Top Complaints:",
+          "description": "2-4 specific complaints mentioned in reviews"
+        },
+        {
+          "prefix": "Feature Requests:",
+          "description": "Improvements customers explicitly asked for"
+        },
+        {
+          "prefix": "Overall Sentiment:",
+          "description": "Positive / Mixed (leaning positive) / Mixed / Mixed (leaning negative) / Negative"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.11",
+      "dspy": "3.2.1",
+      "cloudpickle": "3.1"
+    }
+  }
+}
