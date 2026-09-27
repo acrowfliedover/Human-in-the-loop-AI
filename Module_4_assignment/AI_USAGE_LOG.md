@@ -22,3 +22,17 @@ How AI was used on the Module 4 prompt optimization assignment. Newest entries a
 - **AI response summary:** Compared git diff and `config.json` to the config-loading cell; explained cleared saved outputs vs. config key mismatch (`api_key`/`base_url`/`model` vs `API_KEY`/`OPENAI_API_BASE`) and hardcoded `gpt-4o-mini` in `llm_response` / DSPy.
 - **Accepted / changed / rejected:** Explanation only; no notebook code changes in this turn.
 - **Issues found:** `config.json` is not in git HEAD; local Gemini config does not match notebook loader field names.
+
+## 2026-09-26 — Gemini config format vs notebook
+
+- **Prompt:** Using Gemini; does the project allow it; is `config.json` format correct; what should change?
+- **AI response summary:** Explained OpenAI-compatible Gemini endpoint works with the notebook architecture after loader/model wiring; `api_key`/`base_url`/`model` keys are fine but ipynb still expects `API_KEY`/`OPENAI_API_BASE` and hardcodes `gpt-4o-mini`.
+- **Accepted / changed / rejected:** Guidance only; no code changes in this turn.
+- **Issues found:** Empty `api_key` in editor will block all LLM calls until restored.
+
+## 2026-09-26 — Option B Gemini wiring in notebook
+
+- **Prompt:** Use option B to fix config loading and model wiring for Gemini.
+- **AI response summary:** Updated `Prompt_Optimization_and_Evaluation.ipynb` to read `api_key`/`base_url`/`model` (with legacy key fallback), set `MODEL` and `REFLECTION_MODEL`, use `MODEL` in `llm_response`, f-string prompt YAML, and DSPy `openai/{MODEL}` LMs.
+- **Accepted / changed / rejected:** Applied to main notebook only; `config.json` left to user (gitignored).
+- **Issues found:** User must populate `api_key` in `config.json` before running.
