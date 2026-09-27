@@ -48,3 +48,10 @@ How AI was used on the Module 4 prompt optimization assignment. Newest entries a
 - **AI response summary:** Counted per-phase `llm_response` and DSPy/GEPA calls from notebook structure (gold=12, test=8, GEPA `auto="light"` ≈428 metric calls); explained free-tier rate limits.
 - **Accepted / changed / rejected:** Explanation only.
 - **Issues found:** GEPA reflection LM adds extra calls beyond the metric budget (approximate).
+
+## 2026-09-26 — API rate limit 50 RPM
+
+- **Prompt:** Limit API calls to 50 per minute in test and real modes.
+- **AI response summary:** Added `max_requests_per_minute` in config; rolling-window rate limiter in `llm_response` and patched `litellm.completion` for DSPy/GEPA.
+- **Accepted / changed / rejected:** Applied.
+- **Issues found:** None
