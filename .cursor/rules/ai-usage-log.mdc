@@ -1,11 +1,18 @@
 ---
-description: Append every major Cursor chat to Module_3_assignment/AI_USAGE_LOG.md
+description: Append major Cursor chats to the AI usage log for the active assignment module
 alwaysApply: true
 ---
 
 # AI usage log
 
-After every major interaction in this project, append one entry to `Module_3_assignment/AI_USAGE_LOG.md`. Never overwrite old entries.
+After every major interaction, append one entry to the AI usage log for the assignment module you are working on. Never overwrite old entries.
+
+## Which log to use
+
+- **Module 3 assignment** (`Module_3_assignment/`): `Module_3_assignment/AI_USAGE_LOG.md`
+- **Module 4 assignment** (`Module_4_assignment/`): `Module_4_assignment/AI_USAGE_LOG.md`
+
+Use the log that matches the files, tasks, or paths in the current session. If work spans both modules, append an entry to each relevant log.
 
 Log implementation, debugging, planning, refactors, and spec updates. Skip trivial follow-ups such as yes/no or typo-only replies.
 
@@ -20,5 +27,5 @@ Log implementation, debugging, planning, refactors, and spec updates. Skip trivi
 - **Issues found:** mistakes, assumptions, or gaps in the AI output (or "None")
 ```
 
-If `AI_USAGE_LOG.md` is missing, create it with a short header, then append the entry.
+If the target `AI_USAGE_LOG.md` is missing, create it with a short header, then append the entry.
 Do not put secrets, API keys, or credentials in the log.
