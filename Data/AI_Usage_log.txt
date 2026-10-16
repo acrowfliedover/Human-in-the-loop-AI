@@ -1,0 +1,1 @@
+From Data, randomly pick 30 visitors and list out the first statement from the visitor within chat transcript section in a txt file. You label them like A1, 'message' 
