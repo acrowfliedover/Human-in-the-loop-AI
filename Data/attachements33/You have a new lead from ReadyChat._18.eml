@@ -1,0 +1,3154 @@
+Delivered-To: ken@pozekgroup.com
+Received: by 2002:a0c:da84:0:0:0:0:0 with SMTP id z4csp791601qvj;
+        Sun, 6 Feb 2022 15:12:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzN9PLV7piJxr5fVu4rwJo1LIFRkG5MyIUVrZJof6/hOpFY1wPB4Z0ENSv3N8YhtB4bwG0n
+X-Received: by 2002:a17:903:283:: with SMTP id j3mr11752811plr.146.1644189140408;
+        Sun, 06 Feb 2022 15:12:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644189140; cv=none;
+        d=google.com; s=arc-20160816;
+        b=EbjS2ZWdE5NccMwbPMOtyXckBUSBQbiW2l9rAgTTIjq5Q4H9KlJQhpWqXc3nIrRllL
+         MFFXpd9rC6PGVDdE37WthjNttIozclGrfp++LzSJmm4Y1sgUF2HQsFHy0GuzRONXu45c
+         PQoXOmh7AGzTw5MS4zBcY8NJ9lBCDCsCDtBgtgYPhk2KJrJrSFtTGR9ivEYv/kWft98i
+         jDgFJwcge0BpsEXatIoXtK4mwHv3lZ9R5N06tocUnT1R6yDXlw47iGRKTFBsl75tHj8e
+         tZfRnJ+MY1rq/hxD3T/d+043qxb4kb2pKj3bUPLdJb4xrC3ZgvUM20WH28qu2IFTA7uV
+         jftA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:date:mime-version:subject:message-id:from:dkim-signature;
+        bh=6iifl2Vx884X8Oz/C4ik9hblVRuW4edqjH01SvzkcCE=;
+        b=B+ZnXN4Fjr3gvG45TQAvHR4yIt5OIf1ZwZQTgpJNHwFUojiwFmn2xmX7WFMHv3iIB9
+         prkiZ0dfra3fhF7aEnb1n2eMe8LGzAnE0wBb8TfzOA51lvSRvcYf2BK/OTQN/2kjT0qL
+         NZW4ATe+9OctxRLFzjjKwXy0b5pTcOu1xvxl7jacaSrBHaHXhtvusaoH8N9Gjj7wAzbw
+         3QRsI4il/FfA3tT102vXt9/6TTtDrd67N2DC7huDCtBYpD8uMzwaPUxZH5uOa2+Q+KkC
+         jLI7Zt0bAibc3IlQROFSmPL/pEa0Pl4yXlm0ZSV4owXqgLra1ayzIc0akkLT0V4+ZHcL
+         1zug==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@outboundengine.com header.s=s1 header.b=wP8MTGsr;
+       spf=neutral (google.com: 168.245.5.57 is neither permitted nor denied by best guess record for domain of bounces+911444-3ae8-ken=pozekgroup.com@email.outboundengine.com) smtp.mailfrom="bounces+911444-3ae8-ken=pozekgroup.com@email.outboundengine.com"
+Return-Path: <bounces+911444-3ae8-ken=pozekgroup.com@email.outboundengine.com>
+Received: from o8.e.outboundsend.com (o8.e.outboundsend.com. [168.245.5.57])
+        by mx.google.com with ESMTPS id q1si9044759plx.283.2022.02.06.15.12.19
+        for <ken@pozekgroup.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Feb 2022 15:12:20 -0800 (PST)
+Received-SPF: neutral (google.com: 168.245.5.57 is neither permitted nor denied by best guess record for domain of bounces+911444-3ae8-ken=pozekgroup.com@email.outboundengine.com) client-ip=168.245.5.57;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@outboundengine.com header.s=s1 header.b=wP8MTGsr;
+       spf=neutral (google.com: 168.245.5.57 is neither permitted nor denied by best guess record for domain of bounces+911444-3ae8-ken=pozekgroup.com@email.outboundengine.com) smtp.mailfrom="bounces+911444-3ae8-ken=pozekgroup.com@email.outboundengine.com"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outboundengine.com;
+	h=from:subject:mime-version:to:content-type;
+	s=s1; bh=6iifl2Vx884X8Oz/C4ik9hblVRuW4edqjH01SvzkcCE=;
+	b=wP8MTGsrfWgfl3Uuf1awqqfI3qUJfMncrcUMUO7HsmhGAtEzDksrmu4laNLlmvbmMc29
+	7Pdx6GMm2wH4NeFsl3+S1RcdhfyuAF4e9w2XRyQw3xO2GE8+ANufNr6Xfbx7PYujwdDdiv
+	aeg2I29SjXQm9emMlQ/xhbik8Z2v+g0jMQXynM/WqIsEBx7CIxcpb29G0QxIAeBVZSp6yD
+	onehUMRJU6wWdiyOCA+DV4qVhIq3DOc9kxQtTtfdCZYV7yT3OI6ICwtDo7KYsIBraB1bUW
+	A5YMyP6d6aWf+ACDr6IajmWaLA6CwwcKRbTCK6bFp+pxBadOL+u4iwDv2gY0zfjQ==
+Received: by filterdrecv-7bf5c69d5-zhpxs with SMTP id filterdrecv-7bf5c69d5-zhpxs-1-620055D2-9
+        2022-02-06 23:12:18.245832183 +0000 UTC m=+13654343.092007548
+Received: from app-prod-03.prod.us-west-2.aws.oefog.com (unknown)
+	by geopod-ismtpd-3-1 (SG) with ESMTP
+	id -B9OS9eETYilzaKf0ROcng
+	Sun, 06 Feb 2022 23:12:18.131 +0000 (UTC)
+From: ReadyChat Success Team <service@readychat.com>
+Message-ID: <1187999108.1751.1644189138113.JavaMail.support@outboundengine.com>
+Subject: You have a new lead from ReadyChat.
+MIME-Version: 1.0
+Date: Sun, 06 Feb 2022 23:12:18 +0000 (UTC)
+X-SG-EID: 
+ =?us-ascii?Q?+tpG95eslw3Ee4vLGspitMTTTcJqc2Jh3dAqYCpuKvmHya98t4SssjuyjosLos?=
+ =?us-ascii?Q?H8QkRv8n8n18KxnrmS805+5zVwMVjfTwJp=2Fl2Ys?=
+ =?us-ascii?Q?vQf0pMl6nUoQ2GnJZGuXbDwDorBP5hxKfvnx6AX?=
+ =?us-ascii?Q?ZuDhCLAQGe7t9MEV=2FbmQRmX5ED2byisKYXykeEc?=
+ =?us-ascii?Q?nQYPAJ3iOR6hkKQLT=2F02p1kgYfJivclN3j+9eKC?=
+ =?us-ascii?Q?SDAuYFKXkhrTGPSWNmK+HHuV01Nh=2FP3LEdTPME?=
+X-SG-ID: 
+ =?us-ascii?Q?N2C25iY2uzGMFz6rgvQsb8raWjw0ZPf1VmjsCkspi=2FJcDzyJyu4AHEuK4Sv4nd?=
+ =?us-ascii?Q?F+Vam7clXt4pvAjMUM7htmKqAJzi8upzTO1Efa=2F?=
+ =?us-ascii?Q?AyoYzwYVS8oHHxT6k0pVS+hSqQwQffNvURYmXQi?=
+ =?us-ascii?Q?6+vwLpmovUR2yrJ1Amezuy+5zbnu8yA=3D?=
+To: ken@pozekgroup.com
+X-Entity-ID: t3RU0KV4Vyne8ky0vAfA+Q==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1750_1420797888.1644189138111"
+
+------=_Part_1750_1420797888.1644189138111
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+Website Visitor Request
+New Chat Lead
+    
+ Date: February 6, 2022 4:47 PM
+             Website address: https://pozekgroup.com/ 
+             Customer IP address: 2600:1700:4411:c500:a052:7c8b:90f1:8ded 
+             Location: Jacksonville, FL, US 
+             Email address: amy67ch@gmail.com 
+             Phone number: (845) 459-9452 
+ Chat Transcript:
+            Lindsey
+                 Sorry to interrupt. I just wanted to see if there's anything I can help you with
+              Visitor Hey Lindsey! I watch Ken's videos on YouTube frequently and thought I would see if the Pozek Team could help us find a rental home in Horizon West?             Lindsey
+                 I'm happy to help. May I know whom I'm chatting with?             Visitor Sure - Amy Chappell.             Lindsey
+                 I'll have a representative contact you for assistance.             Lindsey
+                 Can you tell me how many bedrooms you would like?             Visitor Sure - we are looking for 3-4 bedrooms, 2 or more bathrooms with one of the bedrooms on the first floor.  Horizon West is the location we would like.             Lindsey
+                 Great. What price range are you considering?             Visitor Under 3,000/month.             Lindsey
+                 Do you currently have an agent helping you in your property search?             Visitor No. Not currently.  We also have a dog (about 50lbs.)             Lindsey
+                 Okay. If you would like to leave me with your phone number and email address,  I can have one of our specialists provide you with listings that best match what you're looking for.             Visitor Perfect!  My number is (845) 459-9452 and my e-mail is Amy67ch@gmail.com.  We are looking for a move-in date around April 1st.             Lindsey
+                 Thanks. I will have our next available representative contact you.             Lindsey
+                 Is there anything else that I can help you with today?             Visitor Thank you so much Lindsey.  I'll wait to hear from somebody.              Lindsey
+                 You are most welcome.             Lindsey
+                 Thanks for chatting with me today. Have a great day!             Visitor You too! 
+
+------=_Part_1750_1420797888.1644189138111
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html style=3D"width:100%;font-family:'GT America', Helvetica, sans-serif;-=
+webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0;"=
+>
+    <head>
+        <meta charset=3D"utf-8"/>
+        <meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"v=
+iewport"/>
+        <meta name=3D"x-apple-disable-message-reformatting"/>
+        <meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible"/>
+        <meta content=3D"telephone=3Dno" name=3D"format-detection"/>
+        <title>New Chat Alert</title>
+        <!--[if (mso 16)]>
+        <style type=3D"text/css">     a {text-decoration: none;}     </styl=
+e>
+        <![endif]--> <!--[if gte mso 9]>
+        <style>sup { font-size: 100% !important; }</style>
+        <![endif]--> <!--[if !mso]><!-- -->
+        <link href=3D"https://content.outboundengine.com/resources/images/t=
+ransactional/customer_comms/fonts/gt_america/gt-america-font.css" rel=3D"st=
+ylesheet"/>
+        <!--<![endif]--> <!--[if !mso]><!-- -->
+        <link href=3D"https://content.outboundengine.com/resources/images/t=
+ransactional/customer_comms/fonts/gt_america/gt-america-font.css" rel=3D"st=
+ylesheet"/>
+        <link href=3D"https://content.outboundengine.com/resources/images/t=
+ransactional/customer_comms/fonts/tiempos/tiempos-font.css" rel=3D"styleshe=
+et"/>
+        <!--<![endif]-->
+        <style type=3D"text/css"> @media only screen and (max-width:600px) =
+{p, ul li, ol li, a { font-size:16px!important; line-height:150%!important =
+} h1 { font-size:30px!important; text-align:center; line-height:120% } h2 {=
+ font-size:26px!important; text-align:center; line-height:120% } h3 { font-=
+size:20px!important; text-align:center; line-height:120% } h1 a { font-size=
+:30px!important } h2 a { font-size:26px!important } h3 a { font-size:20px!i=
+mportant } p.stat { font-size:36px!important; color:rgb(25, 25, 38)!importa=
+nt } .es-menu td a { font-size:16px!important } .es-header-body p, .es-head=
+er-body ul li, .es-header-body ol li, .es-header-body a { font-size:16px!im=
+portant } .es-footer-body p, .es-footer-body ul li, .es-footer-body ol li, =
+.es-footer-body a { font-size:16px!important } .es-infoblock p, .es-infoblo=
+ck ul li, .es-infoblock ol li, .es-infoblock a { font-size:12px!important }=
+ *[class=3D"gmail-fix"] { display:none!important } .es-m-txt-c, .es-m-txt-c=
+ h1, .es-m-txt-c h2, .es-m-txt-c h3 { text-align:center!important } .es-m-t=
+xt-r, .es-m-txt-r h1, .es-m-txt-r h2, .es-m-txt-r h3 { text-align:right!imp=
+ortant } .es-m-txt-l, .es-m-txt-l h1, .es-m-txt-l h2, .es-m-txt-l h3 { text=
+-align:left!important } .es-m-txt-r img, .es-m-txt-c img, .es-m-txt-l img {=
+ display:inline!important } .es-button-border { display:block!important } a=
+.es-button { font-size:20px!important; display:block!important; border-left=
+-width:0px!important; border-right-width:0px!important } .es-btn-fw { borde=
+r-width:10px 0px!important; text-align:center!important } .es-adaptive tabl=
+e, .es-btn-fw, .es-btn-fw-brdr, .es-left, .es-right { width:100%!important =
+} .es-content table, .es-header table, .es-footer table, .es-content, .es-f=
+ooter, .es-header { width:100%!important; max-width:600px!important } .es-a=
+dapt-td { display:block!important; width:100%!important } .adapt-img { widt=
+h:100%!important; height:auto!important } .es-m-p0 { padding:0px!important =
+} .es-m-p0r { padding-right:0px!important } .es-m-p0l { padding-left:0px!im=
+portant } .es-m-p0t { padding-top:0px!important } .es-m-p0b { padding-botto=
+m:0!important } .es-m-p20b { padding-bottom:20px!important } .es-mobile-hid=
+den, .es-hidden { display:none!important } .es-desk-hidden { display:table-=
+row!important; width:auto!important; overflow:visible!important; float:none=
+!important; max-height:inherit!important; line-height:inherit!important } .=
+es-desk-menu-hidden { display:table-cell!important } table.es-table-not-ada=
+pt, .esd-block-html table { width:auto!important } table.es-social { displa=
+y:inline-block!important } table.es-social td { display:inline-block!import=
+ant } } p span { overflow-wrap:break-word!important; word-wrap:break-word!i=
+mportant; -ms-word-break:break-all!important; word-break:break-word!importa=
+nt; } #outlook a {   padding:0; } .ExternalClass {   width:100%; } .Externa=
+lClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .Extern=
+alClass td, .ExternalClass div {   line-height:100%; } .es-button {   mso-s=
+tyle-priority:100!important;   text-decoration:none!important; } a[x-apple-=
+data-detectors] {   color:inherit!important;   text-decoration:none!importa=
+nt;   font-size:inherit!important;   font-family:inherit!important;   font-=
+weight:inherit!important;   line-height:inherit!important; } .es-desk-hidde=
+n {   display:none;   float:left;   overflow:hidden;   width:0;   max-heigh=
+t:0;   line-height:0;   mso-hide:all; } .es-button-border:hover a.es-button=
+ {   background:#d43811!important;   border-color:#d43811!important; } .es-=
+button-border:hover {   border-color:#42d159 #42d159 #42d159 #42d159!import=
+ant;   background:transparent!important; } </style>
+    </head>
+    <body style=3D"width:100%;font-family:'GT America', Helvetica, sans-ser=
+if;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin=
+:0;">
+        <!-- define variable to reference template url -->
+                <div class=3D"preheader" style=3D"display: none !important;=
+ max-height:0px !important; overflow:hidden !important; mso-hide:all;">
+            Check it out and follow up now!&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+        </div>
+        <div class=3D"es-wrapper-color" style=3D"background-color:#F0F0FB;"=
+>
+            <!--[if gte mso 9]>
+            <v:background xmlns:v=3D"urn:schemas-microsoft-com:vml" fill=3D=
+"t">
+                <v:fill type=3D"tile" color=3D"#F0F0FB"></v:fill>
+            </v:background>
+            <![endif]-->
+            <table cellpadding=3D"0" cellspacing=3D"0" class=3D"es-wrapper"=
+ style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collaps=
+e;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-r=
+epeat:repeat;background-position:center top;" width=3D"100%">
+                <tr style=3D"border-collapse:collapse;">
+                    <td style=3D"padding:0;Margin:0;" valign=3D"top">
+                        <!-- Email Body -->
+                        <table align=3D"center" cellpadding=3D"0" cellspaci=
+ng=3D"0" class=3D"es-content" style=3D"mso-table-lspace:0pt;mso-table-rspac=
+e:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !impor=
+tant;width:100%;">
+                            <tr style=3D"border-collapse:collapse;">
+                                <td align=3D"center" style=3D"padding:0;Mar=
+gin:0;">
+                                    <!-- This is the beginning of the body =
+content.-->
+                                    <table align=3D"center" bgcolor=3D"#fff=
+fff" cellpadding=3D"0" cellspacing=3D"0" class=3D"es-content-body" style=3D=
+"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-=
+spacing:0px;background-color:#FFFFFF;" width=3D"600">
+                                        <tr style=3D"border-collapse:collap=
+se;">
+                                            <td align=3D"left" bgcolor=3D"#=
+1100FF" style=3D"Margin:0;padding-bottom:25px;padding-top:30px;padding-left=
+:30px;padding-right:30px;background:linear-gradient(45deg, #1100FF, #667AFF=
+) center top;">
+                                                <table cellpadding=3D"0" ce=
+llspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-c=
+ollapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                    <tr style=3D"border-col=
+lapse:collapse;">
+                                                        <td align=3D"center=
+" class=3D"es-m-p0r" style=3D"padding:0;Margin:0;" valign=3D"top" width=3D"=
+540">
+                                                            <table cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:=
+0pt;border-collapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" class=3D"es-m-txt-c" style=3D"padding:0;Margin:0;padding-bottom=
+:30px;"><img alt=3D"Ready Chat" height=3D"26" src=3D"https://d1k3c4xlx29yaw=
+.cloudfront.net/resources/images/transactional/customer_comms/global--rc-em=
+ail-logo-white.png" style=3D"display:block;border:0;outline:none;text-decor=
+ation:none;-ms-interpolation-mode:bicubic;"/></td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <h1=
+ style=3D"Margin:0;line-height:34px;mso-line-height-rule:exactly;font-famil=
+y:Tiempos, Georgia, serif;font-size:28px;font-style:normal;font-weight:bold=
+;color:#FFFFFF;">New Chat Lead</h1>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style=3D"border-collapse:collap=
+se;">
+                                            <td align=3D"left" style=3D"Mar=
+gin:0;padding-top:30px;padding-bottom:30px;padding-left:30px;padding-right:=
+30px;">
+                                                <table cellpadding=3D"0" ce=
+llspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-c=
+ollapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                    <tr style=3D"border-col=
+lapse:collapse;">
+                                                        <td align=3D"center=
+" style=3D"padding:0;Margin:0;" valign=3D"top" width=3D"540">
+                                                            <table cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:=
+0pt;border-collapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#464042;">You have been contacted th=
+rough ReadyChat on your website. The transcript is available for you to see=
+ below. We suggest following up right away!</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style=3D"border-collapse:collap=
+se;">
+                                            <td align=3D"left" style=3D"Mar=
+gin:0;padding-left:30px;padding-right:30px;">
+                                                <table cellpadding=3D"0" ce=
+llspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-c=
+ollapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                    <tr style=3D"border-col=
+lapse:collapse;">
+                                                        <td align=3D"center=
+" bgcolor=3D"#FFFFFF" style=3D"Margin:0;" valign=3D"top" width=3D"540">
+                                                            <table cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:=
+0pt;border-collapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"170" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+170">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"field_label"><strong>Website address</=
+strong></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#464042;margin-bottom:10px;"><span data-unit-test-id=3D"field_value">https:=
+//pozekgroup.com/</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"170" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+170">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"field_label"><strong>Customer IP addre=
+ss</strong></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#464042;margin-bottom:10px;"><span data-unit-test-id=3D"field_value">2600:1=
+700:4411:c500:a052:7c8b:90f1:8ded</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"170" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+170">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"field_label"><strong>Location</strong>=
+</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#464042;margin-bottom:10px;"><span data-unit-test-id=3D"field_value">Jackso=
+nville, FL, US</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"170" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+170">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"field_label"><strong>Email address</st=
+rong></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#464042;margin-bottom:10px;"><span data-unit-test-id=3D"field_value">amy67c=
+h@gmail.com</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"170" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+170">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"field_label"><strong>Phone number</str=
+ong></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#464042;margin-bottom:10px;"><span data-unit-test-id=3D"field_value">(845) =
+459-9452</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style=3D"border-collapse:collap=
+se;">
+                                            <td align=3D"left" style=3D"Mar=
+gin:0;padding-top:30px;padding-bottom:30px;padding-left:30px;padding-right:=
+30px;">
+                                                <table cellpadding=3D"0" ce=
+llspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-c=
+ollapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                    <tr style=3D"border-col=
+lapse:collapse;">
+                                                        <td align=3D"center=
+" style=3D"padding:0;Margin:0;" valign=3D"top" width=3D"540">
+                                                            <table cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:=
+0pt;border-collapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"center" style=3D"padding:0;Margin:0;padding-bottom:15px;">
+                                                                        <h3=
+ style=3D"Margin:0;line-height:24px;mso-line-height-rule:exactly;font-famil=
+y:'GT America', Helvetica, sans-serif;font-size:20px;font-style:normal;font=
+-weight:bold;color:#191926;">Chat Transcript</h3>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table cellpadding=3D"0" ce=
+llspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-c=
+ollapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                    <tr style=3D"border-col=
+lapse:collapse;">
+                                                        <td align=3D"center=
+" bgcolor=3D"#8686a6" style=3D"width:540px;padding:25px;Margin:0;background=
+-color:#8686a6;Margin:0;" valign=3D"top" width=3D"540">
+                                                            <table cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:=
+0pt;border-collapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">So=
+rry to interrupt. I just wanted to see if there's anything I can help you w=
+ith
+ </span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">He=
+y Lindsey! I watch Ken's videos on YouTube frequently and thought I would s=
+ee if the Pozek Team could help us find a rental home in Horizon West?</spa=
+n></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">I'=
+m happy to help. May I know whom I'm chatting with?</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Su=
+re - Amy Chappell.</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">I'=
+ll have a representative contact you for assistance.</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Ca=
+n you tell me how many bedrooms you would like?</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Su=
+re - we are looking for 3-4 bedrooms, 2 or more bathrooms with one of the b=
+edrooms on the first floor.  Horizon West is the location we would like.</s=
+pan></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Gr=
+eat. What price range are you considering?</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Un=
+der 3,000/month.</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Do=
+ you currently have an agent helping you in your property search?</span></p=
+>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">No=
+. Not currently.  We also have a dog (about 50lbs.)</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Ok=
+ay. If you would like to leave me with your phone number and email address,=
+  I can have one of our specialists provide you with listings that best mat=
+ch what you're looking for.</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Pe=
+rfect!  My number is (845) 459-9452 and my e-mail is Amy67ch@gmail.com.  We=
+ are looking for a move-in date around April 1st.</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Th=
+anks. I will have our next available representative contact you.</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Is=
+ there anything else that I can help you with today?</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Th=
+ank you so much Lindsey.  I'll wait to hear from somebody. </span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Yo=
+u are most welcome.</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#EB4C21;"><span data-unit-test-id=3D"message_alias"><strong>Lindsey</strong=
+></span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Th=
+anks for chatting with me today. Have a great day!</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"left" style=3D"padding:0;Margin:0;">
+                                                                        <!-=
+-[if mso]>
+                                                                        <ta=
+ble width=3D"540" cellpadding=3D"0" cellspacing=3D"0">
+                                                                           =
+ <tr>
+                                                                           =
+     <td width=3D"120" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" class=3D=
+"es-left" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collaps=
+e:collapse;border-spacing:0px;float:left;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+120">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;"><strong>Visitor</strong></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+     <td width=3D"20"></td>
+                                                                           =
+     <td width=3D"350" valign=3D"top">
+                                                                           =
+         <![endif]-->
+                                                                           =
+         <table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"es-right" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-col=
+lapse:collapse;border-spacing:0px;float:right;">
+                                                                           =
+             <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                 <td align=3D"left" style=3D"padding:0;Margin:0;" width=3D"=
+350">
+                                                                           =
+                     <table cellpadding=3D"0" cellspacing=3D"0" style=3D"ms=
+o-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spa=
+cing:0px;" width=3D"100%">
+                                                                           =
+                         <tr style=3D"border-collapse:collapse;">
+                                                                           =
+                             <td align=3D"left" style=3D"padding:0;Margin:0=
+;">
+                                                                           =
+                                 <p style=3D"Margin:0;-webkit-text-size-adj=
+ust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:1=
+6px;font-family:'GT America', Helvetica, sans-serif;line-height:24px;color:=
+#FFFFFF;margin-bottom:10px;"><span data-unit-test-id=3D"message_message">Yo=
+u too!</span></p>
+                                                                           =
+                             </td>
+                                                                           =
+                         </tr>
+                                                                           =
+                     </table>
+                                                                           =
+                 </td>
+                                                                           =
+             </tr>
+                                                                           =
+         </table>
+                                                                           =
+         <!--[if mso]>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+able>
+                                                                        <![=
+endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- End Email Body --> <!-- Email Footer -->
+                        <table align=3D"center" cellpadding=3D"0" cellspaci=
+ng=3D"0" class=3D"es-footer" style=3D"mso-table-lspace:0pt;mso-table-rspace=
+:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !import=
+ant;width:100%;background-color:transparent;background-repeat:repeat;backgr=
+ound-position:center top;">
+                            <tr style=3D"border-collapse:collapse;">
+                                <td align=3D"center" style=3D"padding:0;Mar=
+gin:0;">
+                                    <table align=3D"center" bgcolor=3D"#fff=
+fff" cellpadding=3D"0" cellspacing=3D"0" class=3D"es-footer-body" style=3D"=
+mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-s=
+pacing:0px;background-color:#191926;" width=3D"600">
+                                        <tr style=3D"border-collapse:collap=
+se;">
+                                            <td align=3D"left" style=3D"Mar=
+gin:0;padding-left:30px;padding-right:30px;padding-top:40px;padding-bottom:=
+40px;">
+                                                <table cellpadding=3D"0" ce=
+llspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-c=
+ollapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                    <tr style=3D"border-col=
+lapse:collapse;">
+                                                        <td align=3D"left" =
+style=3D"padding:0;Margin:0;" width=3D"540">
+                                                            <table cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:=
+0pt;border-collapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"center" class=3D"es-m-txt-c" style=3D"padding:0;Margin:0;padding-bott=
+om:40px;"><img alt=3D"Ready Chat" height=3D"32" src=3D"https://d1k3c4xlx29y=
+aw.cloudfront.net/resources/images/transactional/customer_comms/global--rc-=
+email-logo-white.png" style=3D"display:block;border:0;outline:none;text-dec=
+oration:none;-ms-interpolation-mode:bicubic;"/></td>
+                                                                </tr>
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"center" style=3D"padding:0;Margin:0;">
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#FFFFFF;">Get in touch:</p>
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#FFFFFF;"><a href=3D"mailto:service@=
+readychat.com" style=3D"-webkit-text-size-adjust:none;-ms-text-size-adjust:=
+none;mso-line-height-rule:exactly;font-family:'GT America', Helvetica, sans=
+-serif;font-size:16px;text-decoration:underline;color:#EE532B;" target=3D"_=
+blank">service@readychat.com</a>  |  <a href=3D"tel:888-227-4936" style=3D"=
+-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rul=
+e:exactly;font-family:'GT America', Helvetica, sans-serif;font-size:16px;te=
+xt-decoration:underline;color:#EE532B;white-space: nowrap;" target=3D"_blan=
+k">888-227-4936</a></p>
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#FFFFFF;"><br/></p>
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#FFFFFF;"><br/></p>
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#FFFFFF;">&copy; Copyright OutboundE=
+ngine 2020</p>
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#FFFFFF;">1601 S MoPac Expy, Suite 4=
+25, Austin, TX 78746</p>
+                                                                        <p =
+style=3D"Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;m=
+so-line-height-rule:exactly;font-size:16px;font-family:'GT America', Helvet=
+ica, sans-serif;line-height:24px;color:#FFFFFF;"><a href=3D"https://email.o=
+utboundengine.com/ls/click?upn=3DQYOYIwho88Cz4TT3MUK7by3jbrGNHjhydzcDenAgW0=
+Vd7EV9SkAYMgiOpj3uuQEYohSZG-2BzxXzF2tdMm3ggTGg-3D-3D6MGK_iyzx72W1bUhkm-2FXG=
+cSX5kHnqln3GSLuU4WBdXyzfELNo8X4Xs9pUoDZ-2FnPdofl8VgIK8OrO-2B6r8VLE6ssbzvCWh=
+HxLxk6sr2YXjE1GnrT5SYIRlcgAka-2FWXgxQ-2Fs8jhQMyTgU32UIGE2ovhHX2pA0xS3-2Boco=
+WrwW7aiG82FCpfngjCxD4F6NZYGCtEtrQLUKxs5G-2BtxVyE1JgodUTCDdTf3WOFEjOnRozNg6Y=
+8lyPzZgCi5IVxS0KxuhX4nEmE3KN-2B4qh-2BKaLHhaLP5AYRJRExnUoW9NdXmECs9l3acD8R60=
+RLvohMRRTYRTMlBeaIswj0Z-2FsbL1hwDZ2ceXl4K78w-3D-3D" style=3D"-webkit-text-s=
+ize-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font=
+-family:'GT America', Helvetica, sans-serif;font-size:16px;text-decoration:=
+underline;color:#FFFFFF;" target=3D"_blank">Privacy Policy</a>  |  <a href=
+=3D"https://email.outboundengine.com/ls/click?upn=3DQYOYIwho88Cz4TT3MUK7by3=
+jbrGNHjhydzcDenAgW0Wrc127aZ4Cc0yg7cNvuBCAP6whmuH8GZIMBhOc6wl1vQ-3D-3DnmS3_i=
+yzx72W1bUhkm-2FXGcSX5kHnqln3GSLuU4WBdXyzfELNo8X4Xs9pUoDZ-2FnPdofl8VgIK8OrO-=
+2B6r8VLE6ssbzvCWhHxLxk6sr2YXjE1GnrT5SYIRlcgAka-2FWXgxQ-2Fs8jhQMyTgU32UIGE2o=
+vhHX2pA0xS3-2BocoWrwW7aiG82FCpfngjCxD4F6NZYGCtEtrQLUKCwfXaMUG0-2Fx9NCtvOFrD=
+s8R7Emh4tHxtDfrY3to2HhYkkRpIR6cNljjKA6csQd3Uagfw4lyWJ2I-2BBMMBalSo5eKkMI7s7=
+NrP9xgsd4CTt2Nmdq5-2BLrgYBkZZicfol872p0lM1AArm4lnwFi0R-2FG9Aw-3D-3D" style=
+=3D"-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height=
+-rule:exactly;font-family:'GT America', Helvetica, sans-serif;font-size:16p=
+x;text-decoration:underline;color:#FFFFFF;" target=3D"_blank">Terms &amp; C=
+onditions</a></p>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style=3D"border-collapse:collap=
+se;">
+                                            <td align=3D"left" bgcolor=3D"#=
+35354A" style=3D"Margin:0;padding-top:20px;padding-bottom:20px;padding-left=
+:30px;padding-right:30px;background-color:#35354A;">
+                                                <table cellpadding=3D"0" ce=
+llspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:0pt;border-c=
+ollapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                    <tr style=3D"border-col=
+lapse:collapse;">
+                                                        <td align=3D"center=
+" style=3D"padding:0;Margin:0;" valign=3D"top" width=3D"540">
+                                                            <table cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace:0pt;mso-table-rspace:=
+0pt;border-collapse:collapse;border-spacing:0px;" width=3D"100%">
+                                                                <tr style=
+=3D"border-collapse:collapse;">
+                                                                    <td ali=
+gn=3D"center" class=3D"es-m-txt-c" style=3D"padding:0;Margin:0;"><img alt=
+=3D"Made In Austin Texas" height=3D"25" src=3D"https://d1k3c4xlx29yaw.cloud=
+front.net/resources/images/transactional/customer_comms/global--made-in-aus=
+tin.png" style=3D"display:block;border:0;outline:none;text-decoration:none;=
+-ms-interpolation-mode:bicubic;"/></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <!-- End Email Footer -->
+                </tr>
+            </table>
+        </div>
+    <img src=3D"https://email.outboundengine.com/wf/open?upn=3DxKIg6180Wt4F=
+uwg6n03WAgkLmjkBItRx-2FdutBB-2FMVpbJGYtuZXhTZXha-2F8cH8hK8eNaqKR8mdNmNe4dAl=
+kO9w8WIyCiyzbyoWQ2hB-2FVftbmTvKywn4tbc1eLgyLsg-2FkcTnP-2FGkFjphqlj5zB7p93nd=
+Iq-2FAJlNTkweof-2BYAJmcUY3c5fZwWp95CqEiGB2VdD5FRBDsScSN4uxIjzJ-2BBtckYNGloh=
+35J7aUC-2FhQdZL2qkJ0vlyxweweyFlYhZIBcNSLmZD7ycAbThFaIXCJBE3vzm5f0CXsdhUMJB9=
+RnpCGhmPeG5DciS-2B9RVIOXtlnkztOAGm07eArF7TJbioHVl5XQ-3D-3D" alt=3D"" width=
+=3D"1" height=3D"1" border=3D"0" style=3D"height:1px !important;width:1px !=
+important;border-width:0 !important;margin-top:0 !important;margin-bottom:0=
+ !important;margin-right:0 !important;margin-left:0 !important;padding-top:=
+0 !important;padding-bottom:0 !important;padding-right:0 !important;padding=
+-left:0 !important;"/></body>
+</html>
+------=_Part_1750_1420797888.1644189138111--
