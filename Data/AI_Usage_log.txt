@@ -1,1 +1,8 @@
-From Data, randomly pick 30 visitors and list out the first statement from the visitor within chat transcript section in a txt file. You label them like A1, 'message' 
+From Data, randomly pick 30 visitors and list out the first statement from the visitor within chat transcript section in a txt file. You label them like A1, 'message'
+
+## 2026-10-15 — Visitor intent classification worker instructions
+
+- **Prompt:** Create worker instructions to classify each first visitor statement into buyer, seller, renter, or other (definitions, examples, ambiguity handling).
+- **AI response summary:** Added `Data/visitor_intent_classification_worker_instructions.md` with task description, four category definitions, examples drawn from ReadyChat data, borderline rules, output format, and checklist; appended this log entry.
+- **Accepted / changed / rejected:** Accepted as draft worker doc unless user requests a different format or location.
+- **Issues found:** None
