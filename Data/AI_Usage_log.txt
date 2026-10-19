@@ -41,3 +41,10 @@ From Data, randomly pick 30 visitors and list out the first statement from the v
 - **AI response summary:** Replaced A1 (seller/UK), A11 (Golden Oaks rental), A13 (Chicago townhome), A17 (rent-before-buy); applied character-count x masking on names, phone, address, and company across the file.
 - **Accepted / changed / rejected:** Pending user review.
 - **Issues found:** None
+
+## 2026-10-18 — Instruction examples disjoint from A1–A30
+
+- **Prompt:** Examples in worker instructions must not come from the 30-visitor sample.
+- **AI response summary:** Replaced overlapping examples in `visitor_intent_classification_worker_instructions.txt` and `.md` with first messages from other ReadyChat transcripts; updated borderline snippets in the md file to match.
+- **Accepted / changed / rejected:** Pending user review.
+- **Issues found:** None

@@ -13,16 +13,16 @@ These are the first things a visitor typed in a live chat on a Florida real esta
 HOW TO LABEL EACH MESSAGE
 
 buyer — The visitor wants to buy, or is clearly shopping for a home or property to own. This includes houses, condos, land, investment purchases, short-term rentals they would buy, tours, listings, budgets, and pre-approval.
-Example: “We are looking for a home in the Kissimmee area.”
+Example: “Hi xxxxx! My husband and I will be in town next week looking for a primary residency that we will turn into an Air BNB within the next year.”
 
 seller — The visitor wants to sell or list a property they own.
-Example: “looking to sell my Florida Home in Davenport.”
+Example: “I have two investment properties here that I would like to sell next summer.”
 
 renter — The visitor wants to lease a place to live in as a tenant. They are not trying to buy.
-Example: “I am looking to rent a house 2/2 or 3/2.”
+Example: “I am looking to rent a house 2/2 or 3/2., fenced yard and screened in porch.”
 
 other — The message does not clearly show an intent to buy, sell, or rent. Use this for greetings only, “who are you?”, requests for a staff email, general questions about the area, questions about property management only, or text that is too vague to tell.
-Examples: “Hi there.” / “How does blue green algae affect air quality in Clermont?”
+Examples: “Hi there.” / “Its said poinciana fl is a bad are is this true”
 
 
 WHEN A MESSAGE IS UNCLEAR

@@ -68,7 +68,7 @@ Includes:
 - Name or identity only (“my name is …,” “sorry I was just chatting”).
 - Verifying the agent or brand (“Are you with Ken Pozek’s team?”) with no buy/sell/rent ask.
 - General information, media, or contact requests (“email for …,” “who are you?”).
-- Area or environmental questions unrelated to a transaction (“air quality in Clermont”).
+- Area or environmental questions unrelated to a transaction (for example, whether a neighborhood is “a bad area” or how local conditions affect quality of life).
 - Services that are not tenant rental or a purchase/sale (for example, **property management only** with no stated buy/sell/rent goal).
 - Too vague or garbled to infer intent (“hI,” random fragments).
 
@@ -82,18 +82,18 @@ Examples below are illustrative; your assigned messages may differ.
 
 | Label | Example first visitor message |
 |-------|-------------------------------|
-| **buyer** | `We are looking for a home in the Kissimmee area` |
-| **buyer** | `Hi looking to buy a short term rental in Orlando area. I would appreciate if someone can call me at 5132545722` |
-| **seller** | `Hi Amy, My name is Dave and I am in the UK, looking to sell my Florida Home in Davenport, looking for someone who could help us.` |
-| **renter** | `I am looking to rent a house 2/2 or 3/2., fenced yard and screened in porch. I work at Macy at Millenial Mall.` |
+| **buyer** | `Hi xxxxx! My husband and I will be in town next week looking for a primary residency that we will turn into an Air BNB within the next year.` |
+| **buyer** | `I need to speak to a agent who specializes in short term rentals and is attentive. We are looking to make offers on a short term rental today.` |
+| **seller** | `I have two investment properties here that I would like to sell next summer.` |
+| **renter** | `I am looking to rent a house 2/2 or 3/2., fenced yard and screened in porch. I work at xxxx at xxxxxxxxx Mall.` |
 | **other** | `Hi there` |
-| **other** | `How does the problem of blue green algae affect the air quality in Clermont?` |
-| **other** | `do you guy also provide property management too?` |
+| **other** | `Its said poinciana fl is a bad are is this true` |
+| **other** | `Interested in a consultation` |
 
-Additional **buyer** examples from the same study set:
+Additional **buyer** examples from the same study set (not in your A1–A30 batch):
 
-- `'Any new houses available with min of $ bedrooms 2 baths max 300,000 that is what our preapproval goes for`
-- `Hi, we're looking to move to the Celebration/Windermere/ Winter Garden area this spring.` (in a real-estate purchase context, “move” + area search = seeking a home to buy unless they say rent)
+- `Can you send me some information on the Lennar homes in Bridgewalk St Cloud?`
+- `G'morning. Husband and I visiting Orlando area end of Jan to scope out a retirement home, but have no idea where to start looking.` (on a realtor site, scoping a retirement home = shopping to buy unless they say rent)
 
 ---
 
@@ -102,13 +102,13 @@ Additional **buyer** examples from the same study set:
 Follow these rules so labels stay consistent across workers.
 
 1. **Greeting + intent.** If the message is mostly a greeting but includes a clear buy/sell/rent intent, use the transaction label, not `other`.  
-   - `Hi, looking to buy a short term rental…` → `buyer`
+   - `Hi xxxxx! … looking for a primary residency that we will turn into an Air BNB…` → `buyer`
 
 2. **Investment / Airbnb / vacation rental purchase.** If they want to **buy** property to rent to guests or use part-time and rent the rest, label `buyer`, not `renter`.  
-   - `looking for possible townhomes for sale to make an airbnb` → `buyer`
+   - `…looking to make offers on a short term rental today` → `buyer`
 
 3. **Rental rates on a purchase.** Asking about rental income or historical rates for a **specific home they might buy** is still `buyer`.  
-   - `found a house … interested in … historical rental rates` → `buyer`
+   - `found a house we are interested in … would like to know historical rental rates for this property` → `buyer`
 
 4. **Browsing listings.** “Just looking at your listings,” “look at potential property to buy,” or “see what’s available” → `buyer` when the context is shopping for property to own.
 
