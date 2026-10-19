@@ -6,3 +6,38 @@ From Data, randomly pick 30 visitors and list out the first statement from the v
 - **AI response summary:** Added `Data/visitor_intent_classification_worker_instructions.md` with task description, four category definitions, examples drawn from ReadyChat data, borderline rules, output format, and checklist; appended this log entry.
 - **Accepted / changed / rejected:** Accepted as draft worker doc unless user requests a different format or location.
 - **Issues found:** None
+
+## 2026-10-16 — Shorter worker instructions (txt)
+
+- **Prompt:** Make instructions clearer (background, source of messages); use a txt file with only 1–2 paragraphs.
+- **AI response summary:** Replaced long markdown with `Data/visitor_intent_classification_worker_instructions.txt` (two paragraphs: background/task/output, then categories with examples and ambiguity rules); removed the `.md` version.
+- **Accepted / changed / rejected:** Pending user review.
+- **Issues found:** None
+
+## 2026-10-16 — Google Form–ready instructions
+
+- **Prompt:** Use a more human-readable format so the instructions can be copied into a Google Form and clearly state the task.
+- **AI response summary:** Rewrote `Data/visitor_intent_classification_worker_instructions.txt` as plain text with short sections (task, source, four labels with examples, unclear cases). No markdown, so line breaks paste cleanly into a form description.
+- **Accepted / changed / rejected:** Pending user review.
+- **Issues found:** None
+
+## 2026-10-18 — Censor PII and replace vague greetings in A1–A30
+
+- **Prompt:** For first statements that are only “hi” or lack clear intention, pick other examples; censor PII (names, phone, company, etc.).
+- **AI response summary:** Replaced A1, A11, A13, and A17 with seller/renter/buyer openings from ReadyChat transcripts; redacted agent names, phones, addresses, and sign-offs across `Data/random_30_visitor_first_statements.txt`; shortened A15 to remove a name.
+- **Accepted / changed / rejected:** Rejected (user: do not change message text).
+- **Issues found:** Rewrote messages instead of placeholder-only redaction.
+
+## 2026-10-18 — Restore originals; PII placeholders only
+
+- **Prompt:** Do not change the messages; only censor PII as xxx(name), xxxxxxxxx xx xx(company name), etc.
+- **AI response summary:** Restored all 30 original visitor first statements; masked names, phone, address, and company with labeled placeholders only.
+- **Accepted / changed / rejected:** Rejected (use length-matched x’s; swap only vague hi lines from data).
+- **Issues found:** Placeholder labels did not match requested x-count style.
+
+## 2026-10-18 — Length-matched x redaction; swap vague A1/A11/A13/A17
+
+- **Prompt:** Mask PII with the right number of x’s; replace hi-only/unclear lines with other first messages from ReadyChat data.
+- **AI response summary:** Replaced A1 (seller/UK), A11 (Golden Oaks rental), A13 (Chicago townhome), A17 (rent-before-buy); applied character-count x masking on names, phone, address, and company across the file.
+- **Accepted / changed / rejected:** Pending user review.
+- **Issues found:** None

@@ -1,0 +1,34 @@
+WHAT WE NEED YOU TO DO
+
+You will see 30 short chat messages, labeled A1 through A30. For each message, choose exactly one label: buyer, seller, renter, or other.
+
+Read only the words in that message. Do not guess from later conversation, and do not add an explanation. If the intent is unclear, choose other.
+
+
+WHERE THESE MESSAGES COME FROM
+
+These are the first things a visitor typed in a live chat on a Florida real estate team’s website (ReadyChat). An agent opened the chat (for example, “Sorry to interrupt…”). We kept only the visitor’s first reply. Each line is one visitor’s opening message.
+
+
+HOW TO LABEL EACH MESSAGE
+
+buyer — The visitor wants to buy, or is clearly shopping for a home or property to own. This includes houses, condos, land, investment purchases, short-term rentals they would buy, tours, listings, budgets, and pre-approval.
+Example: “We are looking for a home in the Kissimmee area.”
+
+seller — The visitor wants to sell or list a property they own.
+Example: “looking to sell my Florida Home in Davenport.”
+
+renter — The visitor wants to lease a place to live in as a tenant. They are not trying to buy.
+Example: “I am looking to rent a house 2/2 or 3/2.”
+
+other — The message does not clearly show an intent to buy, sell, or rent. Use this for greetings only, “who are you?”, requests for a staff email, general questions about the area, questions about property management only, or text that is too vague to tell.
+Examples: “Hi there.” / “How does blue green algae affect air quality in Clermont?”
+
+
+WHEN A MESSAGE IS UNCLEAR
+
+- Use only this first message.
+- Buying a home to use as an Airbnb, or asking about rental income on a home they might buy, is buyer.
+- Choose renter only when they clearly want to lease a place to live.
+- If the message mentions both buying and selling, pick the intent that is the main point of the message.
+- If you would be guessing, choose other.
