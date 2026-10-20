@@ -55,3 +55,10 @@ From Data, randomly pick 30 visitors and list out the first statement from the v
 - **AI response summary:** Created `labeled_visitor_intent.csv` (30 rows, A1–A30). Used the first three form responses as annotators; majority of 2+ became final_label with adjudicated=No. Three 1-1-1 ties (A6, A17, A22) were adjudicated using the two leftover form responses when they agreed, and the worker-instruction relocate rule for A22.
 - **Accepted / changed / rejected:** Pending user review. Original form export was left unchanged.
 - **Issues found:** Source file has five annotator rows, not three; A22 still had no majority after the extra votes, so the Buyer label is an instruction-based adjudication rather than a fourth human vote.
+
+## 2026-10-19 — Include all five annotators in labeled CSV
+
+- **Prompt:** Use all 5 annotators, not just the first 3.
+- **AI response summary:** Regenerated `labeled_visitor_intent.csv` with annotator_1–annotator_5. Majority is now 3+ of 5; only A22 has no majority and stays adjudicated Buyer. A6 and A17 are majority labels (no longer adjudicated). A29 flipped from Renter to Buyer.
+- **Accepted / changed / rejected:** Pending user review. Original form export was left unchanged.
+- **Issues found:** A22 Buyer is still codebook adjudication because the five votes split 2–2–1.
