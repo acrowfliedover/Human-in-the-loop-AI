@@ -1,0 +1,361 @@
+repeat,actual_label,predicted_label,count
+1,buyer,buyer,5
+1,buyer,seller,0
+1,buyer,renter,0
+1,buyer,media outreach,0
+1,buyer,realtor network,0
+1,buyer,other,0
+1,seller,buyer,0
+1,seller,seller,0
+1,seller,renter,0
+1,seller,media outreach,0
+1,seller,realtor network,0
+1,seller,other,0
+1,renter,buyer,1
+1,renter,seller,0
+1,renter,renter,0
+1,renter,media outreach,0
+1,renter,realtor network,0
+1,renter,other,0
+1,media outreach,buyer,2
+1,media outreach,seller,0
+1,media outreach,renter,0
+1,media outreach,media outreach,0
+1,media outreach,realtor network,0
+1,media outreach,other,0
+1,realtor network,buyer,0
+1,realtor network,seller,0
+1,realtor network,renter,0
+1,realtor network,media outreach,0
+1,realtor network,realtor network,0
+1,realtor network,other,0
+1,other,buyer,2
+1,other,seller,0
+1,other,renter,0
+1,other,media outreach,0
+1,other,realtor network,0
+1,other,other,0
+2,buyer,buyer,5
+2,buyer,seller,0
+2,buyer,renter,0
+2,buyer,media outreach,0
+2,buyer,realtor network,0
+2,buyer,other,0
+2,seller,buyer,1
+2,seller,seller,0
+2,seller,renter,0
+2,seller,media outreach,0
+2,seller,realtor network,0
+2,seller,other,0
+2,renter,buyer,1
+2,renter,seller,0
+2,renter,renter,0
+2,renter,media outreach,0
+2,renter,realtor network,0
+2,renter,other,0
+2,media outreach,buyer,0
+2,media outreach,seller,0
+2,media outreach,renter,0
+2,media outreach,media outreach,0
+2,media outreach,realtor network,0
+2,media outreach,other,0
+2,realtor network,buyer,0
+2,realtor network,seller,0
+2,realtor network,renter,0
+2,realtor network,media outreach,0
+2,realtor network,realtor network,0
+2,realtor network,other,0
+2,other,buyer,3
+2,other,seller,0
+2,other,renter,0
+2,other,media outreach,0
+2,other,realtor network,0
+2,other,other,0
+3,buyer,buyer,5
+3,buyer,seller,0
+3,buyer,renter,0
+3,buyer,media outreach,0
+3,buyer,realtor network,0
+3,buyer,other,0
+3,seller,buyer,1
+3,seller,seller,0
+3,seller,renter,0
+3,seller,media outreach,0
+3,seller,realtor network,0
+3,seller,other,0
+3,renter,buyer,2
+3,renter,seller,0
+3,renter,renter,0
+3,renter,media outreach,0
+3,renter,realtor network,0
+3,renter,other,0
+3,media outreach,buyer,0
+3,media outreach,seller,0
+3,media outreach,renter,0
+3,media outreach,media outreach,0
+3,media outreach,realtor network,0
+3,media outreach,other,1
+3,realtor network,buyer,1
+3,realtor network,seller,0
+3,realtor network,renter,0
+3,realtor network,media outreach,0
+3,realtor network,realtor network,0
+3,realtor network,other,0
+3,other,buyer,0
+3,other,seller,0
+3,other,renter,0
+3,other,media outreach,0
+3,other,realtor network,0
+3,other,other,0
+4,buyer,buyer,5
+4,buyer,seller,0
+4,buyer,renter,0
+4,buyer,media outreach,0
+4,buyer,realtor network,0
+4,buyer,other,0
+4,seller,buyer,1
+4,seller,seller,0
+4,seller,renter,0
+4,seller,media outreach,0
+4,seller,realtor network,0
+4,seller,other,0
+4,renter,buyer,1
+4,renter,seller,0
+4,renter,renter,0
+4,renter,media outreach,0
+4,renter,realtor network,0
+4,renter,other,0
+4,media outreach,buyer,0
+4,media outreach,seller,0
+4,media outreach,renter,0
+4,media outreach,media outreach,0
+4,media outreach,realtor network,0
+4,media outreach,other,0
+4,realtor network,buyer,1
+4,realtor network,seller,0
+4,realtor network,renter,0
+4,realtor network,media outreach,0
+4,realtor network,realtor network,0
+4,realtor network,other,0
+4,other,buyer,2
+4,other,seller,0
+4,other,renter,0
+4,other,media outreach,0
+4,other,realtor network,0
+4,other,other,0
+5,buyer,buyer,7
+5,buyer,seller,0
+5,buyer,renter,0
+5,buyer,media outreach,0
+5,buyer,realtor network,0
+5,buyer,other,0
+5,seller,buyer,0
+5,seller,seller,0
+5,seller,renter,0
+5,seller,media outreach,0
+5,seller,realtor network,0
+5,seller,other,0
+5,renter,buyer,1
+5,renter,seller,0
+5,renter,renter,0
+5,renter,media outreach,0
+5,renter,realtor network,0
+5,renter,other,0
+5,media outreach,buyer,0
+5,media outreach,seller,0
+5,media outreach,renter,0
+5,media outreach,media outreach,0
+5,media outreach,realtor network,0
+5,media outreach,other,1
+5,realtor network,buyer,0
+5,realtor network,seller,0
+5,realtor network,renter,0
+5,realtor network,media outreach,0
+5,realtor network,realtor network,0
+5,realtor network,other,0
+5,other,buyer,1
+5,other,seller,0
+5,other,renter,0
+5,other,media outreach,0
+5,other,realtor network,0
+5,other,other,0
+6,buyer,buyer,6
+6,buyer,seller,0
+6,buyer,renter,0
+6,buyer,media outreach,0
+6,buyer,realtor network,0
+6,buyer,other,0
+6,seller,buyer,0
+6,seller,seller,0
+6,seller,renter,0
+6,seller,media outreach,0
+6,seller,realtor network,0
+6,seller,other,0
+6,renter,buyer,1
+6,renter,seller,0
+6,renter,renter,0
+6,renter,media outreach,0
+6,renter,realtor network,0
+6,renter,other,0
+6,media outreach,buyer,1
+6,media outreach,seller,0
+6,media outreach,renter,0
+6,media outreach,media outreach,0
+6,media outreach,realtor network,0
+6,media outreach,other,0
+6,realtor network,buyer,0
+6,realtor network,seller,0
+6,realtor network,renter,0
+6,realtor network,media outreach,0
+6,realtor network,realtor network,0
+6,realtor network,other,0
+6,other,buyer,2
+6,other,seller,0
+6,other,renter,0
+6,other,media outreach,0
+6,other,realtor network,0
+6,other,other,0
+7,buyer,buyer,8
+7,buyer,seller,0
+7,buyer,renter,0
+7,buyer,media outreach,0
+7,buyer,realtor network,0
+7,buyer,other,0
+7,seller,buyer,1
+7,seller,seller,0
+7,seller,renter,0
+7,seller,media outreach,0
+7,seller,realtor network,0
+7,seller,other,0
+7,renter,buyer,1
+7,renter,seller,0
+7,renter,renter,0
+7,renter,media outreach,0
+7,renter,realtor network,0
+7,renter,other,0
+7,media outreach,buyer,0
+7,media outreach,seller,0
+7,media outreach,renter,0
+7,media outreach,media outreach,0
+7,media outreach,realtor network,0
+7,media outreach,other,0
+7,realtor network,buyer,0
+7,realtor network,seller,0
+7,realtor network,renter,0
+7,realtor network,media outreach,0
+7,realtor network,realtor network,0
+7,realtor network,other,0
+7,other,buyer,0
+7,other,seller,0
+7,other,renter,0
+7,other,media outreach,0
+7,other,realtor network,0
+7,other,other,0
+8,buyer,buyer,5
+8,buyer,seller,0
+8,buyer,renter,0
+8,buyer,media outreach,0
+8,buyer,realtor network,0
+8,buyer,other,0
+8,seller,buyer,0
+8,seller,seller,0
+8,seller,renter,0
+8,seller,media outreach,0
+8,seller,realtor network,0
+8,seller,other,0
+8,renter,buyer,1
+8,renter,seller,0
+8,renter,renter,0
+8,renter,media outreach,0
+8,renter,realtor network,0
+8,renter,other,0
+8,media outreach,buyer,1
+8,media outreach,seller,0
+8,media outreach,renter,0
+8,media outreach,media outreach,0
+8,media outreach,realtor network,0
+8,media outreach,other,1
+8,realtor network,buyer,0
+8,realtor network,seller,0
+8,realtor network,renter,0
+8,realtor network,media outreach,0
+8,realtor network,realtor network,0
+8,realtor network,other,0
+8,other,buyer,2
+8,other,seller,0
+8,other,renter,0
+8,other,media outreach,0
+8,other,realtor network,0
+8,other,other,0
+9,buyer,buyer,5
+9,buyer,seller,0
+9,buyer,renter,0
+9,buyer,media outreach,0
+9,buyer,realtor network,0
+9,buyer,other,1
+9,seller,buyer,1
+9,seller,seller,0
+9,seller,renter,0
+9,seller,media outreach,0
+9,seller,realtor network,0
+9,seller,other,0
+9,renter,buyer,1
+9,renter,seller,0
+9,renter,renter,0
+9,renter,media outreach,0
+9,renter,realtor network,0
+9,renter,other,0
+9,media outreach,buyer,1
+9,media outreach,seller,0
+9,media outreach,renter,0
+9,media outreach,media outreach,0
+9,media outreach,realtor network,0
+9,media outreach,other,0
+9,realtor network,buyer,0
+9,realtor network,seller,0
+9,realtor network,renter,0
+9,realtor network,media outreach,0
+9,realtor network,realtor network,0
+9,realtor network,other,0
+9,other,buyer,1
+9,other,seller,0
+9,other,renter,0
+9,other,media outreach,0
+9,other,realtor network,0
+9,other,other,0
+10,buyer,buyer,4
+10,buyer,seller,0
+10,buyer,renter,0
+10,buyer,media outreach,0
+10,buyer,realtor network,0
+10,buyer,other,0
+10,seller,buyer,1
+10,seller,seller,0
+10,seller,renter,0
+10,seller,media outreach,0
+10,seller,realtor network,0
+10,seller,other,0
+10,renter,buyer,1
+10,renter,seller,0
+10,renter,renter,0
+10,renter,media outreach,0
+10,renter,realtor network,0
+10,renter,other,0
+10,media outreach,buyer,1
+10,media outreach,seller,0
+10,media outreach,renter,0
+10,media outreach,media outreach,0
+10,media outreach,realtor network,0
+10,media outreach,other,1
+10,realtor network,buyer,0
+10,realtor network,seller,0
+10,realtor network,renter,0
+10,realtor network,media outreach,0
+10,realtor network,realtor network,0
+10,realtor network,other,0
+10,other,buyer,2
+10,other,seller,0
+10,other,renter,0
+10,other,media outreach,0
+10,other,realtor network,0
+10,other,other,0
