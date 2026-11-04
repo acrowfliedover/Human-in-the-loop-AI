@@ -11,8 +11,9 @@ After every major interaction, append one entry to the AI usage log for the assi
 
 - **Module 3 assignment** (`Module_3_assignment/`): `Module_3_assignment/AI_USAGE_LOG.md`
 - **Module 4 assignment** (`Module_4_assignment/`): `Module_4_assignment/AI_USAGE_LOG.md`
+- **Module 9 assignment** (`Module_9_assignment/`): `Module_9_assignment/AI_USAGE_LOG.md`
 
-Use the log that matches the files, tasks, or paths in the current session. If work spans both modules, append an entry to each relevant log.
+Use the log that matches the files, tasks, or paths in the current session. If work spans more than one module, append an entry to each relevant log.
 
 Log implementation, debugging, planning, refactors, and spec updates. Skip trivial follow-ups such as yes/no or typo-only replies.
 
