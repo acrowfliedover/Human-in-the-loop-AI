@@ -2,7 +2,15 @@ WHAT TO DO
 
 Each question shows the first message a visitor typed on a real estate team’s website chat. The agent had already opened the chat. You do not see anything else.
 
-Some words are hidden as (name). That stands for a person on the real estate team. It does not change the category. Ignore typos.
+Some words are hidden. They do not change the category.
+
+- (name) is a person on the real estate team.
+- (company head figure) is the lead person for that company.
+- (company name) is the real estate company.
+- (address) is a street address.
+- [email] and [phone] are contact details.
+
+Ignore typos.
 
 Read only that message. Choose one answer:
 

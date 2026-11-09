@@ -36,3 +36,10 @@ How AI was used on the Module 10 assignment. Newest entries are at the bottom.
 - **AI response summary:** Restored Airbnb, YouTube, Disney's Golden Oaks, Serenity Townhomes, Keller Williams, and visitor names that are not the chat team. `(name)` remains only for the team’s agents and the team name. The instruction line now says `(name)` is a person on the real estate team. Examples were left unchanged, so they still do not repeat a question.
 - **Accepted / changed / rejected:** Pending user review. The visitor email, phone number, and street address in questions 14 and 15 are visible again because they do not name the data provider.
 - **Issues found:** None.
+
+## 2026-11-08 — Match instructions to edited placeholders
+
+- **Prompt:** The names in the questions were edited by hand. Update the instructions to match.
+- **AI response summary:** The questions now use (name), (company head figure), (company name), (address), [email], and [phone]. Both instruction files explain each placeholder and say none of them changes the category. The category rules and examples were left as they were.
+- **Accepted / changed / rejected:** Pending user review.
+- **Issues found:** None.
