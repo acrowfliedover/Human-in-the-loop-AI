@@ -1,0 +1,7 @@
+class_name,test_support_total,train_support_total,precision_mean,precision_std,precision_defined_runs,recall_mean,recall_std,recall_defined_runs,f1_mean,f1_std,f1_defined_runs,specificity_mean,specificity_std,specificity_defined_runs,auc_mean,auc_std,auc_defined_runs
+buyer,64,146,0.6666666666666666,0.0802943829210326,10,1.0,0.0,10,0.7975233426704015,0.057173324650297765,10,0.10333333333333332,0.13716710544009747,10,0.7428690476190475,0.13652189908751297,10
+seller,6,4,,,0,0.0,0.0,6,,,0,1.0,0.0,10,0.5,0.0,6
+renter,9,11,,,0,0.0,0.0,9,,,0,1.0,0.0,10,0.7283950617283951,0.09799078929868851,9
+media outreach,5,5,,,0,0.0,0.0,5,,,0,1.0,0.0,10,0.5,0.0,5
+realtor network,2,8,,,0,0.0,0.0,2,,,0,1.0,0.0,10,0.5,0.0,2
+other,14,26,0.0,0.0,4,0.0,0.0,8,0.0,0.0,3,0.9538888888888888,0.059938239818938574,10,0.6197916666666667,0.15518264186712594,8

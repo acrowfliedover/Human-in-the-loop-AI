@@ -1,0 +1,7 @@
+metric,"Baseline, original labels","Revised model, original labels","Baseline model, revised labels","Revised model, revised labels"
+accuracy,0.55,0.56,0.63,0.64
+macro precision,0.434444,0.466667,0.501111,0.533333
+macro recall,0.235,0.238333,0.2525,0.256667
+macro f1,0.578884,0.620551,0.636392,0.678059
+macro specificity,0.838796,0.840648,0.840787,0.84287
+macro auc,0.631267,0.648691,0.638768,0.641752

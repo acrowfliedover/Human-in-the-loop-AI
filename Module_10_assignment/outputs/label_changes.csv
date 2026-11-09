@@ -1,0 +1,45 @@
+item_id,module_10_item_id,original_label,revised_label,label_changed,votes,note
+V1,V2,seller,seller,False,seller | seller | seller | seller,Majority label matches expand_other.
+V2,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V3,V5,buyer,buyer,False,buyer | buyer | buyer | buyer,Majority label matches expand_other.
+V4,,realtor network,realtor network,False,,Not on the Module 10 form. expand_other retained.
+V5,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V6,V12,other,other,False,other | other | other | realtor network,Majority label matches expand_other.
+V7,V21,buyer,buyer,False,buyer | buyer | other | buyer,Majority label matches expand_other.
+V8,V24,buyer,buyer,False,buyer | buyer | buyer | buyer,Majority label matches expand_other.
+V9,V13,buyer,buyer,False,buyer | buyer | other | buyer,Majority label matches expand_other.
+V10,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V11,V4,renter,renter,False,renter | renter | renter | renter,Majority label matches expand_other.
+V12,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V13,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V14,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V15,,other,other,False,,Not on the Module 10 form. expand_other retained.
+V16,V15,renter,buyer,True,buyer | realtor network | buyer | renter,Majority label replaced expand_other.
+V17,V23,renter,renter,False,renter | renter | renter | renter,Majority label matches expand_other.
+V18,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V19,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V20,V18,buyer,buyer,False,buyer | buyer | buyer | buyer,Majority label matches expand_other.
+V21,V8,media outreach,media outreach,False,realtor network | media outreach | other | media outreach,Majority label matches expand_other.
+V22,V9,other,buyer,True,buyer | buyer | other | buyer,Majority label replaced expand_other.
+V23,V7,buyer,buyer,False,buyer | buyer | buyer | buyer,Majority label matches expand_other.
+V24,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V25,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V26,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V27,V19,media outreach,other,True,other | media outreach | buyer | other,Majority label replaced expand_other.
+V28,V3,other,other,False,other | other | other | other,Majority label matches expand_other.
+V29,,buyer,buyer,False,,Not on the Module 10 form. expand_other retained.
+V30,V1,buyer,buyer,False,buyer | buyer | buyer | buyer,Majority label matches expand_other.
+,V6,,Other,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V10,,Renter,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V11,,Seller,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V14,,Realtor Network,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V16,,Media Outreach,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V17,,Renter,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V20,,Other,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V22,,Media Outreach,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V25,,Other,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V26,,Buyer,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V27,,Renter,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V28,,Realtor Network,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V29,,Realtor Network,False,,"Not in the Assignment 9 set, so this form message was not added."
+,V30,,Realtor Network,False,,"Not in the Assignment 9 set, so this form message was not added."

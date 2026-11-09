@@ -64,3 +64,17 @@ How AI was used on the Module 10 assignment. Newest entries are at the bottom.
 - **AI response summary:** Transposed the four form responses into `Module_10_assignment/labeled_visitor_intent.csv` (V1–V30). A label with strictly the most votes, including a 2–1–1 split, is the final label with adjudicated No. V11 (Buyer/Seller) and V27 (Other/Renter) are 2–2 ties: blank final label, adjudicated Yes. No four-way tie occurred. There is no fifth annotator column because the form has four responses.
 - **Accepted / changed / rejected:** Pending user review.
 - **Issues found:** None.
+
+## 2026-11-08 — Retrain the Assignment 9 classifier on the revised labels
+
+- **Prompt:** Retrain the Assignment 9 classifier on the revised labels without changing the model, preprocessing, features, hyperparameters, or train/test assignments. Report precision, recall, F1, and the Assignment 9 per-class metrics, then compare the baseline and revised classifiers, including agreement and the effect of changing the evaluation labels.
+- **AI response summary:** Matched Module 10 majority labels to Assignment 9 messages by statement. Three labels changed (V16 renter to buyer, V22 other to buyer, V27 media outreach to other). Fourteen original messages kept `expand_other`. Fourteen form-only messages were not added. `retrain_classifier.py` refit the same TF-IDF unigram logistic regression on the original ten splits and scored both models on the original and the revised test labels. The baseline rerun matched the saved Assignment 9 metrics. Accuracy moved from 0.550 to 0.560 from retraining and to 0.640 when the revised model was also scored on the revised key. Wrote `classifier_comparison.md` and the tables under `outputs/`.
+- **Accepted / changed / rejected:** Pending user review. Assignment 9 files were not edited.
+- **Issues found:** Module 10 V11 and the form's V27 are 2–2 ties. The earlier log left their final labels blank, but the CSV now stores Seller and Renter with adjudicated Yes. Those two messages are not in the Assignment 9 set, so the stored values were not used for training.
+
+## 2026-11-08 — Submission notebook for agreement, retraining, and comparison
+
+- **Prompt:** Put the Module 10 submission in an ipynb in the assignment 10 folder, with baseline and revised IAA, data preparation, retraining of the Assignment 9 classifier, performance evaluation, baseline-versus-revised comparisons, Markdown explanations, and inline comments.
+- **AI response summary:** Added `Module_10_assignment/revised_classifier.ipynb` and executed it. The notebook recomputes nominal Krippendorff alpha (0.517 on the five-annotator Assignment 7 file, 0.546 on the four-annotator form), replaces three `expand_other` labels from matched form majorities, and reruns the Assignment 9 TF-IDF logistic regression on the original ten splits. The baseline rerun matches the saved Assignment 9 metrics. Accuracy is 0.560 on the original test labels and 0.640 on the revised test labels.
+- **Accepted / changed / rejected:** Pending user review. The notebook is self-contained. Assignment 9 files were not edited.
+- **Issues found:** None. Alpha matches the earlier fraction calculations after rounding to three decimals (6857/13264 and 716/1311).

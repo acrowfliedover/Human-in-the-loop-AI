@@ -1,0 +1,53 @@
+experiment,repeat,item_id,actual_label,predicted_label,correct
+baseline_on_original_labels,1,V22,other,buyer,False
+baseline_on_original_labels,1,V27,media outreach,buyer,False
+baseline_on_original_labels,2,V22,other,buyer,False
+baseline_on_original_labels,3,V16,renter,buyer,False
+baseline_on_original_labels,4,V16,renter,buyer,False
+baseline_on_original_labels,4,V22,other,buyer,False
+baseline_on_original_labels,6,V22,other,buyer,False
+baseline_on_original_labels,6,V27,media outreach,buyer,False
+baseline_on_original_labels,8,V27,media outreach,buyer,False
+baseline_on_original_labels,8,V22,other,buyer,False
+baseline_on_original_labels,9,V27,media outreach,buyer,False
+baseline_on_original_labels,10,V27,media outreach,buyer,False
+baseline_on_original_labels,10,V22,other,buyer,False
+revised_on_original_labels,1,V22,other,buyer,False
+revised_on_original_labels,1,V27,media outreach,buyer,False
+revised_on_original_labels,2,V22,other,buyer,False
+revised_on_original_labels,3,V16,renter,buyer,False
+revised_on_original_labels,4,V16,renter,buyer,False
+revised_on_original_labels,4,V22,other,buyer,False
+revised_on_original_labels,6,V22,other,buyer,False
+revised_on_original_labels,6,V27,media outreach,buyer,False
+revised_on_original_labels,8,V27,media outreach,buyer,False
+revised_on_original_labels,8,V22,other,buyer,False
+revised_on_original_labels,9,V27,media outreach,buyer,False
+revised_on_original_labels,10,V27,media outreach,buyer,False
+revised_on_original_labels,10,V22,other,buyer,False
+baseline_on_revised_labels,1,V22,buyer,buyer,True
+baseline_on_revised_labels,1,V27,other,buyer,False
+baseline_on_revised_labels,2,V22,buyer,buyer,True
+baseline_on_revised_labels,3,V16,buyer,buyer,True
+baseline_on_revised_labels,4,V16,buyer,buyer,True
+baseline_on_revised_labels,4,V22,buyer,buyer,True
+baseline_on_revised_labels,6,V22,buyer,buyer,True
+baseline_on_revised_labels,6,V27,other,buyer,False
+baseline_on_revised_labels,8,V27,other,buyer,False
+baseline_on_revised_labels,8,V22,buyer,buyer,True
+baseline_on_revised_labels,9,V27,other,buyer,False
+baseline_on_revised_labels,10,V27,other,buyer,False
+baseline_on_revised_labels,10,V22,buyer,buyer,True
+revised_on_revised_labels,1,V22,buyer,buyer,True
+revised_on_revised_labels,1,V27,other,buyer,False
+revised_on_revised_labels,2,V22,buyer,buyer,True
+revised_on_revised_labels,3,V16,buyer,buyer,True
+revised_on_revised_labels,4,V16,buyer,buyer,True
+revised_on_revised_labels,4,V22,buyer,buyer,True
+revised_on_revised_labels,6,V22,buyer,buyer,True
+revised_on_revised_labels,6,V27,other,buyer,False
+revised_on_revised_labels,8,V27,other,buyer,False
+revised_on_revised_labels,8,V22,buyer,buyer,True
+revised_on_revised_labels,9,V27,other,buyer,False
+revised_on_revised_labels,10,V27,other,buyer,False
+revised_on_revised_labels,10,V22,buyer,buyer,True
