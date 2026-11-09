@@ -1,91 +1,98 @@
-# Worker instructions: label the visitor’s first chat message
+# Worker instructions for the Google Form
+
+Paste `visitor_intent_form_instructions.txt` into the form description. Each question uses one line from `form_messages.txt` as the prompt. The six choices are buyer, seller, renter, media outreach, realtor network, and other.
+
+The form text is repeated below.
 
 ## What to do
 
-You will see short chat messages, one at a time. Each line is the **first thing a visitor typed** on a Florida real estate team’s website chat, after the agent opened the chat. An ID such as `A1` is only a label. It is not part of the message.
+Each question shows the first message a visitor typed on a Florida real estate team’s website chat. The agent had already opened the chat. You do not see anything else.
 
-Read **only that message**. Ignore later chat, email headers, and anything you know about the team.
+Read only that message. Choose one answer:
 
-Assign **exactly one** label, in lowercase:
+- buyer
+- seller
+- renter
+- media outreach
+- realtor network
+- other
 
-`buyer` · `seller` · `renter` · `media outreach` · `realtor network` · `other`
+Use the list below in order. Stop at the first category that fits. Do not pick a later category because it also seems possible.
 
-Write one line and stop:
+A phone number, an email address, or a person’s name does not change the category. Ignore typos.
 
-`A1, buyer`
+## 1. seller
 
-No explanation.
+Choose seller if they want to sell or list a home they already own.
 
-## How to choose
+Choose seller even when the same message also describes the next home they hope to buy. Words such as “looking to sell my home” or “would like to sell” decide it.
 
-Go down this list. Use the **first** label that fits. Do not pick a later label because it also seems possible.
+Do not choose seller just because they want a home that is for sale. That person is trying to buy.
 
-### 1. `seller`
+Example: “I am looking to sell my condo in Kissimmee and need help listing it.”
 
-The visitor wants help **selling or listing property they own** (or will own).
+## 2. renter
 
-Use this when the message is about selling, listing, or how soon they can sell.
+Choose renter if they want to lease a home to live in.
 
-Example: `I have two investment properties here that I would like to sell next summer.`
+Use renter for “looking for a rental,” “rental home,” “house for rent,” “rent an apartment” or “rent a house,” and “rent before buying.”
 
-### 2. `renter`
+Do not choose renter for a short-term rental, an Airbnb, or rental income on a home they want to buy. Those are buyers.
 
-The visitor wants to **lease a home to live in** as a tenant.
+Example: “I am looking to rent a 2 bedroom house in Winter Garden.”
 
-Use this when they say rent, lease, or “rent before buying,” and the place is for them to occupy.
+## 3. buyer
 
-Example: `I am looking to rent a house 2/2 or 3/2, fenced yard and screened in porch.`
+Choose buyer if they want to buy, or they are shopping for a home to own.
 
-Do not use `renter` when they want to **buy** a place and rent it out to others.
+This includes a house, condo, townhome, new construction, a tour, listings, a budget, pre-approval, a second home, or an investment or Airbnb they would purchase.
 
-### 3. `buyer`
+Also choose buyer when they do not say “buy,” but they are looking for a home, looking at houses, moving to an area, or describing the home they want, and they never say they want to rent.
 
-The visitor wants to **buy**, or is shopping for a home or property to own.
+A YouTube or video mention does not change this. If they also state a housing plan, use seller, renter, or buyer.
 
-Use this for a home, condo, townhome, land, new construction, a tour, listings, a budget, pre-approval, or an investment or Airbnb they would purchase. On this website, “looking for a home,” “looking at houses,” or “moving to [area]” is `buyer` when they never say rent.
+Example: “We want to look at homes in Orlando this weekend.”
 
-Example: `Hi! My husband and I will be in town next week looking for a primary home that we will turn into an Airbnb within the next year.`
+## 4. realtor network
 
-### 4. `media outreach`
+Choose realtor network if they are not asking for their own home, and any of these is true:
 
-The visitor is **not** trying to buy, sell, or rent. They want the team for **coverage or a public contact**.
+- They say they are an agent, a broker, or with a brokerage.
+- They say they have a client, and they want that client referred or helped.
+- They ask about a job, hiring, or joining this office.
+- The whole message asks whether this chat is with a named team or brokerage. “Are you with [team]?” and “Are you from [brokerage]?” fit here.
 
-Use this when they ask for an interview, a quote, a comment, a video or podcast appearance, materials for an article or social post, or the email of a media or press contact.
+A friend, coworker, or colleague is not a client. “A colleague referred me” does not make the visitor a realtor.
 
-Example: `I’m writing a story on new construction near Orlando. Can I get a comment from someone on your team?`
+Example: “I am an agent with another brokerage. I have a client who wants to buy in Orlando.”
 
-A YouTube mention is not enough. If they also want a home, use `buyer`, `seller`, or `renter`.
+## 5. media outreach
 
-### 5. `realtor network`
+Choose media outreach if they ask for a named person’s email, or ask to speak with a named person, and they do not ask to buy, sell, or rent.
 
-The visitor is **not** trying to buy, sell, or rent for themselves. They are connecting as **another real estate professional**, or they are only checking **which team or brokerage** this chat belongs to.
+Use this when they want the contact so they can pass it to a friend or coworker. Do not use it when they say they are an agent or that they have a client. That is realtor network.
 
-Use this for another agent or broker, a referral or co-broke, joining the team, or “Are you with [team]?” / “Are you from [brokerage]?” when that is the whole ask.
+A video mention by itself is not media outreach.
 
-Example: `I’m an agent with another brokerage. Do you take buyer referrals in Winter Garden?`
+Example: “Can I get Ken’s email address?”
 
-### 6. `other`
+## 6. other
 
-Nothing above fits.
+Choose other when none of the above fits.
 
-Use this for a greeting only, a name only, a property-management question with no buy, sell, or rent plan, a neighborhood or environment question, a request for a staff email with no press purpose and no housing plan, or text too thin to judge.
+Use other for a greeting only, “yes,” “who are you?”, a follow-up that states no housing plan, a neighborhood or environment question, or a property-management question that does not ask to buy, sell, or rent.
 
-Example: `Hi there.`
+Mentioning a home they own does not make it seller unless they ask to sell that home.
 
-## When two labels seem possible
+Example: “Hi.”
 
-- **Sell and buy in one message.** Use the ask with more detail. If they are equal, use `seller` when the message is about a home they already have to sell. Otherwise use `buyer`.
-- **Rent now, buy later.** Use `renter`.
-- **Buy, then rent it out** (Airbnb, vacation rental, investment). Use `buyer`.
-- **Rental income on a house they might buy.** Use `buyer`. They are judging a purchase, not asking for a lease.
-- **Saw the team on YouTube, then stated a housing plan.** Use `buyer`, `seller`, or `renter`. Use `media outreach` only when there is no housing plan and they want coverage or a press contact.
-- **“Are you with this team?” plus a housing plan.** Use the housing label. Use `realtor network` only when the team check is the whole message.
-- **Property management only.** Use `other`.
-- **You would be guessing.** Use `other`.
+## Quick checks
 
-## Before you submit
-
-- One label per message.
-- The label is one of the six names above, in lowercase.
-- The decision uses only that first visitor message.
-- You stopped at the first label in the list that fit.
+- Sell their own home, even if they also describe the next purchase: seller.
+- “Homes for sale” they want to purchase, including an Airbnb they would buy: buyer.
+- “Rent before buying,” or a rental home to live in: renter.
+- Rental rates, or “can this home be a short-term rental,” on a place they might buy: buyer.
+- “Looking to move” or “looking for a home,” and they never say rent: buyer.
+- Agent, client, hiring, or “Are you with this team?”: realtor network.
+- Email or a call with a named person, and no housing plan: media outreach.
+- Property management only, a local question, a greeting, or “who are you?”: other.

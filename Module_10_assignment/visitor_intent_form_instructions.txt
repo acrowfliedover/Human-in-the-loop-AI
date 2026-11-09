@@ -1,0 +1,99 @@
+WHAT TO DO
+
+Each question shows the first message a visitor typed on a Florida real estate team’s website chat. The agent had already opened the chat. You do not see anything else.
+
+Read only that message. Choose one answer:
+
+buyer
+seller
+renter
+media outreach
+realtor network
+other
+
+Use the list below in order. Stop at the first category that fits. Do not pick a later category because it also seems possible.
+
+A phone number, an email address, or a person’s name does not change the category. Ignore typos.
+
+
+1. SELLER
+
+Choose seller if they want to sell or list a home they already own.
+
+Choose seller even when the same message also describes the next home they hope to buy. Words such as “looking to sell my home” or “would like to sell” decide it.
+
+Do not choose seller just because they want a home that is for sale. That person is trying to buy.
+
+Example: “I am looking to sell my condo in Kissimmee and need help listing it.”
+
+
+2. RENTER
+
+Choose renter if they want to lease a home to live in.
+
+Use renter for “looking for a rental,” “rental home,” “house for rent,” “rent an apartment” or “rent a house,” and “rent before buying.”
+
+Do not choose renter for a short-term rental, an Airbnb, or rental income on a home they want to buy. Those are buyers.
+
+Example: “I am looking to rent a 2 bedroom house in Winter Garden.”
+
+
+3. BUYER
+
+Choose buyer if they want to buy, or they are shopping for a home to own.
+
+This includes a house, condo, townhome, new construction, a tour, listings, a budget, pre-approval, a second home, or an investment or Airbnb they would purchase.
+
+Also choose buyer when they do not say “buy,” but they are looking for a home, looking at houses, moving to an area, or describing the home they want, and they never say they want to rent.
+
+A YouTube or video mention does not change this. If they also state a housing plan, use seller, renter, or buyer.
+
+Example: “We want to look at homes in Orlando this weekend.”
+
+
+4. REALTOR NETWORK
+
+Choose realtor network if they are not asking for their own home, and any of these is true:
+
+- They say they are an agent, a broker, or with a brokerage.
+- They say they have a client, and they want that client referred or helped.
+- They ask about a job, hiring, or joining this office.
+- The whole message asks whether this chat is with a named team or brokerage. “Are you with [team]?” and “Are you from [brokerage]?” fit here.
+
+A friend, coworker, or colleague is not a client. “A colleague referred me” does not make the visitor a realtor.
+
+Example: “I am an agent with another brokerage. I have a client who wants to buy in Orlando.”
+
+
+5. MEDIA OUTREACH
+
+Choose media outreach if they ask for a named person’s email, or ask to speak with a named person, and they do not ask to buy, sell, or rent.
+
+Use this when they want the contact so they can pass it to a friend or coworker. Do not use it when they say they are an agent or that they have a client. That is realtor network.
+
+A video mention by itself is not media outreach.
+
+Example: “Can I get Ken’s email address?”
+
+
+6. OTHER
+
+Choose other when none of the above fits.
+
+Use other for a greeting only, “yes,” “who are you?”, a follow-up that states no housing plan, a neighborhood or environment question, or a property-management question that does not ask to buy, sell, or rent.
+
+Mentioning a home they own does not make it seller unless they ask to sell that home.
+
+Example: “Hi.”
+
+
+QUICK CHECKS
+
+- Sell their own home, even if they also describe the next purchase: seller.
+- “Homes for sale” they want to purchase, including an Airbnb they would buy: buyer.
+- “Rent before buying,” or a rental home to live in: renter.
+- Rental rates, or “can this home be a short-term rental,” on a place they might buy: buyer.
+- “Looking to move” or “looking for a home,” and they never say rent: buyer.
+- Agent, client, hiring, or “Are you with this team?”: realtor network.
+- Email or a call with a named person, and no housing plan: media outreach.
+- Property management only, a local question, a greeting, or “who are you?”: other.

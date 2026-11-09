@@ -15,3 +15,10 @@ How AI was used on the Module 10 assignment. Newest entries are at the bottom.
 - **AI response summary:** Moved `visitor_intent_worker_instructions.md` from `Module_9_assignment/` to `Module_10_assignment/`. Removed that task's entry from the Module 9 usage log and recorded it here. Added Module 10 to `.cursor/rules/ai-usage-log.mdc`.
 - **Accepted / changed / rejected:** Pending user review. Assignment 9 classifier files were left in place.
 - **Issues found:** None.
+
+## 2026-11-08 — Thirty form messages and clearer six-label instructions
+
+- **Prompt:** Select 30 first visitor messages from the Module 7 chats, covering all six categories with at least two strong examples each, plus some borderline messages the instructions can still decide. Save the messages in Module 10, and revise the instructions for a Google Form where each message is a multiple-choice question.
+- **AI response summary:** Read the first visitor line from the ReadyChat emails and saved 30 of them in `Module_10_assignment/form_messages.txt`. Buyer is the largest group (11). Seller, renter, media outreach, and realtor network each have at least two clear messages, and several items are borderline on purpose. Replaced the instructions with a fixed six-step order in `visitor_intent_form_instructions.txt` for the form description, and mirrored that text in `visitor_intent_worker_instructions.md`. Redacted one street address, one email, and one phone number.
+- **Accepted / changed / rejected:** Pending user review. The form file does not show the answer labels.
+- **Issues found:** The email pool has no reporter or interview request. Media outreach is defined as asking for a named person’s email or a call with that person, which matches messages that are actually in the chats. Seller is any request to sell a home they own, including two messages that also describe a later purchase.
