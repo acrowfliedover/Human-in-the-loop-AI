@@ -1,0 +1,18 @@
+Krippendorff's alpha
+Source: Module_10_assignment/labeled_visitor_intent.csv
+Raters: annotator_1 through annotator_4 (final_label excluded)
+Items: 30. Categories: Buyer, Seller, Renter, Other, Realtor Network, Media Outreach. Distance: nominal.
+
+alpha = 1 - (D_o / D_e)
+
+n = 120 codes.
+Category totals: Buyer 39, Seller 7, Renter 19, Other 25, Realtor Network 19, Media Outreach 11.
+Observed coincidences on the diagonal: Buyer 88/3, Seller 14/3, Renter 50/3, Other 38/3, Realtor Network 10, Media Outreach 10/3.
+Diagonal sum = 230/3.
+
+D_o = (120 - 230/3) / 120 = 13/36
+D_e = (120^2 - (39^2 + 7^2 + 19^2 + 25^2 + 19^2 + 11^2)) / (120 × 119)
+    = (14400 - 3038) / 14280
+    = 5681/7140
+
+alpha = 1 - (13/36) / (5681/7140) = 716/1311 = 0.546

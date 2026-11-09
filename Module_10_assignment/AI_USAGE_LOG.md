@@ -50,3 +50,17 @@ How AI was used on the Module 10 assignment. Newest entries are at the bottom.
 - **AI response summary:** Computed nominal alpha on the five annotator columns (30 items, no missing cells). Alpha is 6857/13264 = 0.517. Wrote `Module_10_assignment/krippendorff_alpha_analysis.txt`. `final_label` was left out of the rater matrix.
 - **Accepted / changed / rejected:** The first draft was too long. User asked to keep the alpha calculation and one paragraph, and to drop the detailed side calculations. Replaced the file with that shorter version. No labels were changed.
 - **Issues found:** The first write-up added a bootstrap interval, pairwise Cohen kappas, Fleiss's kappa arithmetic, and a codebook disagreement review that the user did not want.
+
+## 2026-11-08 — Alpha on the Module 10 four-annotator file
+
+- **Prompt:** Calculate Krippendorff's alpha on `Module_10_assignment/labeled_visitor_intent.csv`, with no analysis, and store it in a new text file.
+- **AI response summary:** Computed nominal alpha on annotator_1 through annotator_4 (30 items, six categories, final_label excluded). Alpha is 716/1311 = 0.546. Wrote `Module_10_assignment/krippendorff_alpha_module10.txt` with the calculation only.
+- **Accepted / changed / rejected:** Pending user review. The Module 7 alpha file was left unchanged.
+- **Issues found:** None. Diagonal coincidences and category totals were checked from the item counts.
+
+## 2026-11-08 — Majority labels from the form export
+
+- **Prompt:** Convert `Customer Intent Classification.csv` to the `labeled_visitor_intent.csv` layout. Final label is the majority answer. Leave the final label blank and mark adjudicated when there is no majority. A 50/25/25 split takes the 50% answer. Only a 50/50 or 25/25/25/25 split stays adjudicated.
+- **AI response summary:** Transposed the four form responses into `Module_10_assignment/labeled_visitor_intent.csv` (V1–V30). A label with strictly the most votes, including a 2–1–1 split, is the final label with adjudicated No. V11 (Buyer/Seller) and V27 (Other/Renter) are 2–2 ties: blank final label, adjudicated Yes. No four-way tie occurred. There is no fifth annotator column because the form has four responses.
+- **Accepted / changed / rejected:** Pending user review.
+- **Issues found:** None.

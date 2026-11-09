@@ -1,0 +1,31 @@
+item_id,visitor_statement,annotator_1,annotator_2,annotator_3,annotator_4,final_label,adjudicated
+V1,"Hi, my wife and I are considering buying a 2nd home in the Orlando or Tampa Bay area",Buyer,Buyer,Buyer,Buyer,Buyer,No
+V2,"Hi (name), My name is Dave and I am in the UK, looking to sell my Florida Home in Davenport, looking for someone who could help us.",Seller,Seller,Seller,Seller,Seller,No
+V3,Hi,Other,Other,Other,Other,Other,No
+V4,"Good Morning, I was looking for a rental in Disney's Golden Oaks.",Renter,Renter,Renter,Renter,Renter,No
+V5,We are looking for a home in the Kissimmee area,Buyer,Buyer,Buyer,Buyer,Buyer,No
+V6,Hi are you with (company head figure)'s team?,Other,Realtor Network,Other,Media Outreach,Other,No
+V7,looking for possible townhomes for sale to make an airbnb,Buyer,Buyer,Buyer,Buyer,Buyer,No
+V8,hi could I have an email for (name) regarding Mount Dora please?,Realtor Network,Media Outreach,Other,Media Outreach,Media Outreach,No
+V9,"Hi, we're looking to move to the Celebration/Windermere/ Winter Garden area this spring.",Buyer,Buyer,Other,Buyer,Buyer,No
+V10,"Hello,I was wondering if you provide services in helping find a rental home around the orlando/ winterpark/ casselberry area.",Renter,Renter,Renter,Renter,Renter,No
+V11,"Just looking right now. I am considering moving to Oviedo from Arizona next summer. I have two investment properties here that I would like to sell next summer and want to roll those proceeds into a home in Oviedo. My price range is between 425,000 and 575,000.",Buyer,Seller,Seller,Buyer,Seller,Yes
+V12,do you guy also provide property management too?,Other,Other,Other,Realtor Network,Other,No
+V13,Me and my wife have been looking at your company videos on Sunbridge and are interested in learning and talking to you more about opportunities of buying there.,Buyer,Buyer,Other,Buyer,Buyer,No
+V14,"Yes, I have a client who is interested in a 2br 2th condo close to Orlando. I'm with KW and reached out to (name), but didn't hear back. My email is [email] and cell is [phone]",Buyer,Realtor Network,Realtor Network,Realtor Network,Realtor Network,No
+V15,Hello. I have watched several of (company head figure)'s videos and have found a house in Reunion that we are interested in. The address is (address). I would like to know historical rental rates for this property.Thanks!(name),Buyer,Realtor Network,Buyer,Renter,Buyer,No
+V16,I'd like to speak with (company head figure),Media Outreach,Media Outreach,Other,Media Outreach,Media Outreach,No
+V17,Hey (name)! I watch (company head figure)'s videos on YouTube frequently and thought I would see if (company name) could help us find a rental home in Horizon West?,Renter,Renter,Renter,Renter,Renter,No
+V18,We are coming to Florida this weekend and would like to look at some houses.,Buyer,Buyer,Buyer,Buyer,Buyer,No
+V19,How does the problem of blue green algae affect the air quality in Clermont?,Other,Media Outreach,Buyer,Other,Other,No
+V20,Are you hiring?,Other,Realtor Network,Other,Media Outreach,Other,No
+V21,Looking for something big enough for parents to have seperate quarters,Buyer,Buyer,Other,Buyer,Buyer,No
+V22,Hello … yes I wanted to get (company head figure)'s email address. I own a property in Reunion and I have a co worker that wants to purchase in Reunion also as I have had my property since 2013 and still in love with it because it is such a great place. I was no pleased with the agent I used Germain. I have watched many of (company head figure)'s YouTube etc and feel that he is the best agent in the area. I wanted to provide that info to my friend to help him with the process.,Realtor Network,Media Outreach,Buyer,Media Outreach,Media Outreach,No
+V23,I'm looking for a 5-6 bedrooms house but also would like to rent before buying,Renter,Renter,Renter,Renter,Renter,No
+V24,Yes Im in NYC looking to relocate with family. I would like to set up a time in February to meet some agents and discuss buying a single family home,Buyer,Buyer,Buyer,Buyer,Buyer,No
+V25,who are you?,Other,Other,Other,Other,Other,No
+V26,"G'morning. Husband and I visiting Orlando area end of Jan to scope out a retirement home, but have no idea where to start looking. Love (company head figure)'s YouTube Channel. We will be staying in Clermont - Serenity Townhomes. Will want 3-4 bed, 2-3 bath, single fam 2000+ sq ft., dog friendly (small fencing in back allowed) with main floor master. Interested in a great/safe/quiet and beautiful location, level bike trails, walkable downtown area, possible golf cart community. Would like to stay under 400k. We are 53 (so not 55 yet) and not sure how that limits us? Looking to sell our home in Midland MI and our investment home in Louisville KY and make the move next fall. Not ready to take up an agents time on this visit since we're not actively buying, but would love a few communities and areas we should look into? Can you help?",Buyer,Buyer,Seller,Buyer,Buyer,No
+V27,Can the mew construction on Ocala be used for short-term rental,Other,Renter,Other,Renter,Renter,Yes
+V28,"Hi (name)! I am new to the Orlando area. I'm currently a licensed agent in KY. I am with the Keller Williams Legacy Group. Operating Principal, Dana Gentry. She gave me this contact information because I am looking to take my Florida exam and I am looking for an office that's a fit for me in this area.",Realtor Network,Realtor Network,Realtor Network,Realtor Network,Realtor Network,No
+V29,I heard (company head figure) talk about the group managing some rentals. Does (company name) do property management? I have a single family residence in Celebration Fl,Realtor Network,Realtor Network,Other,Realtor Network,Realtor Network,No
+V30,Hi (name). A colleague of mine referred (company head figure) and we're interested in chatting with him about ideas in Orlando and 1 listing in particular.,Realtor Network,Realtor Network,Realtor Network,Media Outreach,Realtor Network,No
