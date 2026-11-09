@@ -22,3 +22,17 @@ How AI was used on the Module 10 assignment. Newest entries are at the bottom.
 - **AI response summary:** Read the first visitor line from the ReadyChat emails and saved 30 of them in `Module_10_assignment/form_messages.txt`. Buyer is the largest group (11). Seller, renter, media outreach, and realtor network each have at least two clear messages, and several items are borderline on purpose. Replaced the instructions with a fixed six-step order in `visitor_intent_form_instructions.txt` for the form description, and mirrored that text in `visitor_intent_worker_instructions.md`. Redacted one street address, one email, and one phone number.
 - **Accepted / changed / rejected:** Pending user review. The form file does not show the answer labels.
 - **Issues found:** The email pool has no reporter or interview request. Media outreach is defined as asking for a named person’s email or a call with that person, which matches messages that are actually in the chats. Seller is any request to sell a home they own, including two messages that also describe a later purchase.
+
+## 2026-11-08 — Censor names and separate examples from questions
+
+- **Prompt:** Censor names, personal information, and company names in the instructions and the 30 questions, using (name). Keep every form message out of the instruction examples.
+- **AI response summary:** Replaced people, companies, teams, video platforms, emails, phone numbers, and the street address in `form_messages.txt` with (name). Rewrote the six examples in `visitor_intent_form_instructions.txt` and `visitor_intent_worker_instructions.md` so none of them repeat a question. City and neighborhood names used to describe the home search were left in place.
+- **Accepted / changed / rejected:** Pending user review.
+- **Issues found:** None. A check confirmed no example sentence is contained in a form message, and no form message is contained in the instructions.
+
+## 2026-11-08 — Restore public names and locations
+
+- **Prompt:** Put public companies such as YouTube and Airbnb back. Censor only names that identify the data provider. Leave cities, states, and similar locations visible.
+- **AI response summary:** Restored Airbnb, YouTube, Disney's Golden Oaks, Serenity Townhomes, Keller Williams, and visitor names that are not the chat team. `(name)` remains only for the team’s agents and the team name. The instruction line now says `(name)` is a person on the real estate team. Examples were left unchanged, so they still do not repeat a question.
+- **Accepted / changed / rejected:** Pending user review. The visitor email, phone number, and street address in questions 14 and 15 are visible again because they do not name the data provider.
+- **Issues found:** None.
