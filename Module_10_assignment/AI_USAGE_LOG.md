@@ -47,6 +47,6 @@ How AI was used on the Module 10 assignment. Newest entries are at the bottom.
 ## 2026-11-08 — Krippendorff's alpha on the five-annotator labels
 
 - **Prompt:** Use Krippendorff's alpha on `Module_7_assignment/labeled_visitor_intent.csv`, write the work, result, and analysis as a text file in Module 10, and justify alpha over Cohen's kappa and Fleiss's kappa.
-- **AI response summary:** Computed nominal alpha on the five annotator columns (30 items, no missing cells). Alpha is 6857/13264 = 0.517, with a 10,000-item bootstrap interval of 0.346 to 0.660. Wrote `Module_10_assignment/krippendorff_alpha_analysis.txt` with the coincidence matrix, disagreement mass by item, Fleiss's kappa (0.514), the ten pairwise Cohen kappas (0.330 to 0.701), and the boundary analysis. `final_label` was left out of the rater matrix.
-- **Accepted / changed / rejected:** Pending user review. No labels were changed.
-- **Issues found:** None on the point estimate; the coincidence matrix was checked against the item counts. Numpy was not installed, so the bootstrap was not cross-checked against a second library.
+- **AI response summary:** Computed nominal alpha on the five annotator columns (30 items, no missing cells). Alpha is 6857/13264 = 0.517. Wrote `Module_10_assignment/krippendorff_alpha_analysis.txt`. `final_label` was left out of the rater matrix.
+- **Accepted / changed / rejected:** The first draft was too long. User asked to keep the alpha calculation and one paragraph, and to drop the detailed side calculations. Replaced the file with that shorter version. No labels were changed.
+- **Issues found:** The first write-up added a bootstrap interval, pairwise Cohen kappas, Fleiss's kappa arithmetic, and a codebook disagreement review that the user did not want.
